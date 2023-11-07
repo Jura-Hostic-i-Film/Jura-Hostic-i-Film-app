@@ -79,7 +79,7 @@
 					\item pregledati statistike zaposlenika (broj skeniranih dokumenata,
 					prosjek skeniranih dokumenata svih zaposlenika te ostale statistike)
 					\item promjeniti uloge i ostale podatke o svim ostalim korisnicima unutar tvrtke 
-					\item brisati račune otpuštenih zaposlenika tvrtke te stvarati 
+					\item brisati račune otpuštenih zaposlenika tvrtke te ih također stvarati 
 					\item pregledati sve dokumente i njihovu povijest(tko ih je skenirao, 
 					revizirao i koji računovođa je bio zaslužan za njihovo arhiviranje)
 					\item objaviti određeni dokument na društvenim mrežama
@@ -113,48 +113,97 @@
 			
 				
 			\subsection{Obrasci uporabe}
-				
-				\textbf{\textit{dio 1. revizije}}
-				
+							
 				\subsubsection{Opis obrazaca uporabe}
-					\textit{Funkcionalne zahtjeve razraditi u obliku obrazaca uporabe. Svaki obrazac je potrebno razraditi prema donjem predlošku. Ukoliko u nekom koraku može doći do odstupanja, potrebno je to odstupanje opisati i po mogućnosti ponuditi rješenje kojim bi se tijek obrasca vratio na osnovni tijek.}\\
-					
 
-					\noindent \underbar{\textbf{UC$<$broj obrasca$>$ -$<$ime obrasca$>$}}
+					\noindent \underbar{\textbf{UC1 -Registracija u sustav}}
 					\begin{packed_item}
 	
-						\item \textbf{Glavni sudionik: }$<$sudionik$>$
-						\item  \textbf{Cilj:} $<$cilj$>$
-						\item  \textbf{Sudionici:} $<$sudionici$>$
-						\item  \textbf{Preduvjet:} $<$preduvjet$>$
+						\item \textbf{Glavni sudionik: }Direktor, Administrator
+						\item  \textbf{Cilj:} Stvoriti korisnički račun za pristup sustavu
+						\item  \textbf{Sudionici:} Baza podataka
+						\item  \textbf{Preduvjet:} -
 						\item  \textbf{Opis osnovnog tijeka:}
 						
 						\item[] \begin{packed_enum}
 	
-							\item $<$opis korak jedan$>$
-							\item $<$opis korak dva$>$
-							\item $<$opis korak tri$>$
-							\item $<$opis korak četiri$>$
-							\item $<$opis korak pet$>$
+							\item Aktor odabire opciju za registraciju
+							\item Aktor unosi osobne podatke za novog korisnika
+							\item Šalje se mail novododanom korisniku s njegovim podacima za prijavu
 						\end{packed_enum}
 						
 						\item  \textbf{Opis mogućih odstupanja:}
 						
 						\item[] \begin{packed_item}
 	
-							\item[2.a] $<$opis mogućeg scenarija odstupanja u koraku 2$>$
+							\item[2.a] Korisnik je već registriran u sustav
 							\item[] \begin{packed_enum}
 								
-								\item $<$opis rješenja mogućeg scenarija korak 1$>$
-								\item $<$opis rješenja mogućeg scenarija korak 2$>$
+								\item Sustav daje audio-vizualnu obavjest aktoru da je korisnik već registriran
 								
 							\end{packed_enum}
-							\item[2.b] $<$opis mogućeg scenarija odstupanja u koraku 2$>$
-							\item[3.a] $<$opis mogućeg scenarija odstupanja  u koraku 3$>$
+							
+							\item[2.b] Neispravna e-mail adresa
+							\item[] \begin{packed_enum}
+								
+								\item Sustav daje auditornu i vizualnu obavjest aktoru da je e-mail adresa neispravna
+								\item Aktor upisuje ispravnu e-mail adresu
+							\end{packed_enum}
+							
+						\end{packed_item}
+					\end{packed_item}
+					
+					\noindent \underbar{\textbf{UC2 -Prijava u sustav}}
+					\begin{packed_item}
+						
+						\item \textbf{Glavni sudionik: }članovi organizacije, Administrator
+						\item  \textbf{Cilj:} Prijava za pristup funkcionalnost aplikacije
+						\item  \textbf{Sudionici:} Baza podataka
+						\item  \textbf{Preduvjet:} Aktor je registriran
+						\item  \textbf{Opis osnovnog tijeka:}
+						
+						\item[] \begin{packed_enum}
+							
+							\item Aktor unosi svoje osobne podatke
+							\item Sustav provjerava jesu li podnešeni podaci ispravni
+							\item Aktor biva prijavljen u aplikaciju
+						\end{packed_enum}
+						
+						\item  \textbf{Opis mogućih odstupanja:}
+						
+						\item[] \begin{packed_item}
+							
+							\item[2.a] Unešeni osobni podaci ne odgovaraju niti jednom registriranom korisniku
+							\item[] \begin{packed_enum}
+								
+								\item Sustav daje audio-vizualnu obavjest aktoru da su osobni podaci neispravni
+								\item Sustav daje priliku aktoru za ponovnu prijavu
+								
+							\end{packed_enum}
 							
 						\end{packed_item}
 					\end{packed_item}
 				
+					\noindent \underbar{\textbf{UC3 -Brisanje korisnika iz sustava}}
+					\begin{packed_item}
+						
+						\item \textbf{Glavni sudionik: }Direktor, Administrator
+						\item  \textbf{Cilj:} Brisanje korisničkog računa
+						\item  \textbf{Sudionici:} Baza podataka
+						\item  \textbf{Preduvjet:} Korisnik računa je registriran u sustav
+						\item  \textbf{Opis osnovnog tijeka:}
+						
+						\item[] \begin{packed_enum}
+							
+							\item Aktor otvara administrativnu ploču
+							\item Aktor odabire popis svih registriranih klijenata
+							\item Aktor odabire korisnika kojeg želi izbrisati
+							\item Aktor briše korisnika
+							\item Baza podataka briše račun korisnika
+							\item Aktora se vraća na popis svih registriranih klijenata
+							\end{packed_enum}
+						
+					\end{packed_item}
 					
 				\subsubsection{Dijagrami obrazaca uporabe}
 					
