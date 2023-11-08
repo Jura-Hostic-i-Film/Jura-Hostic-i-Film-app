@@ -40,6 +40,7 @@
 					\item pregledati svoje osobne podatke (ime, prezime, nadređeni revizor)
 					\item skenirati dokumente koje se spremaju u njegovu internu bazu
 					\item potvrditi dokumente koje je prethodno skenirao
+					\item primiti obavijesti od revizora i nadređenih zaposlenika tvrtke
 					\item poslati revizirane dokumente od njegove strane na dodatan pregled
 					\item vidjeti svoju internu bazu prethodno skeniranih dokumenata
 					
@@ -65,7 +66,7 @@
 					\item pregledati dokumente spremne za arhiviranje
 					\item arhivirati dokumente
 					\item pregledati povijest dokumenata koje je arhivirao u svojoj internoj bazi
-					\item prosljediti dokumente direktoru na potpis prije dokumentiranja 
+					\item prosljediti dokumente direktoru na potpis prije arhiviranja
 					
 				\end{packed_enum}
 				
@@ -92,10 +93,13 @@
 					\item prijaviti se u sustav
 					\item dodavati različite tvrtke i njihove direktore
 					\item pregledati osobne podatke svih korisnika aplikacije
-					\item upozoravati direktora na kršenje uvijete poslovanja aplikacije
-					\item brisati korisnika koji krše uvijete poslovanja aplikacije
+					
+					%\item upozoravati direktora na kršenje uvijete poslovanja aplikacije
+					%\item brisati korisnika koji krše uvijete poslovanja aplikacije
 					
 				\end{packed_enum}
+				
+				\clearpage
 				
 				\item  \underbar{Baza podataka (sudionik) može:}
 				\begin{packed_enum}
@@ -115,6 +119,7 @@
 			\subsection{Obrasci uporabe}
 							
 				\subsubsection{Opis obrazaca uporabe}
+
 
 					\noindent \underbar{\textbf{UC1 -Registracija u sustav}}
 					\begin{packed_item}
@@ -153,6 +158,7 @@
 						\end{packed_item}
 					\end{packed_item}
 					
+					
 					\noindent \underbar{\textbf{UC2 -Prijava u sustav}}
 					\begin{packed_item}
 						
@@ -184,6 +190,7 @@
 						\end{packed_item}
 					\end{packed_item}
 				
+				
 					\noindent \underbar{\textbf{UC3 -Brisanje korisnika iz sustava}}
 					\begin{packed_item}
 						
@@ -204,6 +211,437 @@
 							\end{packed_enum}
 						
 					\end{packed_item}
+					
+					\noindent \underbar{\textbf{UC4 -Pregled korisničkih podataka}}
+					\begin{packed_item}
+						
+						\item \textbf{Glavni sudionik: }Direktor, Administrator
+						\item  \textbf{Cilj:} Dobiti uvid u osobne podatke klijenta
+						\item  \textbf{Sudionici:} Baza podataka
+						\item  \textbf{Preduvjet:} Prijavljen
+						\item  \textbf{Opis osnovnog tijeka:}
+						
+						\item[] \begin{packed_enum}
+							
+							\item Aktor otvara listu svih korisnika
+							\item Baza podataka dohvaća listu svih registriranih korisnika
+							\item Aktor odabire određenog korisnika na danom popisu
+							\item Baza podataka dohvaća osobne podatke odabranog korisnika
+						
+						\end{packed_enum}
+						
+					\end{packed_item}
+					
+					
+					\noindent \underbar{\textbf{UC5 -Promjena podataka zaposlenika}}
+					\begin{packed_item}
+						
+						\item \textbf{Glavni sudionik: }Direktor
+						\item  \textbf{Cilj:} Napraviti promjena nad osobnim podatcima zaposlenika tvrtke
+						\item  \textbf{Sudionici:} Baza podataka
+						\item  \textbf{Preduvjet:} Prijavljen u sustav
+						\item  \textbf{Opis osnovnog tijeka:}
+						
+						\item[] \begin{packed_enum}
+							
+							\item Direktor je odabrao opciju za prikaz svih zaposlenika tvrtke
+							\item Baza dohvaća popis svih zaposlenika tvrtke
+							\item Direktor odabire određenog zaposlenika
+							\item Baza podataka dohvaća odabranog zaposlenika
+							\item Direktoru se prikazuju podatci zaposlenika
+							\item Direktor mijenja njegove podatke
+							\item Direktor sprema podatke pritiskom na tipku
+							\item Baza podataka sprema nove promijene nad zaposlenikom
+						 
+						\end{packed_enum}
+						
+						\item  \textbf{Opis mogućih odstupanja:}
+						
+						\item[] \begin{packed_item}
+							
+							\item[7.a] Direktor nije odabrao  opciju spremanja podataka prije izlaska iz sučelja
+							\item[] \begin{packed_enum}
+								
+								\item Sustav daje audio-vizualnu obavjest direktoru da se promijenjeni podatci neće spremiti
+								\item Direktor odabire želi li odbaciti/spremiti novo nastale promijene
+								
+							\end{packed_enum}
+							
+							\item[7.b] Direktor je unio nove neispravne podatke
+							\item[] \begin{packed_enum}
+								
+								\item Sustav daje auditornu i vizualnu obavjest direktoru da su određeni podatci neispravni
+								\item Direktor odabire  želi li promijeniti ili odbaciiti neispravne podatke
+								
+							\end{packed_enum}
+							
+						\end{packed_item}
+					\end{packed_item}
+					
+					
+					\noindent \underbar{\textbf{UC6 - Stvaranje profila nove tvrtke}}
+					\begin{packed_item}
+						
+						\item \textbf{Glavni sudionik: }Administrator
+						\item  \textbf{Cilj:} Stvoriti novu tvrtku u sustavu
+						\item  \textbf{Sudionici:} Baza podataka
+						\item  \textbf{Preduvjet:} Prijavljen u sustav
+						\item  \textbf{Opis osnovnog tijeka:}
+						
+						\item[] \begin{packed_enum}
+							
+							\item Administrator odabire opciju za kreiranje profila nove tvrtke
+							\item Administrator upisuje osnovne podatke za novu tvrtku
+							\item Administrator dodaje novi profil direktora zalužnog za novonastalu tvrtku
+							\item Baza podatka upisuje podatke nove tvrtke i pridodaje joj novonastalog direktora
+							\item Sustav šalje mail novom Direktoru sa podatcima za prijavu
+							
+						\end{packed_enum}
+						
+						\item  \textbf{Opis mogućih odstupanja:}
+						
+						\item[] \begin{packed_item}
+							
+							\item[4.a] Administrator unosi već postojeću tvrtku
+							\item[] \begin{packed_enum}
+								
+								\item Sustav daje audio-vizualnu obavjest administratoru da su unešeni podatci o tvrtki već postojeći
+								\item Administrator mijenja podatke ili odbacuje promijene
+								
+							\end{packed_enum}
+							
+							\item[4.b] Administrator unosi neispravnu e-mail adresu novonastalog direktora
+							\item[] \begin{packed_enum}
+								
+								\item Sustav daje audio-vizualnu obavjest administratoru da je unešena e-mail adresa direktora nevažeća
+								\item Administrator mijenja podatke ili odbacuje promijene
+								
+							\end{packed_enum}
+							
+						\end{packed_item}
+					\end{packed_item}
+					
+					\clearpage
+					
+					\noindent \underbar{\textbf{UC7 - Promijena podataka tvrtke}}
+					\begin{packed_item}
+						
+						\item \textbf{Glavni sudionik: }Administrator, Direktor
+						\item  \textbf{Cilj:} Promijeniti podatke tvrtke u sustavu
+						\item  \textbf{Sudionici:} Baza podataka
+						\item  \textbf{Preduvjet:} Prijavljen u sustav
+						\item  \textbf{Opis osnovnog tijeka:}
+						
+						\item[] \begin{packed_enum}
+							
+							\item Aktor odabire popis nadležnih tvrtki
+							\item Baza podataka dohvaća popis aktoru nadležnih tvrtki
+							\item Aktor odabire određenu tvrtku
+							\item Baza dohvaća podatke o odabranoj tvrtki
+							\item Aktor mijenja podatke tvrtke
+							\item Aktor sprema podatke pritiskom na tipku
+							\item Baza podataka sprema novonastale promijene
+							
+						\end{packed_enum}
+						
+						\item  \textbf{Opis mogućih odstupanja:}
+						
+						\item[] \begin{packed_item}
+							
+							\item[4.a] Aktor unosi nevažeće podatke
+							\item[] \begin{packed_enum}
+								
+								\item Sustav daje audio-vizualnu obavjest aktoru da su unešeni podatci o tvrtki neispravni
+								\item Aktor odabire želi li promijeniti nevažeće podatke ili ih želi odbaciti
+								
+							\end{packed_enum}
+							
+						\end{packed_item}
+					\end{packed_item}
+					
+					
+					\noindent \underbar{\textbf{UC8 - Brisanje tvrtke iz sustava}}
+					\begin{packed_item}
+						
+						\item \textbf{Glavni sudionik: } Administrator
+						\item \textbf{Cilj:} Obrisati tvrtku iz sustava
+						\item \textbf{Sudionici:} Baza podataka
+						\item \textbf{Preduvjet:} Prijavljen u sustav i tvrtka postoji u sustavu
+						\item \textbf{Opis osnovnog tijeka:}
+						
+						\item[] \begin{packed_enum}
+							
+							\item Administrator odabire popis svih registriranih tvrtki
+							\item Administrator odabire tvrtku koju želi izbrisati
+							\item Administrator potvrđuje brisanje tvrtke
+							\item Baza podataka briše tvrtku iz sustava
+							\item Administrator se vraća na popis svih registriranih tvrtki
+							
+						\end{packed_enum}
+						
+						\item \textbf{Opis mogućih odstupanja:}
+						
+						\item[] \begin{packed_item}
+							
+							\item[4.a] Administrator slučajno odabire brisanje tvrtke
+							\item[] \begin{packed_enum}
+								
+								\item Sustav daje upozorenje i traži potvrdu prije brisanja tvrtke
+								\item Administrator potvrđuje ili odustaje od brisanja tvrtke
+								
+							\end{packed_enum}
+							
+						\end{packed_item}
+					\end{packed_item}
+					
+					
+					\noindent \underbar{\textbf{UC9 - Primanje obavijesti}}
+					\begin{packed_item}
+						
+						\item \textbf{Glavni sudionik: } Korisnik (Zaposlenik, Revizor, Računovođa, Direktor)
+						\item \textbf{Cilj:} Primiti obavijesti od aplikacije
+						\item \textbf{Sudionici:} Aplikacija
+						\item \textbf{Preduvjet:} Prijavljen u sustav
+						\item \textbf{Opis osnovnog tijeka:}
+						
+						\item[] \begin{packed_enum}
+							
+							\item Aplikacija šalje obavijesti korisniku o relevantnim događajima ili zadacima
+							\item Korisnik prima obavijesti putem aplikacije ili e-pošte
+							
+						\end{packed_enum}
+					\end{packed_item}
+					
+					
+					\noindent \underbar{\textbf{UC10 - Pregledavanje statistike zaposlenika tvrtke}}
+					\begin{packed_item}
+						
+						\item \textbf{Glavni sudionik: } Direktor
+						\item \textbf{Cilj:} Pregledati statističke podatke o zaposlenicima tvrtke
+						\item \textbf{Sudionici:} Baza podataka
+						\item \textbf{Preduvjet:} Prijavljen u sustav
+						\item \textbf{Opis osnovnog tijeka:}
+						
+						\item[] \begin{packed_enum}
+							
+							\item Direktor otvara statističku sekciju aplikacije
+							\item Sustav dohvaća statističke podatke o zaposlenicima
+							\item Direktor pregledava informacije o radu i aktivnostima zaposlenika
+							
+						\end{packed_enum}
+					\end{packed_item}
+					
+					
+					\noindent \underbar{\textbf{UC11 - Pregled svih dokumenata}}
+					\begin{packed_item}
+						
+						\item \textbf{Glavni sudionik: } Računovođa, Direktor, Revizor, Zaposlenik
+						\item \textbf{Cilj:} Pregledati sve dokumente
+						\item \textbf{Sudionici:} Baza podataka
+						\item \textbf{Preduvjet:} Prijavljen u sustav
+						\item \textbf{Opis osnovnog tijeka:}
+						
+						\item[] \begin{packed_enum}
+							
+							\item Aktor odabire pregled popisa svih dokumenata za koje aktor ima dopuštenje 
+							\item Sustav prikazuje popis svih dopuštenih dokumenata
+							\item Aktor pregledava dokumente i njihove detalje
+							
+						\end{packed_enum}
+					\end{packed_item}
+					
+					
+					\noindent \underbar{\textbf{UC12 - Objava dokumenta na društvene mreže}}
+					\begin{packed_item}
+						
+						\item \textbf{Glavni sudionik: } Direktor
+						\item \textbf{Cilj:} Objaviti odabrani dokument na društvenim mrežama
+						\item \textbf{Sudionici:} Društvene mreže, Baza podataka
+						\item \textbf{Preduvjet:} Prijavljen u sustav
+						\item \textbf{Opis osnovnog tijeka:}
+						
+						\item[] \begin{packed_enum}
+							
+							\item Direktor odabire opciju za prikaz popisa svih dokumenata tvrtke
+							\item Direktor odabire dokument koji želi podijeliti na društvenim mrežama
+							\item Sustav omogućuje izbor društvenih mreža za objavu
+							\item Direktor potvrđuje i dijeli dokument na odabranim društvenim mrežama
+							
+						\end{packed_enum}
+					\end{packed_item}
+					
+					
+					\noindent \underbar{\textbf{UC13 - Pregledavanje dokumenata}}
+					\begin{packed_item}
+						
+						\item \textbf{Glavni sudionik: } Zaposlenik, Revizor, Računovođa, Direktor
+						\item \textbf{Cilj:} Pregledati dostupne dokumente
+						\item \textbf{Sudionici:} Baza podataka
+						\item \textbf{Preduvjet:} Prijavljen u sustav
+						\item \textbf{Opis osnovnog tijeka:}
+						
+						\item[] \begin{packed_enum}
+							
+							\item Aktor odabire opciju za prikaz svih dopuštenih dokumenata
+							\item Sustav prikazuje popis dostupnih dokumenata
+							\item Aktor odabire dokument za pregled
+							\item Sustav prikazuje detalje odabranog dokumenta
+							
+						\end{packed_enum}
+					\end{packed_item}
+					
+					
+					\noindent \underbar{\textbf{UC14 - Arhiviranje dokumenata}}
+					\begin{packed_item}
+						
+						\item \textbf{Glavni sudionik: } Računovođa
+						\item \textbf{Cilj:} Arhivirati odabrane dokumente
+						\item \textbf{Sudionici:} Baza podataka
+						\item \textbf{Preduvjet:} Prijavljen u sustav
+						\item \textbf{Opis osnovnog tijeka:}
+						
+						\item[] \begin{packed_enum}
+							
+							\item Računovođa otvara listu potpisanih dokumenata
+							\item Računovođa odabire dokumente koje želi arhivirati
+							\item Sustav omogućuje odabir mjesta za arhiviranje
+							\item Računovođa potvrđuje i arhivira dokumente
+							
+						\end{packed_enum}
+					\end{packed_item}
+					
+					
+					\noindent \underbar{\textbf{UC15 - Potpisivanje dokumenata}}
+					\begin{packed_item}
+						
+						\item \textbf{Glavni sudionik: } Direktor
+						\item \textbf{Cilj:} Potpisati odabrane dokumente prije njihovog arhiviranja
+						\item \textbf{Sudionici:} Baza podataka
+						\item \textbf{Preduvjet:} Prijavljen u sustav
+						\item \textbf{Opis osnovnog tijeka:}
+						
+						\item[] \begin{packed_enum}
+							
+							\item Direktor odabire opciju za prikaz dokumenata koji čekaju potpis
+							\item Direktor odabire dokumente koje želi potpisati
+							\item Sustav omogućuje pregled odabranih dokumenata
+							\item Nadležni direktor potpisuje dokumente
+							
+						\end{packed_enum}
+					\end{packed_item}
+					
+					
+					\noindent \underbar{\textbf{UC16 - Slanje dokumenta na potpis}}
+					\begin{packed_item}
+						
+						\item \textbf{Glavni sudionik: } Računovođa
+						\item \textbf{Cilj:} Poslati odabrani dokument na potpis nadležnom direktoru
+						\item \textbf{Sudionici:} Baza podataka
+						\item \textbf{Preduvjet:} Prijavljen u sustav
+						\item \textbf{Opis osnovnog tijeka:}
+						
+						\item[] \begin{packed_enum}
+							
+							\item Računovođa odabire opciju za prikaz nepotpisanih dokumenata
+							\item Računovođa odabire dokument koji želi poslati na potpis
+							\item Dokument se šalje na potpis nadležnom direktoru
+							\item Nadležni direktor prima obavijest o dokumentu za potpis
+							
+						\end{packed_enum}
+					\end{packed_item}
+					
+					
+					\noindent \underbar{\textbf{UC17 - Učitavanje slika dokumenata}}
+					\begin{packed_item}
+						
+						\item \textbf{Glavni sudionik: } Zaposlenik, Revizor
+						\item \textbf{Cilj:} Učitavanje slika dokumenata za digitalizaciju
+						\item \textbf{Sudionici:} Baza podataka
+						\item \textbf{Preduvjet:} Prijavljen u sustav
+						\item \textbf{Opis osnovnog tijeka:}
+						
+						\item[] \begin{packed_enum}
+							
+							\item Aktor odabire opciju za učitavanje slika dokumenata
+							\item Aktor odabire do 50 slika za učitavanje
+							\item Sustav šalje slike na OCR
+							
+						\end{packed_enum}
+						
+						\item \textbf{Opis mogućih odstupanja:}
+						
+						\item[] \begin{packed_item}
+							
+							\item[2.a] Aktor odabire više od 50 slika za učitavanje
+							\item[] \begin{packed_enum}
+								
+								\item Sustav daje audio-vizualnu obavijest korisniku da je premašen maksimalni broj slika
+								\item Aktor odabire do 50 slika za učitavanje
+								
+							\end{packed_enum}
+							
+						\end{packed_item}
+					\end{packed_item}
+					
+					
+					\noindent \underbar{\textbf{UC18 - Digitializacija dokumenta}}
+					\begin{packed_item}
+						
+						\item \textbf{Glavni sudionik: } Sustav
+						\item \textbf{Cilj:} Izraditi optički znakovni prepoznavanje (OCR) detektiranog teksta
+						\item \textbf{Sudionici:} Baza podataka
+						\item \textbf{Preduvjet:} Dokument je detektiran na slici
+						\item \textbf{Opis osnovnog tijeka:}
+						
+						\item[] \begin{packed_enum}
+							
+							\item Sustav primjenjuje OCR na detektirani dokument na slici
+							\item Sustav sprema novonastali dokument u bazu podataka
+							
+						\end{packed_enum}
+					\end{packed_item}
+					
+					\clearpage
+					
+					\noindent \underbar{\textbf{UC19 - Detekcija dokumenta sa slike}}
+					\begin{packed_item}
+						
+						\item \textbf{Glavni sudionik: } Revizor, Zaposlenik
+						\item \textbf{Cilj:} Detektirati dokument sa učitane slike
+						\item \textbf{Sudionici:} Baza podataka, Sustav
+						\item \textbf{Preduvjet:} -
+						\item \textbf{Opis osnovnog tijeka:}
+						
+						\item[] \begin{packed_enum}
+							
+							\item Sustav učitava sliku primljenu na danju obradu od strane aktora
+							\item Sustav pregledava danu sliku
+							\item Sustav šalje sliku na danju digitalizaciju 
+							
+						\end{packed_enum}
+						
+						\item \textbf{Opis mogućih odstupanja:}
+						
+						\item[] \begin{packed_item}
+							
+							\item[2.a] Sustav nije pronašao dokument na slici
+							\item[] \begin{packed_enum}
+								
+								\item Sustav daje audio-vizualnu obavijest aktoru da učitana slika ne sadrži dokument
+								\item Sustav daje opciju aktoru manualo repozicionira dokument ili da odustane od daljnje obrade
+								
+							\end{packed_enum}
+							
+						\end{packed_item}
+					\end{packed_item}
+					
+					
+					
+					
+					
+					
+					
+				\clearpage
 					
 				\subsubsection{Dijagrami obrazaca uporabe}
 					
