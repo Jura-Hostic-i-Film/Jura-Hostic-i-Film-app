@@ -17,10 +17,10 @@
 				
 		\section{Baza podataka}
 			
-			\textbf{\textit{dio 1. revizije}}\\
+			%\textbf{\textit{dio 1. revizije}}\\
 			
-		{Koristimo relacijsku bazu podataka s implementacijom pomoću DBML-a. DBML (Database Markup Language) je jezik označavanja koji omogućuje deklarativno opisivanje relacijskih baza podataka. Time možemo jednostavno definirati strukture baze podataka pomoću tekstualnog zapisa. Glavne komponente naše baze podataka su:}
-				\begin{itemize}
+			{Koristimo relacijsku bazu podataka s implementacijom pomoću DBML-a. DBML (Database Markup Language) je jezik označavanja koji omogućuje deklarativno opisivanje relacijskih baza podataka. Time možemo jednostavno definirati strukture baze podataka pomoću tekstualnog zapisa. Glavne komponente naše baze podataka su:}
+				\begin{packed_item}
 					\item 	\textbf{documents}
 					\item 	\textbf{users}
 					\item 	\textbf{signatures}
@@ -29,7 +29,7 @@
 					\item 	\textbf{image}
 					\item 	\textbf{user\textunderscore role}
 					\item	\textbf{roles}
-				\end{itemize}
+				\end{packed_item}
 		
 			\subsection{Opis tablica}
 			
@@ -148,7 +148,8 @@
 				\end{longtblr}
 				
 				\textbf{Roles}
-				{TODO}
+				{  Definira različite uloge korisnika u sistemu. Ovaj entitet u vezi je \textit{One-to-Many} s entitetom \textbf{user\textunderscore role} preko atributa \textit{roleID}.}
+				
 				
 				\begin{longtblr}[
 					label=none,
@@ -164,7 +165,7 @@
 				\end{longtblr}
 				
 				\textbf{User\textunderscore role}
-				{TODO}
+				{  Tablica koja povezuje korisnike s njihovim ulogama. Ovaj entitet u vezi je \textit{Many-to-One} s entitetom \textbf{roles} preko atributa \textit{roleID}, u vezi je \textit{Many-to-One} s entitetom \textbf{users} preko atributa \textit{userID}.}
 				
 				\begin{longtblr}[
 					label=none,
@@ -182,7 +183,12 @@
 				
 			
 			\subsection{Dijagram baze podataka}
-				\textit{ U ovom potpoglavlju potrebno je umetnuti dijagram baze podataka. Primarni i strani ključevi moraju biti označeni, a tablice povezane. Bazu podataka je potrebno normalizirati. Podsjetite se kolegija "Baze podataka".}
+				
+				\begin{figure}[H]
+					\includegraphics[width=\textwidth]{slike/dijagramBaze.PNG} %veličina u odnosu na širinu linije
+					\caption{Dijagram baze podataka}
+					\label{fig:dijagramBaze} %label mora biti drugaciji za svaku sliku
+				\end{figure}
 			
 			\eject
 			
