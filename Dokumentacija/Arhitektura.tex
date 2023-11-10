@@ -1,6 +1,6 @@
 \chapter{Arhitektura i dizajn sustava}
 		
-		\textbf{\textit{dio 1. revizije}}\\
+		%\textbf{\textit{dio 1. revizije}}\\
 
 		\textit{ Potrebno je opisati stil arhitekture te identificirati: podsustave, preslikavanje na radnu platformu, spremišta podataka, mrežne protokole, globalni upravljački tok i sklopovsko-programske zahtjeve. Po točkama razraditi i popratiti odgovarajućim skicama:}
 	\begin{itemize}
@@ -10,16 +10,12 @@
 	\end{itemize}
 
 	
-		
-
-		
-
 				
 		\section{Baza podataka}
 			
 			%\textbf{\textit{dio 1. revizije}}\\
 			
-			{Koristimo relacijsku bazu podataka s implementacijom pomoću DBML-a. DBML (Database Markup Language) je jezik označavanja koji omogućuje deklarativno opisivanje relacijskih baza podataka. Time možemo jednostavno definirati strukture baze podataka pomoću tekstualnog zapisa. Glavne komponente naše baze podataka su:}
+			{Koristimo relacijsku bazu podataka s implementacijom pomoću PostgreSQL-a. Za opis naše baze podataka koristimo DBML.  DBML (Database Markup Language) je jezik označavanja koji omogućuje deklarativno opisivanje relacijskih baza podataka.  Time možemo jednostavno definirati strukture baze podataka pomoću tekstualnog zapisa.  Zadaća baze podataka je da olakša i ubrza pristup podacima za daljnju obradu ili pronalaženje arhiviranih podataka. Glavne komponente naše baze podataka su:}
 				\begin{packed_item}
 					\item 	\textbf{documents}
 					\item 	\textbf{users}
@@ -45,7 +41,7 @@
 						width = \textwidth,
 						colspec={|X[8,l]|X[5, l]|X[20, l]|}, 
 						rowhead = 1,
-					} %definicija širine tablice, širine stupaca, poravnanje i broja redaka naslova tablice
+					} 
 					\hline \SetCell[c=3]{c}{\textbf{documents}}	 \\ \hline[3pt]
 					\SetCell{LightGreen}documentID & INT & identifikacijski broj dokumenta  	\\ \hline
 					documentType	& ENUM & tip skeniranog dokumenta: račun, ponuda ili interni	\\ \hline 
@@ -67,7 +63,7 @@
 						width = \textwidth,
 						colspec={|X[8,l]|X[5, l]|X[20, l]|}, 
 						rowhead = 1,
-					} %definicija širine tablice, širine stupaca, poravnanje i broja redaka naslova tablice
+					} 
 					\hline \SetCell[c=3]{c}{\textbf{users}}	 \\ \hline[3pt]
 					\SetCell{LightGreen}userID & INT & identifikacijski broj korisnika  	\\ \hline
 					username	& VARCHAR & korisničko ime za prijavu korisnika	\\ \hline 
@@ -84,7 +80,7 @@
 						width = \textwidth,
 						colspec={|X[8,l]|X[5, l]|X[20, l]|}, 
 						rowhead = 1,
-					} %definicija širine tablice, širine stupaca, poravnanje i broja redaka naslova tablice
+					} 
 					\hline \SetCell[c=3]{c}{\textbf{signatures}}	 \\ \hline[3pt]
 					\SetCell{LightGreen}signatureID & INT & identifikacijski broj potpisanog dokumenta  	\\ \hline
 					\SetCell{LightBlue}documentID	& INT & identifikacijski broj dokumenta	\\ \hline 
@@ -103,7 +99,7 @@
 						width = \textwidth,
 						colspec={|X[8,l]|X[5, l]|X[20, l]|}, 
 						rowhead = 1,
-					} %definicija širine tablice, širine stupaca, poravnanje i broja redaka naslova tablice
+					} 
 					\hline \SetCell[c=3]{c}{\textbf{audits}}	 \\ \hline[3pt]
 					\SetCell{LightGreen}auditID & INT & identifikacijski broj reviziranog dokumenta  	\\ \hline
 					\SetCell{LightBlue}documentID	& INT & identifikacijski broj dokumenta	\\ \hline 
@@ -122,7 +118,7 @@
 						width = \textwidth,
 						colspec={|X[8,l]|X[5, l]|X[20, l]|}, 
 						rowhead = 1,
-					} %definicija širine tablice, širine stupaca, poravnanje i broja redaka naslova tablice
+					} 
 					\hline \SetCell[c=3]{c}{\textbf{archive}}	 \\ \hline[3pt]
 					\SetCell{LightGreen}archiveNumber & INT & identifikacijski broj arhiviranog dokumenta  	\\ \hline
 					\SetCell{LightBlue}documentID	& INT & identifikacijski broj dokumenta	\\ \hline 
@@ -141,7 +137,7 @@
 						width = \textwidth,
 						colspec={|X[8,l]|X[5, l]|X[20, l]|}, 
 						rowhead = 1,
-					} %definicija širine tablice, širine stupaca, poravnanje i broja redaka naslova tablice
+					} 
 					\hline \SetCell[c=3]{c}{\textbf{image}}	 \\ \hline[3pt]
 					\SetCell{LightGreen}imageID & INT & identifikacijski broj slike dokumenta  	\\ \hline
 					image & BLOB & spremljena slika dokumenta \\ \hline
@@ -158,7 +154,7 @@
 						width = \textwidth,
 						colspec={|X[8,l]|X[5, l]|X[20, l]|}, 
 						rowhead = 1,
-					} %definicija širine tablice, širine stupaca, poravnanje i broja redaka naslova tablice
+					} 
 					\hline \SetCell[c=3]{c}{\textbf{roles}}	 \\ \hline[3pt]
 					\SetCell{LightGreen}roleID & INT & identifikacijski broj kategorije korisnika  	\\ \hline
 					roleName & VARCHAR & ime kategorije korisnika \\ \hline
@@ -174,7 +170,7 @@
 						width = \textwidth,
 						colspec={|X[8,l]|X[5, l]|X[20, l]|}, 
 						rowhead = 1,
-					} %definicija širine tablice, širine stupaca, poravnanje i broja redaka naslova tablice
+					} 
 					\hline \SetCell[c=3]{c}{\textbf{user\textunderscore role}}	 \\ \hline[3pt]
 					\SetCell{LightGreen}userID & INT & identifikacijski broj korisnika  	\\ \hline
 					\SetCell{LightGreen}roleID & INT & identifikacijski broj kategorije korisnika \\ \hline
@@ -185,9 +181,9 @@
 			\subsection{Dijagram baze podataka}
 				
 				\begin{figure}[H]
-					\includegraphics[width=\textwidth]{slike/dijagramBaze.PNG} %veličina u odnosu na širinu linije
+					\includegraphics[width=\textwidth]{slike/dijagramBaze.PNG} 
 					\caption{Dijagram baze podataka}
-					\label{fig:dijagramBaze} %label mora biti drugaciji za svaku sliku
+					\label{fig:dijagramBaze}
 				\end{figure}
 			
 			\eject
@@ -201,9 +197,9 @@
 			
 			\textit{Prilikom prve predaje projekta, potrebno je priložiti potpuno razrađen dijagram razreda vezan uz \textbf{generičku funkcionalnost} sustava. Ostale funkcionalnosti trebaju biti idejno razrađene u dijagramu sa sljedećim komponentama: nazivi razreda, nazivi metoda i vrste pristupa metodama (npr. javni, zaštićeni), nazivi atributa razreda, veze i odnosi između razreda.}\\
 			
-			\textbf{\textit{dio 2. revizije}}\\			
+			%\textbf{\textit{dio 2. revizije}}\\			
 			
-			\textit{Prilikom druge predaje projekta dijagram razreda i opisi moraju odgovarati stvarnom stanju implementacije}
+			%\textit{Prilikom druge predaje projekta dijagram razreda i opisi moraju odgovarati stvarnom stanju implementacije}
 			
 			
 			
@@ -212,22 +208,22 @@
 		\section{Dijagram stanja}
 			
 			
-			\textbf{\textit{dio 2. revizije}}\\
+			%\textbf{\textit{dio 2. revizije}}\\
 			
-			\textit{Potrebno je priložiti dijagram stanja i opisati ga. Dovoljan je jedan dijagram stanja koji prikazuje \textbf{značajan dio funkcionalnosti} sustava. Na primjer, stanja korisničkog sučelja i tijek korištenja neke ključne funkcionalnosti jesu značajan dio sustava, a registracija i prijava nisu. }
+			%\textit{Potrebno je priložiti dijagram stanja i opisati ga. Dovoljan je jedan dijagram stanja koji prikazuje \textbf{značajan dio funkcionalnosti} sustava. Na primjer, stanja korisničkog sučelja i tijek korištenja neke ključne funkcionalnosti jesu značajan dio sustava, a registracija i prijava nisu. }
 			
 			
 			\eject 
 		
 		\section{Dijagram aktivnosti}
 			
-			\textbf{\textit{dio 2. revizije}}\\
+			%\textbf{\textit{dio 2. revizije}}\\
 			
-			 \textit{Potrebno je priložiti dijagram aktivnosti s pripadajućim opisom. Dijagram aktivnosti treba prikazivati značajan dio sustava.}
+			 %\textit{Potrebno je priložiti dijagram aktivnosti s pripadajućim opisom. Dijagram aktivnosti treba prikazivati značajan dio sustava.}
 			
 			\eject
 		\section{Dijagram komponenti}
 		
-			\textbf{\textit{dio 2. revizije}}\\
+			%\textbf{\textit{dio 2. revizije}}\\
 		
-			 \textit{Potrebno je priložiti dijagram komponenti s pripadajućim opisom. Dijagram komponenti treba prikazivati strukturu cijele aplikacije.}
+			 %\textit{Potrebno je priložiti dijagram komponenti s pripadajućim opisom. Dijagram komponenti treba prikazivati strukturu cijele aplikacije.}
