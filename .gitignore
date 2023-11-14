@@ -42,7 +42,8 @@ app.*.map.json
 /android/app/debug
 /android/app/profile
 /android/app/release
-
+.env
+lib/constants.dart
 
 # Latex
 *.aux
@@ -58,3 +59,4 @@ app.*.map.json
 
 *.toc
 PROGI_ProjektnaDokumentacija.pdf
+
