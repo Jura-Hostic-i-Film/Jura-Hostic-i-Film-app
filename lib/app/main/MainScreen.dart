@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
-import 'package:jura_hostic_i_film_app/backend_connection/ApiServiceProvider.dart';
-import 'package:provider/provider.dart';
+import 'package:jura_hostic_i_film_app/app/main/Tabs/HistoryScreen.dart';
+import 'package:jura_hostic_i_film_app/app/main/Tabs/UsersScreen.dart';
+import '../../components/sidebar_navigator/SideBarNavigator.dart';
+import '../../models/SideTab.dart';
 
 class HomeScreen extends StatefulWidget {
   const HomeScreen({super.key});
@@ -10,46 +12,25 @@ class HomeScreen extends StatefulWidget {
 }
 
 class HomeScreenState extends State<HomeScreen> {
-  int pageIndex = 0;
+  int tabIndex = 0;
 
-  List<StatefulWidget> pageList = [
-
+  List<SideTab> tabList = [
+    SideTab(screen: const HistoryScreen(), name: 'Povijest', icon: null),
+    SideTab(screen: const UsersScreen(), name: 'Zaposlenici', icon: null),
   ];
+
+  void changeTab(int newTabIndex) {
+    setState(() {
+      tabIndex = newTabIndex;
+    });
+  }
 
   @override
   Widget build(BuildContext context) {
-    ApiServiceProvider apiServiceProvider = Provider.of<ApiServiceProvider>(context, listen: true);
-
     return Scaffold(
-      body: Center(
-        child: SizedBox(
-          width: 280,
-          child: Column(
-            mainAxisAlignment: MainAxisAlignment.center,
-            children: <Widget>[
-              Text(
-                "Blank home screen",
-                style: Theme.of(context).textTheme.headlineMedium,
-              ),
-              GestureDetector(
-                child: Container(
-                  decoration: BoxDecoration(
-                    borderRadius: BorderRadius.circular(10),
-                    color: Colors.blue,
-                  ),
-                  margin: const EdgeInsets.symmetric(vertical: 20),
-                  height: 50,
-                  child: const Center(child: Text("Logout", style: TextStyle(color: Colors.white))),
-                ),
-                onTap: () async => {
-                  await apiServiceProvider.logoutUser(),
-                  Navigator.pushReplacementNamed(context, '/auth/login')
-                },
-              ),
-            ],
-          ),
-        ),
-      ),
+      drawer: SideBarNavigator(tabList, changeTab, 240),
+      appBar: AppBar(),
+      body: tabList[tabIndex].screen,
     );
   }
 }
