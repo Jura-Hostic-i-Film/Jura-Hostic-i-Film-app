@@ -10,13 +10,19 @@ class HomeScreen extends StatefulWidget {
 }
 
 class HomeScreenState extends State<HomeScreen> {
+  int pageIndex = 0;
+
+  List<StatefulWidget> pageList = [
+
+  ];
+
   @override
   Widget build(BuildContext context) {
     ApiServiceProvider apiServiceProvider = Provider.of<ApiServiceProvider>(context, listen: true);
 
     return Scaffold(
       body: Center(
-        child: Container(
+        child: SizedBox(
           width: 280,
           child: Column(
             mainAxisAlignment: MainAxisAlignment.center,
