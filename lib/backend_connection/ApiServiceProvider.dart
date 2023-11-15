@@ -1,4 +1,3 @@
-import 'dart:convert';
 import 'package:flutter/cupertino.dart';
 import 'package:jura_hostic_i_film_app/util/local_storage/LocalStorageManager.dart';
 import '../DTOs/LoginDTO.dart';
@@ -10,6 +9,7 @@ import 'ApiService.dart';
 class ApiServiceProvider extends ChangeNotifier {
   final String root = Constants.baseUrl;
   String? token;
+  User? currentUser;
 
   ApiServiceProvider(this.token);
 
@@ -17,6 +17,7 @@ class ApiServiceProvider extends ChangeNotifier {
       String? responseToken = await ApiService.usersLogin(user);
       if (responseToken != null) {
         token = responseToken;
+        getCurrentUser();
         notifyListeners();
         return await LocalStorageManager.writePair('token', token, true);
       }
@@ -26,15 +27,29 @@ class ApiServiceProvider extends ChangeNotifier {
   Future<bool> createUser(RegisterDTO user) async {
     User? responseUser = await ApiService.usersRegister(user, token);
 
-    if (responseUser != null) {
-      return await LocalStorageManager.writePair('user', jsonEncode(responseUser), false);
+    return responseUser != null;
+  }
+
+  Future<bool> getCurrentUser() async {
+    if (token != null) {
+      currentUser ??= await ApiService.usersMe(token!);
     }
-    return false;
+
+    return currentUser != null;
   }
 
   Future<bool> logoutUser() async {
     token = null;
+    currentUser = null;
     notifyListeners();
     return await LocalStorageManager.clearStorage();
+  }
+
+  Future<List<User>> getAllUsers() async {
+    if (token != null) {
+      return await ApiService.users(token!);
+    }
+
+    return [];
   }
 }

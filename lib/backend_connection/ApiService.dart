@@ -1,6 +1,7 @@
 import 'dart:convert';
 import 'package:http/http.dart';
 import 'package:jura_hostic_i_film_app/DTOs/RegisterDTO.dart';
+import 'package:jura_hostic_i_film_app/util/helpers/formatToken.dart';
 import '../DTOs/LoginDTO.dart';
 import '../constants.dart';
 import '../models/User.dart';
@@ -10,9 +11,8 @@ class ApiService {
 
   static Future<String?> usersLogin(LoginDTO user) async {
     final url = Uri.https(root, "/users/login");
-    Response response;
 
-    response = await post(
+    Response response = await post(
       url,
       headers: <String, String>{
         'Content-Type': 'application/json; charset=UTF-8',
@@ -35,16 +35,14 @@ class ApiService {
       RegisterDTO user,
       String? token,
       ) async {
-
     var url = Uri.https(root, "/users/register");
-    Response response;
 
     var headers = <String, String>{
       'Content-Type': 'application/json; charset=UTF-8',
     };
-    if (token != null) headers['Authorization'] = 'Bearer $token';
+    if (token != null) headers['Authorization'] = formatToken(token);
 
-    response = await post(
+    Response response = await post(
       url,
       headers: headers,
       body: jsonEncode(<String, String>{
@@ -63,7 +61,39 @@ class ApiService {
     }
   }
 
-  Future<bool> logoutUser() async {
-    return false;
+  static Future<User?> usersMe(String token) async {
+    final url = Uri.https(root, "/users/me");
+
+    Response response = await get(
+      url,
+      headers: <String, String>{
+        'Content-Type': 'application/json; charset=UTF-8',
+        'Authorization': formatToken(token),
+      },
+    );
+
+    if (response.statusCode == 200) {
+      return User.fromJson(jsonDecode(response.body));
+    } else {
+      return null;
+    }
+  }
+
+  static Future<List<User>> users(String token) async {
+    final url = Uri.https(root, "/users");
+
+    Response response = await get(
+      url,
+      headers: <String, String>{
+        'Content-Type': 'application/json; charset=UTF-8',
+        'Authorization': formatToken(token),
+      },
+    );
+
+    if (response.statusCode == 200) {
+      return (jsonDecode(response.body) as List).map<User>((json) => User.fromJson(json)).toList();
+    } else {
+      return [];
+    }
   }
 }

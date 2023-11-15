@@ -5,12 +5,10 @@ import 'app/App.dart';
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
   final token = await LocalStorageManager.read('token');
-  final user = await LocalStorageManager.read('user');
 
   runApp(
       App(
         token: token,
-        user: user,
       )
   );
 }
