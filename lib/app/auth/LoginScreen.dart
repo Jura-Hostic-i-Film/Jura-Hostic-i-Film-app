@@ -1,9 +1,6 @@
-import 'dart:math';
-
 import 'package:flutter/material.dart';
 import 'package:jura_hostic_i_film_app/DTOs/LoginDTO.dart';
 import 'package:provider/provider.dart';
-
 import '../../backend_connection/ApiServiceProvider.dart';
 
 class LoginScreen extends StatefulWidget {
@@ -128,7 +125,7 @@ class LoginScreenState extends State<LoginScreen> {
             ),
           ),
         ],
-      )
+      ),
     );
   }
 }

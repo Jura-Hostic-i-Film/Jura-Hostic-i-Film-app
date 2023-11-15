@@ -15,7 +15,6 @@ class ApiServiceProvider extends ChangeNotifier {
 
   Future<bool> authUser(LoginDTO user) async {
       String? responseToken = await ApiService.usersLogin(user);
-      print(responseToken);
       if (responseToken != null) {
         token = responseToken;
         notifyListeners();
