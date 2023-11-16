@@ -27,25 +27,26 @@ class UserDisplayable extends StatelessWidget {
                     mainAxisAlignment: MainAxisAlignment.start,
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
-                      Row(
+                      Wrap(
+                        crossAxisAlignment: WrapCrossAlignment.center,
                         children: [
                           Text(
                             user.username,
                             style: const TextStyle(
                               fontWeight: FontWeight.bold,
-                              fontSize: 24,
+                              fontSize: 20,
                             ),
                           ),
                           const Text(
                             ' · ',
                             style: TextStyle(
-                              fontSize: 28,
+                              fontSize: 24,
                             ),
                           ),
                           Text(
                             '${user.firstName} ${user.lastName}',
                             style: const TextStyle(
-                              fontSize: 24,
+                              fontSize: 20,
                             ),
                           ),
                         ],

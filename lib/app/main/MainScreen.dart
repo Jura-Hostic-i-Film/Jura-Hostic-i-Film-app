@@ -25,7 +25,7 @@ class HomeScreenState extends State<HomeScreen> {
   }
 
   final List<SideTab> tabList = [
-    SideTab(screen: const UsersScreen(), name: 'Zaposlenici', icon: null, enabled: false),
+    SideTab(screen: const UsersScreen(), name: 'Korisnici', icon: null, enabled: false),
     SideTab(screen: const HistoryScreen(), name: 'Povijest', icon: null, enabled: false),
     SideTab(screen: UnauthorizedScreen(), name: '', icon: null, enabled: false),
   ];
