@@ -94,7 +94,7 @@ class RegisterScreenState extends State<RegisterScreen> {
                         crossAxisAlignment: CrossAxisAlignment.stretch,
                         children: [
                           const Text(
-                            'Mejl adresa',
+                            'Elektronička adresa',
                             style: TextStyle(
                               fontSize: 20,
                               fontWeight: FontWeight.bold,
@@ -103,7 +103,7 @@ class RegisterScreenState extends State<RegisterScreen> {
                           TextField(
                             onChanged: (value) => {registerUser.email = value},
                             decoration: const InputDecoration(
-                              hintText: "Unesite mejl adresu",
+                              hintText: "Unesite adresu elektroničke pošte",
                             ),
                             style: const TextStyle(
                               fontSize: 14,
@@ -188,7 +188,7 @@ class RegisterScreenState extends State<RegisterScreen> {
                         crossAxisAlignment: CrossAxisAlignment.stretch,
                         children: [
                           const Text(
-                            'Osobni podaci',
+                            'Lozinka',
                             style: TextStyle(
                               fontSize: 20,
                               fontWeight: FontWeight.bold,
@@ -259,7 +259,7 @@ class RegisterScreenState extends State<RegisterScreen> {
                         crossAxisAlignment: CrossAxisAlignment.stretch,
                         children: [
                           const Text(
-                            'Uloge:',
+                            'Uloge',
                             style: TextStyle(
                               fontSize: 20,
                               fontWeight: FontWeight.bold,

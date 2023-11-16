@@ -88,7 +88,7 @@ class LoginScreenState extends State<LoginScreen> {
                         crossAxisAlignment: CrossAxisAlignment.stretch,
                         children: [
                           const Text(
-                            'Osobni podaci',
+                            'Lozinka',
                             style: TextStyle(
                               fontSize: 20,
                               fontWeight: FontWeight.bold,

@@ -2,6 +2,7 @@ import 'dart:convert';
 import 'package:http/http.dart';
 import 'package:jura_hostic_i_film_app/DTOs/RegisterDTO.dart';
 import 'package:jura_hostic_i_film_app/util/helpers/formatToken.dart';
+import 'package:jura_hostic_i_film_app/util/helpers/secureHash.dart';
 import '../DTOs/LoginDTO.dart';
 import '../constants.dart';
 import '../models/User.dart';
@@ -19,7 +20,7 @@ class ApiService {
       },
       body: jsonEncode(<String, String>{
         'username': user.username,
-        'password': user.password,
+        'password': secureHash(user.password),
       }),
     );
 
@@ -46,7 +47,7 @@ class ApiService {
       body: jsonEncode(<String, dynamic>{
         'email': user.email,
         'username': user.username,
-        'password': user.password,
+        'password': secureHash(user.password),
         'first_name': user.firstName,
         'last_name': user.lastName,
         'roles': user.roles.map((role) => role.name).toList(),
@@ -106,7 +107,7 @@ class ApiService {
       body: jsonEncode(<String, dynamic>{
         'email': user.email,
         'username': user.username,
-        'password': user.password,
+        'password': secureHash(user.password),
         'first_name': user.firstName,
         'last_name': user.lastName,
         'roles': user.roles.map((role) => role.name).toList(),
