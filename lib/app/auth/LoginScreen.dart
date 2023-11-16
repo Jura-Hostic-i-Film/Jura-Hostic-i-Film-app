@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:jura_hostic_i_film_app/DTOs/LoginDTO.dart';
 import 'package:provider/provider.dart';
 import '../../backend_connection/ApiServiceProvider.dart';
+import '../../components/buttons/AsyncButton.dart';
 
 class LoginScreen extends StatefulWidget {
   const LoginScreen({super.key});
@@ -27,7 +28,7 @@ class LoginScreenState extends State<LoginScreen> {
 
   @override
   Widget build(BuildContext context) {
-    ApiServiceProvider apiServiceProvider = Provider.of<ApiServiceProvider>(context, listen: true);
+    ApiServiceProvider apiServiceProvider = Provider.of<ApiServiceProvider>(context, listen: false);
 
     return Scaffold(
       resizeToAvoidBottomInset: false,
@@ -108,7 +109,7 @@ class LoginScreenState extends State<LoginScreen> {
                         onTap: () async {
                           if (await apiServiceProvider.authUser(loginUser) && mounted) Navigator.pushReplacementNamed(context, '/home');
                         },
-                        content: const Center(child: Text("Login", style: TextStyle(color: Colors.white))),
+                        content: const Center(child: Text("Prijavi se", style: TextStyle(color: Colors.white))),
                       ),
                     ],
                   ),
@@ -120,47 +121,4 @@ class LoginScreenState extends State<LoginScreen> {
       ),
     );
   }
-}
-
-class AsyncButton extends StatefulWidget {
-  final Function onTap;
-  final Widget content;
-  final Widget? loadingContent;
-  const AsyncButton({required this.onTap, required this.content, this.loadingContent, super.key});
-
-  @override
-  State<StatefulWidget> createState() => AsyncButtonState();
-}
-
-class AsyncButtonState extends State<AsyncButton> {
-  bool loading = false;
-
-  @override
-  Widget build(BuildContext context) {
-    return GestureDetector(
-
-      child: Container(
-        decoration: BoxDecoration(
-          borderRadius: BorderRadius.circular(10),
-          color: Colors.blue,
-        ),
-        margin: const EdgeInsets.symmetric(vertical: 20),
-        height: 50,
-        child: loading ? widget.loadingContent ?? const Center(
-          child: SizedBox(
-            width: 24,
-            height: 24,
-            child: CircularProgressIndicator(color: Colors.white),
-          ),
-        ) : widget.content,
-      ),
-      onTap: () async {
-        if (loading) return;
-        setState(() => loading = true);
-        await widget.onTap();
-        setState(() => loading = false);
-      },
-    );
-  }
-
 }

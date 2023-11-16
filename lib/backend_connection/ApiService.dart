@@ -55,7 +55,7 @@ class ApiService {
     );
 
     if (response.statusCode == 200) {
-      return User.fromJson(jsonDecode(response.body));
+      return User.fromJson(jsonDecode(utf8.decode(response.bodyBytes)));
     } else {
       return null;
     }
@@ -73,7 +73,7 @@ class ApiService {
     );
 
     if (response.statusCode == 200) {
-      return User.fromJson(jsonDecode(response.body));
+      return User.fromJson(jsonDecode(utf8.decode(response.bodyBytes)));
     } else {
       return null;
     }
@@ -91,7 +91,7 @@ class ApiService {
     );
 
     if (response.statusCode == 200) {
-      return (jsonDecode(response.body) as List).map<User>((json) => User.fromJson(json)).toList();
+      return (jsonDecode(utf8.decode(response.bodyBytes)) as List).map<User>((json) => User.fromJson(json)).toList();
     } else {
       return [];
     }

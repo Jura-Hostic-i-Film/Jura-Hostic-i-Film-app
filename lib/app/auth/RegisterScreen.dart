@@ -1,9 +1,13 @@
 import 'package:flutter/material.dart';
+import 'package:jura_hostic_i_film_app/components/buttons/AsyncButton.dart';
+import 'package:provider/provider.dart';
 
 import '../../DTOs/RegisterDTO.dart';
+import '../../backend_connection/ApiServiceProvider.dart';
 
 class RegisterScreen extends StatefulWidget {
-  const RegisterScreen({super.key});
+  final bool registerFirstUser;
+  const RegisterScreen({ required this.registerFirstUser, super.key});
 
   @override
   State<RegisterScreen> createState() => RegisterScreenState();
@@ -32,11 +36,13 @@ class RegisterScreenState extends State<RegisterScreen> {
 
   @override
   Widget build(BuildContext context) {
+    ApiServiceProvider apiServiceProvider = Provider.of<ApiServiceProvider>(context, listen: false);
+
     return Scaffold(
       resizeToAvoidBottomInset: false,
       body: Stack(
         children: [
-          Positioned(
+          !widget.registerFirstUser ? Positioned(
             top: 60,
             right: 20,
             child: GestureDetector(
@@ -55,6 +61,25 @@ class RegisterScreenState extends State<RegisterScreen> {
                 ),
               ),
             ),
+          ) :
+          Positioned(
+            top: 60,
+            left: 10,
+            child: GestureDetector(
+              onTap: () => {Navigator.pushReplacementNamed(context, '/auth/login')},
+              child: GestureDetector(
+                onTap: () => {Navigator.pop(context)},
+                child: const SizedBox(
+                    width: 50,
+                    height: 50,
+                    child: Icon(
+                      Icons.arrow_back,
+                      color: Colors.black,
+                      size: 32,
+                    )
+                ),
+              ),
+            ),
           ),
           Center(
             child: UnconstrainedBox(
@@ -64,7 +89,7 @@ class RegisterScreenState extends State<RegisterScreen> {
                   color: Colors.black12,
                 ),
                 padding: const EdgeInsets.all(20),
-                width: 280,
+                width: 320,
                 child: Form(
                   key: formKey,
                   child: Column(
@@ -88,23 +113,30 @@ class RegisterScreenState extends State<RegisterScreen> {
                           ),
                         ),
                       ),
-                      Container(
-                        margin: const EdgeInsets.symmetric(vertical: 20),
-                        child: TextField(
-                          onChanged: (value) => {registerUser.firstName = value},
-                          decoration: const InputDecoration(
-                            hintText: "First Name",
+                      Row(
+                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                        children: [
+                          Container(
+                            width: 128,
+                            margin: const EdgeInsets.symmetric(vertical: 20),
+                            child: TextField(
+                              onChanged: (value) => {registerUser.firstName = value},
+                              decoration: const InputDecoration(
+                                hintText: "First Name",
+                              ),
+                            ),
                           ),
-                        ),
-                      ),
-                      Container(
-                        margin: const EdgeInsets.symmetric(vertical: 20),
-                        child: TextField(
-                          onChanged: (value) => {registerUser.lastName = value},
-                          decoration: const InputDecoration(
-                            hintText: "Last Name",
+                          Container(
+                            width: 128,
+                            margin: const EdgeInsets.symmetric(vertical: 20),
+                            child: TextField(
+                              onChanged: (value) => {registerUser.lastName = value},
+                              decoration: const InputDecoration(
+                                hintText: "Last Name",
+                              ),
+                            ),
                           ),
-                        ),
+                        ],
                       ),
                       Container(
                         margin: const EdgeInsets.symmetric(vertical: 20),
@@ -134,17 +166,22 @@ class RegisterScreenState extends State<RegisterScreen> {
                           ],
                         ),
                       ),
-                      GestureDetector(
-                        child: Container(
-                          decoration: BoxDecoration(
-                            borderRadius: BorderRadius.circular(10),
-                            color: Colors.blue,
+                      AsyncButton(
+                          onTap: widget.registerFirstUser ?
+                          () async {
+                            if (await apiServiceProvider.createStartingUser(registerUser) && mounted) Navigator.pushReplacementNamed(context, '/home');
+                          } :
+                          () async {
+                            if (await apiServiceProvider.createStartingUser(registerUser) && mounted) Navigator.pop(context);
+                          },
+                          content: Center(
+                            child: Text(
+                              widget.registerFirstUser ? 'Stvori korisnika' : 'Registriraj admina',
+                              style: const TextStyle(
+                                  color: Colors.white
+                              ),
+                            ),
                           ),
-                          margin: const EdgeInsets.symmetric(vertical: 20),
-                          height: 50,
-                          child: const Center(child: Text("Register", style: TextStyle(color: Colors.white))),
-                        ),
-                        onTap: () => {},
                       ),
                     ],
                   ),

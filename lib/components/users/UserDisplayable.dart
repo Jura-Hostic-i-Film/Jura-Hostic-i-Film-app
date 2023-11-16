@@ -13,11 +13,14 @@ class UserDisplayable extends StatelessWidget {
       crossAxisAlignment: CrossAxisAlignment.stretch,
       children: [
         Container(
-          margin: const EdgeInsetsDirectional.only(start: 10, top: 10, end: 10),
+          margin: const EdgeInsetsDirectional.only(top: 10),
           padding: const EdgeInsetsDirectional.all(10),
-          decoration: BoxDecoration(
-            borderRadius: BorderRadius.circular(5),
-            color: Colors.black12,
+          decoration: const BoxDecoration(
+            border: Border(
+              bottom: BorderSide(
+                color: Colors.black,
+              ),
+            )
           ),
           child: Column(
             mainAxisAlignment: MainAxisAlignment.start,
@@ -37,7 +40,7 @@ class UserDisplayable extends StatelessWidget {
                             user.username,
                             style: const TextStyle(
                               fontWeight: FontWeight.bold,
-                              fontSize: 28,
+                              fontSize: 24,
                             ),
                           ),
                           const Text(
@@ -49,7 +52,7 @@ class UserDisplayable extends StatelessWidget {
                           Text(
                             '${user.firstName} ${user.lastName}',
                             style: const TextStyle(
-                              fontSize: 18,
+                              fontSize: 24,
                             ),
                           ),
                         ],
@@ -70,7 +73,7 @@ class UserDisplayable extends StatelessWidget {
                     width: 40,
                     height: 40,
                     decoration: BoxDecoration(
-                      borderRadius: BorderRadius.circular(4),
+                      borderRadius: BorderRadius.circular(8),
                       border: Border.all(color: Colors.black, width: 2),
                     ),
                     child: const Icon(
@@ -80,9 +83,13 @@ class UserDisplayable extends StatelessWidget {
                   ),
                 ],
               ),
-              Row(
-                mainAxisAlignment: MainAxisAlignment.start,
-                children: user.roles.map((role) => RoleDisplayable(role: role)).toList(),
+              Container(
+                padding: const EdgeInsets.symmetric(vertical: 5),
+                child: Wrap(
+                  spacing: 8,
+                  runSpacing: 8,
+                  children: user.roles.map((role) => RoleDisplayable(role: role)).toList(),
+                ),
               ),
             ],
           ),

@@ -1,3 +1,5 @@
+import 'package:jura_hostic_i_film_app/DTOs/LoginDTO.dart';
+
 class RegisterDTO {
   String email;
   String username;
@@ -12,4 +14,11 @@ class RegisterDTO {
     required this.lastName,
     required this.password,
   });
+
+  LoginDTO toLoginDTO() {
+    return LoginDTO(
+      username,
+      password,
+    );
+  }
 }

@@ -30,6 +30,11 @@ class ApiServiceProvider extends ChangeNotifier {
     return responseUser != null;
   }
 
+  Future<bool> createStartingUser(RegisterDTO user) async {
+    await ApiService.usersRegister(user, null);
+    return await authUser(user.toLoginDTO());
+  }
+
   Future<bool> getCurrentUser() async {
     if (token != null) {
       currentUser ??= await ApiService.usersMe(token!);
