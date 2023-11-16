@@ -33,18 +33,16 @@ class ApiService {
 
   static Future<User?> usersRegister(
       RegisterDTO user,
-      String? token,
+      String token,
       ) async {
     var url = Uri.https(root, "/users/register");
 
-    var headers = <String, String>{
-      'Content-Type': 'application/json; charset=UTF-8',
-    };
-    if (token != null) headers['Authorization'] = formatToken(token);
-
     Response response = await post(
       url,
-      headers: headers,
+      headers: {
+        'Content-Type': 'application/json; charset=UTF-8',
+        'Authorization': formatToken(token)
+      },
       body: jsonEncode(<String, dynamic>{
         'email': user.email,
         'username': user.username,
@@ -54,17 +52,6 @@ class ApiService {
         'roles': user.roles.map((role) => role.name).toList(),
       }),
     );
-
-    print(jsonEncode(<String, dynamic>{
-      'email': user.email,
-      'username': user.username,
-      'password': user.password,
-      'first_name': user.firstName,
-      'last_name': user.lastName,
-      'roles': user.roles.map((role) => {'name': role.name}).toList(),
-    }));
-
-    print(response.body);
 
     if (response.statusCode == 200) {
       return User.fromJson(jsonDecode(utf8.decode(response.bodyBytes)));
@@ -106,6 +93,47 @@ class ApiService {
       return (jsonDecode(utf8.decode(response.bodyBytes)) as List).map<User>((json) => User.fromJson(json)).toList();
     } else {
       return [];
+    }
+  }
+
+  static Future<User?> usersRegisterAdmin(RegisterDTO user) async {
+    var url = Uri.https(root, "/users/register/admin");
+    Response response = await post(
+      url,
+      headers: {
+        'Content-Type': 'application/json; charset=UTF-8',
+      },
+      body: jsonEncode(<String, dynamic>{
+        'email': user.email,
+        'username': user.username,
+        'password': user.password,
+        'first_name': user.firstName,
+        'last_name': user.lastName,
+        'roles': user.roles.map((role) => role.name).toList(),
+      }),
+    );
+
+    if (response.statusCode == 200) {
+      return User.fromJson(jsonDecode(utf8.decode(response.bodyBytes)));
+    } else {
+      return null;
+    }
+  }
+
+  static Future<bool> usersAdminExists() async {
+    final url = Uri.https(root, "/users/admin/exists");
+
+    Response response = await get(
+      url,
+      headers: <String, String>{
+        'Content-Type': 'application/json; charset=UTF-8',
+      },
+    );
+
+    if (response.statusCode == 200) {
+      return jsonDecode(response.body);
+    } else {
+      return false;
     }
   }
 }

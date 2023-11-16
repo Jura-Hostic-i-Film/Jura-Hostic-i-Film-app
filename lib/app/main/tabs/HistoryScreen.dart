@@ -10,19 +10,15 @@ class HistoryScreen extends StatefulWidget {
 class HistoryScreenState extends State<HistoryScreen> {
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
+    return const Scaffold(
+      backgroundColor: Colors.white,
         resizeToAvoidBottomInset: false,
         body: Center(
-          child: SizedBox(
-            width: 280,
-            child: Column(
-              mainAxisAlignment: MainAxisAlignment.center,
-              children: <Widget>[
-                Text(
-                  'Prazna stranica za povijest',
-                  style: Theme.of(context).textTheme.headlineMedium,
-                ),
-              ],
+          child: Text(
+            'Povijest (TODO)',
+            textAlign: TextAlign.center,
+            style: TextStyle(
+              fontSize: 42,
             ),
           ),
         ),

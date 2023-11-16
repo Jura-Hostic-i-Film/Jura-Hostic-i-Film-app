@@ -43,31 +43,13 @@ class RegisterScreenState extends State<RegisterScreen> {
       resizeToAvoidBottomInset: false,
       body: Stack(
         children: [
-          widget.registerFirstUser ? Positioned(
-            top: 60,
-            right: 20,
-            child: GestureDetector(
-              onTap: () => {Navigator.pushReplacementNamed(context, '/auth/login')},
-              child: const SizedBox(
-                width: 100,
-                height: 50,
-                child: Center(
-                  child: Text(
-                    "Login",
-                    style: TextStyle(
-                      fontSize: 20,
-                      fontWeight: FontWeight.bold,
-                    ),
-                  ),
-                ),
-              ),
-            ),
-          ) :
+          widget.registerFirstUser ?
+          Container() :
           Positioned(
             top: 60,
             left: 10,
             child: GestureDetector(
-              onTap: () => {Navigator.pushReplacementNamed(context, '/auth/login')},
+              onTap: () => {Navigator.pop(context)},
               child: GestureDetector(
                 onTap: () => {Navigator.pop(context)},
                 child: const SizedBox(

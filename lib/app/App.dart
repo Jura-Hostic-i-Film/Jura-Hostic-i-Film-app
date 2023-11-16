@@ -15,6 +15,15 @@ class App extends StatelessWidget {
     required this.token,
   });
 
+  Future<StartingState> getStartingState(ApiServiceProvider apiServiceProvider) async {
+    if (!await apiServiceProvider.checkAdmin()) {
+      return StartingState.noAdmin;
+    } else if (!await apiServiceProvider.getCurrentUser()) {
+      return StartingState.noUser;
+    }
+    return StartingState.authenticated;
+  }
+
   @override
   Widget build(BuildContext context) {
     return MultiProvider(
@@ -25,24 +34,34 @@ class App extends StatelessWidget {
         ApiServiceProvider apiServiceProvider = Provider.of<ApiServiceProvider>(context, listen: false);
 
         return FutureBuilder(
-          future: apiServiceProvider.getCurrentUser(),
-          builder: (BuildContext context, AsyncSnapshot<bool> snapshot) {
+          future: getStartingState(apiServiceProvider),
+          builder: (BuildContext context, AsyncSnapshot<StartingState> snapshot) {
             return snapshot.hasData ? MaterialApp(
               title: Constants.appName,
               theme: ThemeData(
                 primarySwatch: Colors.grey,
               ),
               routes: {
-                '/auth/login': (context) => const LoginScreen(),
+                '/auth/login': (context) => const LoginScreen(logoutFirst: false),
                 '/auth/register': (context) => const RegisterScreen(registerFirstUser: true),
+                '/auth/logout': (context) => const LoginScreen(logoutFirst: true),
                 '/users/register': (context) => const RegisterScreen(registerFirstUser: false),
                 '/home': (context) => const HomeScreen(),
               },
-              initialRoute: snapshot.requireData ? '/home' : '/auth/login',
+              initialRoute:
+                snapshot.requireData == StartingState.noAdmin ? '/auth/register' :
+                snapshot.requireData == StartingState.noUser ? '/auth/login' :
+                '/home',
             ) : const LoadingModal();
-          },
+          }
         );
       },
     );
   }
+}
+
+enum StartingState {
+  noAdmin,
+  noUser,
+  authenticated,
 }

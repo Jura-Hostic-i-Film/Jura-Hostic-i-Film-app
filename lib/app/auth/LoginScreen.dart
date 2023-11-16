@@ -1,11 +1,13 @@
 import 'package:flutter/material.dart';
 import 'package:jura_hostic_i_film_app/DTOs/LoginDTO.dart';
+import 'package:jura_hostic_i_film_app/components/loading/LoadingModal.dart';
 import 'package:provider/provider.dart';
 import '../../backend_connection/ApiServiceProvider.dart';
 import '../../components/buttons/AsyncButton.dart';
 
 class LoginScreen extends StatefulWidget {
-  const LoginScreen({super.key});
+  final bool logoutFirst;
+  const LoginScreen({super.key, required  this.logoutFirst});
 
   @override
   State<LoginScreen> createState() => LoginScreenState();
@@ -26,94 +28,118 @@ class LoginScreenState extends State<LoginScreen> {
     });
   }
 
-  @override
-  Widget build(BuildContext context) {
-    ApiServiceProvider apiServiceProvider = Provider.of<ApiServiceProvider>(context, listen: false);
-
+  Widget loginScreenModal(BuildContext context, ApiServiceProvider apiServiceProvider) {
     return Scaffold(
+      backgroundColor: Colors.white,
       resizeToAvoidBottomInset: false,
       body: Stack(
         children: [
-          Positioned(
-              top: 60,
-              right: 20,
-              child: GestureDetector(
-                onTap: () => {Navigator.pushReplacementNamed(context, '/auth/register')},
-                child: const SizedBox(
-                  width: 100,
-                  height: 50,
-                  child: Center(
-                      child: Text(
-                          "Register",
-                        style: TextStyle(
-                            fontSize: 20,
-                            fontWeight: FontWeight.bold,
-                        ),
-                      ),
-                  ),
-                ),
+          const Positioned(
+            top: 120,
+            left: 28,
+            child: Text(
+              'Prijava',
+              textAlign: TextAlign.start,
+              style: TextStyle(
+                fontWeight: FontWeight.bold,
+                fontSize: 42,
               ),
+            ),
           ),
-          Center(
-            child: UnconstrainedBox(
-              child: Container(
-                decoration: BoxDecoration(
-                  borderRadius: BorderRadius.circular(10),
-                  color: Colors.black12,
-                ),
-                padding: const EdgeInsets.all(20),
-                width: 280,
-                child: Form(
-                  key: formKey,
-                  child: Column(
-                    mainAxisAlignment: MainAxisAlignment.center,
-                    children: <Widget>[
-                      Container(
-                        margin: const EdgeInsets.symmetric(vertical: 20),
-                        child: TextField(
-                          onChanged: (value) => {loginUser.username = value},
-                          decoration: const InputDecoration(
-                            hintText: "Username",
-                          ),
-                        ),
-                      ),
-                      Container(
-                        margin: const EdgeInsets.symmetric(vertical: 20),
-                        child: Stack(
-                          children: [
-                            TextField(
-                              onChanged: (value) => {loginUser.password = value},
-                              decoration: const InputDecoration(
-                                hintText: "Password",
-                              ),
-                              obscureText: obscureText,
+          Positioned(
+            top: 200,
+            left: 0,
+            right: 0,
+            child: Padding(
+              padding: const EdgeInsets.symmetric(horizontal: 32),
+              child: Form(
+                key: formKey,
+                child: Column(
+                  mainAxisAlignment: MainAxisAlignment.center,
+                  crossAxisAlignment: CrossAxisAlignment.stretch,
+                  children: [
+                    Container(
+                      margin: const EdgeInsets.symmetric(vertical: 10),
+                      child: Column(
+                        crossAxisAlignment: CrossAxisAlignment.stretch,
+                        children: [
+                          const Text(
+                            'Naziv računa',
+                            style: TextStyle(
+                              fontSize: 20,
+                              fontWeight: FontWeight.bold,
                             ),
-                            Positioned(
-                              right: 0,
-                              top: 0,
-                              bottom: 0,
-                              child: Center(
-                                child: GestureDetector(
-                                  onTap: setObscure,
-                                  child: Icon(
-                                    obscureIcon,
-                                    color: Colors.black26,
+                          ),
+                          TextField(
+                            onChanged: (value) => {loginUser.username = value},
+                            decoration: const InputDecoration(
+                              hintText: "Unesite naziv računa",
+                            ),
+                            style: const TextStyle(
+                              fontSize: 14,
+                            ),
+                          ),
+                        ],
+                      ),
+                    ),
+                    Container(
+                      margin: const EdgeInsets.symmetric(vertical: 10),
+                      child: Column(
+                        crossAxisAlignment: CrossAxisAlignment.stretch,
+                        children: [
+                          const Text(
+                            'Osobni podaci',
+                            style: TextStyle(
+                              fontSize: 20,
+                              fontWeight: FontWeight.bold,
+                            ),
+                          ),
+                          Stack(
+                            children: [
+                              TextField(
+                                onChanged: (value) => {loginUser.password = value},
+                                decoration: const InputDecoration(
+                                  hintText: "Unesite lozinku",
+                                ),
+                                obscureText: obscureText,
+                                style: const TextStyle(
+                                  fontSize: 14,
+                                ),
+                              ),
+                              Positioned(
+                                right: 0,
+                                top: 0,
+                                bottom: 0,
+                                child: Center(
+                                  child: GestureDetector(
+                                    onTap: setObscure,
+                                    child: Icon(
+                                      obscureIcon,
+                                      color: Colors.black26,
+                                    ),
                                   ),
                                 ),
                               ),
-                            ),
-                          ],
-                        ),
+                            ],
+                          ),
+                        ],
                       ),
-                      AsyncButton(
-                        onTap: () async {
-                          if (await apiServiceProvider.authUser(loginUser) && mounted) Navigator.pushReplacementNamed(context, '/home');
-                        },
-                        content: const Center(child: Text("Prijavi se", style: TextStyle(color: Colors.white))),
-                      ),
-                    ],
-                  ),
+                    ),
+                  ],
                 ),
+              ),
+            ),
+          ),
+          Positioned(
+            bottom: 20,
+            left: 0,
+            right: 0,
+            child: Center(
+              child: AsyncButton(
+                onTap: () async {
+                  if (await apiServiceProvider.authUser(loginUser) && mounted) Navigator.pushReplacementNamed(context, '/home');
+                },
+                content: const Center(child: Text("Prijavi se", style: TextStyle(color: Colors.white))),
               ),
             ),
           ),
@@ -121,4 +147,24 @@ class LoginScreenState extends State<LoginScreen> {
       ),
     );
   }
+
+  @override
+  Widget build(BuildContext context) {
+    ApiServiceProvider apiServiceProvider = Provider.of<ApiServiceProvider>(context, listen: false);
+
+    return widget.logoutFirst ?
+        FutureBuilder(
+            future: apiServiceProvider.logoutUser(),
+            builder: (BuildContext context, AsyncSnapshot<bool> snapshot) {
+              return snapshot.hasData ?
+                  loginScreenModal(context, apiServiceProvider) :
+                  const LoadingModal();
+            }
+            ) :
+        loginScreenModal(context, apiServiceProvider);
+    }
 }
+
+/*
+
+ */
