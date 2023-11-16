@@ -1,4 +1,4 @@
-import 'package:flutter/cupertino.dart';
+import 'package:flutter/material.dart';
 import 'package:jura_hostic_i_film_app/util/local_storage/LocalStorageManager.dart';
 import '../DTOs/LoginDTO.dart';
 import '../DTOs/RegisterDTO.dart';
@@ -17,7 +17,7 @@ class ApiServiceProvider extends ChangeNotifier {
       String? responseToken = await ApiService.usersLogin(user);
       if (responseToken != null) {
         token = responseToken;
-        getCurrentUser();
+        await getCurrentUser();
         notifyListeners();
         return await LocalStorageManager.writePair('token', token, true);
       }
@@ -25,13 +25,18 @@ class ApiServiceProvider extends ChangeNotifier {
   }
 
   Future<bool> createUser(RegisterDTO user) async {
-    User? responseUser = await ApiService.usersRegister(user, token);
+    if (token != null) {
+      User? responseUser = await ApiService.usersRegister(user, token!);
+      notifyListeners();
 
-    return responseUser != null;
+      return responseUser != null;
+    }
+
+    return false;
   }
 
   Future<bool> createStartingUser(RegisterDTO user) async {
-    await ApiService.usersRegister(user, null);
+    await ApiService.usersRegisterAdmin(user);
     return await authUser(user.toLoginDTO());
   }
 
@@ -46,7 +51,6 @@ class ApiServiceProvider extends ChangeNotifier {
   Future<bool> logoutUser() async {
     token = null;
     currentUser = null;
-    notifyListeners();
     return await LocalStorageManager.clearStorage();
   }
 
@@ -56,5 +60,9 @@ class ApiServiceProvider extends ChangeNotifier {
     }
 
     return [];
+  }
+
+  Future<bool> checkAdmin() async {
+    return await ApiService.usersAdminExists();
   }
 }

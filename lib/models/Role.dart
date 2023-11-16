@@ -3,9 +3,9 @@ import 'package:flutter/material.dart';
 enum Role {
   admin,
   director,
-  accountantReceipt,
-  accountantOffer,
-  accountantInternal,
+  accountant_receipt,
+  accountant_offer,
+  accountant_internal,
   auditor,
   employee;
 
@@ -16,11 +16,11 @@ enum Role {
       case 'director':
         return Role.director;
       case 'accountant_receipt':
-        return Role.accountantReceipt;
+        return Role.accountant_receipt;
       case 'accountant_offer':
-        return Role.accountantOffer;
+        return Role.accountant_offer;
       case 'accountant_internal':
-        return Role.accountantInternal;
+        return Role.accountant_internal;
       case 'auditor':
         return Role.auditor;
       default:
@@ -34,11 +34,11 @@ enum Role {
         return 'Administrator';
       case 'director':
         return 'Direktor';
-      case 'accountantReceipt':
+      case 'accountant_receipt':
         return 'Računovođa (računi)';
-      case 'accountantOffer':
+      case 'accountant_offer':
         return 'Računovođa (ponude)';
-      case 'accountantInternal':
+      case 'accountant_internal':
         return 'Računovođa (interni)';
       case 'auditor':
         return 'Revizor';
@@ -53,11 +53,11 @@ enum Role {
         return Colors.deepPurpleAccent;
       case 'director':
         return Colors.red.shade400;
-      case 'accountantReceipt':
+      case 'accountant_receipt':
         return Colors.deepOrange.shade400;
-      case 'accountantOffer':
+      case 'accountant_offer':
         return Colors.deepOrange.shade400;
-      case 'accountantInternal':
+      case 'accountant_internal':
         return Colors.deepOrange.shade400;
       case 'auditor':
         return Colors.yellow.shade400;
