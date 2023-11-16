@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:flutter/services.dart';
 import 'package:jura_hostic_i_film_app/app/auth/RegisterScreen.dart';
 import 'package:jura_hostic_i_film_app/app/main/MainScreen.dart';
 import 'package:provider/provider.dart';
@@ -18,11 +17,6 @@ class App extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    SystemChrome.setSystemUIOverlayStyle(const SystemUiOverlayStyle(
-      statusBarColor: Colors.transparent,
-      statusBarIconBrightness: Brightness.dark,
-    ));
-
     return MultiProvider(
       providers: [
         ChangeNotifierProvider(create: (context) => ApiServiceProvider(token)),
@@ -36,12 +30,12 @@ class App extends StatelessWidget {
             return snapshot.hasData ? MaterialApp(
               title: Constants.appName,
               theme: ThemeData(
-                primarySwatch: Colors.blue,
+                primarySwatch: Colors.grey,
               ),
               routes: {
                 '/auth/login': (context) => const LoginScreen(),
-                '/auth/register': (context) => const RegisterScreen(registerFirstUser: false),
-                '/users/register': (context) => const RegisterScreen(registerFirstUser: true),
+                '/auth/register': (context) => const RegisterScreen(registerFirstUser: true),
+                '/users/register': (context) => const RegisterScreen(registerFirstUser: false),
                 '/home': (context) => const HomeScreen(),
               },
               initialRoute: snapshot.requireData ? '/home' : '/auth/login',

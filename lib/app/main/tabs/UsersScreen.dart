@@ -1,4 +1,6 @@
 import 'package:flutter/material.dart';
+import 'package:jura_hostic_i_film_app/components/buttons/AddButton.dart';
+import 'package:jura_hostic_i_film_app/components/loading/LoadingModal.dart';
 import 'package:jura_hostic_i_film_app/components/users/UserDisplayable.dart';
 import 'package:provider/provider.dart';
 
@@ -15,96 +17,118 @@ class UsersScreen extends StatefulWidget {
 class UsersScreenState extends State<UsersScreen> {
   @override
   Widget build(BuildContext context) {
-    ApiServiceProvider apiServiceProvider = Provider.of<ApiServiceProvider>(context, listen: false);
+    ApiServiceProvider apiServiceProvider = Provider.of<ApiServiceProvider>(context, listen: true);
 
-    return FutureBuilder(
-        future: apiServiceProvider.getAllUsers(),
-        builder: (BuildContext context, AsyncSnapshot<List<User>> snapshot) {
-          return snapshot.hasData ? Scaffold(
-            resizeToAvoidBottomInset: false,
-            body: Column(
-              children: [
-                Column(
+    return Scaffold(
+      body: Center(
+        child: Stack(
+          children: [
+            Positioned.fill(
+              child: FutureBuilder(
+                future: apiServiceProvider.getAllUsers(),
+                builder: (BuildContext context, AsyncSnapshot<List<User>> snapshot) {
+                  return snapshot.hasData ? Container(
+                    padding: const EdgeInsets.only(top: 60),
+                    child: Column(
+                      children: [
+                        Expanded(
+                          child: SingleChildScrollView(
+                            child: Column(
+                                children: snapshot.requireData
+                                    .where((user) => user.id != apiServiceProvider.currentUser?.id)
+                                    .toList()
+                                    .asMap().map((i, user) => MapEntry(
+                                  i,
+                                  Container(
+                                    decoration: BoxDecoration(
+                                        border: Border(
+                                          bottom: BorderSide(
+                                            color: i != snapshot.requireData.length - 2 ? Colors.black : Colors.transparent,
+                                          ),
+                                        )
+                                    ),
+                                    child: UserDisplayable(user: user),
+                                  ),
+                                )).values.toList()
+                            ),
+                          ),
+                        ),
+                      ],
+                    ),
+                  ) : const LoadingModal();
+                },
+              ),
+            ),
+            Positioned(
+              top: 0,
+              left: 0,
+              right: 0,
+              child: Container(
+                decoration: const BoxDecoration(
+                  color: Colors.white,
+                  boxShadow: <BoxShadow>[
+                    BoxShadow(
+                      color: Colors.black45,
+                      blurRadius: 8,
+                      spreadRadius: 2,
+                    ),
+                  ],
+                ),
+                child: Column(
                   crossAxisAlignment: CrossAxisAlignment.stretch,
                   children: [
                     Container(
                       height: 60,
                       padding: const EdgeInsets.all(10),
-                      decoration: const BoxDecoration(
-                        color: Colors.white,
-                        boxShadow: <BoxShadow>[
-                          BoxShadow(
-                            color: Colors.black45,
-                            blurRadius: 8,
-                            spreadRadius: 2,
-                          ),
-                        ],
-                      ),
                       child: Row(
-                        mainAxisAlignment: MainAxisAlignment.start,
+                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
                         crossAxisAlignment: CrossAxisAlignment.center,
                         children: [
+                          AddButton(
+                            displayedText: 'Novi korisnik',
+                            onTap: () => Navigator.pushNamed(context, '/users/register'),
+                            fontSize: 14,
+                          ),
                           GestureDetector(
-                            child: Container(
+                            child: const SizedBox(
+                              width: 40,
                               height: 40,
-                              decoration: BoxDecoration(
-                                borderRadius: BorderRadius.circular(20),
-                                border: Border.all(
-                                  color: Colors.black,
-                                  width: 2,
-                                ),
-                              ),
-                              child: const Row(
-                                crossAxisAlignment: CrossAxisAlignment.center,
-                                children: [
-                                  Padding(
-                                    padding: EdgeInsets.only(left: 12.0),
-                                    child: Text(
-                                      'Novi korisnik',
-                                      textAlign: TextAlign.center,
-                                      style: TextStyle(
-                                        fontWeight: FontWeight.bold,
-                                      ),
-                                    ),
-                                  ),
-                                  Padding(
-                                    padding: EdgeInsets.symmetric(horizontal: 8.0),
-                                    child: Icon(
-                                      Icons.add,
-                                      color: Colors.black,
-                                      size: 20,
-                                    ),
-                                  ),
-                                ],
+                              child: Icon(
+                                Icons.refresh,
+                                color: Colors.black,
+                                size: 28,
                               ),
                             ),
-                            onTap: () {
-                              Navigator.pushNamed(context, '/users/register');
-                            },
-                          ),
+                            onTap: () => setState(() {}),
+                          )
                         ],
                       ),
                       //margin: const EdgeInsets.only(bottom: 10),
                     )
                   ],
                 ),
-                Expanded(
-                  child: SingleChildScrollView(
-                    child: Column(
-                        children: snapshot.requireData.map((user) => UserDisplayable(user: user)).toList()
-                    ),
-                  ),
-                ),
-              ],
-            ),
-          ) : const Scaffold(
-              resizeToAvoidBottomInset: false,
-              body: Center(
-                child: CircularProgressIndicator(),
               ),
-          );
-        },
+            ),
+            Positioned(
+              bottom: 0,
+              left: 0,
+              right: 0,
+              child: Container(
+                decoration: const BoxDecoration(
+                  color: Colors.white,
+                  boxShadow: <BoxShadow>[
+                    BoxShadow(
+                      color: Colors.black45,
+                      blurRadius: 8,
+                      spreadRadius: 2,
+                    ),
+                  ],
+                ),
+              ),
+            ),
+          ],
+        ),
+      ),
     );
-
   }
 }
