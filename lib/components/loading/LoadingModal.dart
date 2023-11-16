@@ -9,7 +9,9 @@ class LoadingModal extends StatelessWidget {
       textDirection: TextDirection.ltr,
       child: Scaffold(
         body: Center(
-          child: CircularProgressIndicator(),
+          child: CircularProgressIndicator(
+            color: Colors.black,
+          ),
         ),
       ),
     );

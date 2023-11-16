@@ -15,13 +15,6 @@ class UserDisplayable extends StatelessWidget {
         Container(
           margin: const EdgeInsetsDirectional.only(top: 10),
           padding: const EdgeInsetsDirectional.all(10),
-          decoration: const BoxDecoration(
-            border: Border(
-              bottom: BorderSide(
-                color: Colors.black,
-              ),
-            )
-          ),
           child: Column(
             mainAxisAlignment: MainAxisAlignment.start,
             crossAxisAlignment: CrossAxisAlignment.start,

@@ -16,14 +16,14 @@ class AsyncButtonState extends State<AsyncButton> {
   @override
   Widget build(BuildContext context) {
     return GestureDetector(
-
       child: Container(
         decoration: BoxDecoration(
-          borderRadius: BorderRadius.circular(10),
-          color: Colors.blue,
+          borderRadius: BorderRadius.circular(25),
+          color: Colors.black,
         ),
         margin: const EdgeInsets.symmetric(vertical: 20),
         height: 50,
+        width: 300,
         child: loading ? widget.loadingContent ?? const Center(
           child: SizedBox(
             width: 24,

@@ -65,4 +65,13 @@ enum Role {
         return Colors.green.shade400;
     }
   }
+
+  static List<Role> getApplicable(List<Role> roles) {
+    if (roles.contains(Role.employee)) return [];
+    var returnValues = Role.values.toList();
+    returnValues.remove(Role.admin);
+    returnValues.removeWhere((role) => roles.contains(role));
+    if (roles.isNotEmpty) returnValues.remove(Role.employee);
+    return returnValues;
+  }
 }

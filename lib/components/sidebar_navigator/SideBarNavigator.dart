@@ -2,20 +2,18 @@ import 'package:flutter/material.dart';
 import 'package:jura_hostic_i_film_app/backend_connection/ApiServiceProvider.dart';
 import 'package:provider/provider.dart';
 import '../../models/SideTab.dart';
-import '../../models/User.dart';
 
 class SideBarNavigator extends Drawer {
   final List<SideTab> tabList;
   final Function callback;
   final double drawerWidth;
-  late User? currentUser;
 
-  SideBarNavigator(this.tabList, this.callback, this.drawerWidth, {super.key});
+  const SideBarNavigator(this.tabList, this.callback, this.drawerWidth, {super.key});
 
   @override
   Widget build(BuildContext context) {
     ApiServiceProvider apiServiceProvider = Provider.of<ApiServiceProvider>(context, listen: true);
-    currentUser = apiServiceProvider.currentUser;
+    final currentUser = apiServiceProvider.currentUser;
 
     return SizedBox(
       width: drawerWidth,
@@ -25,9 +23,9 @@ class SideBarNavigator extends Drawer {
             Container(
               width: drawerWidth,
               height: 200,
-              color: Colors.blue,
+              color: Colors.black,
               margin: const EdgeInsets.only(bottom: 20),
-              padding: EdgeInsets.all(10),
+              padding: const EdgeInsets.all(10),
               child: Column(
                 crossAxisAlignment: CrossAxisAlignment.start,
                 mainAxisAlignment: MainAxisAlignment.end,
@@ -38,6 +36,7 @@ class SideBarNavigator extends Drawer {
                     style: const TextStyle(
                       fontSize: 32,
                       fontWeight: FontWeight.bold,
+                      color: Colors.white,
                     ),
                   ),
                   Text(
@@ -45,6 +44,7 @@ class SideBarNavigator extends Drawer {
                     textAlign: TextAlign.left,
                     style: const TextStyle(
                       fontSize: 18,
+                      color: Colors.white,
                     ),
                   ),
                 ],
@@ -56,7 +56,7 @@ class SideBarNavigator extends Drawer {
                   Material(
                     child: InkWell(
                       highlightColor: Colors.transparent,
-                      splashColor: Colors.blue.withOpacity(0.5),
+                      splashColor: Colors.black.withOpacity(0.5),
                       onTap: () => {
                         callback(i),
                         Navigator.of(context).pop()
@@ -86,7 +86,7 @@ class SideBarNavigator extends Drawer {
                 Material(
                   child: InkWell(
                     highlightColor: Colors.transparent,
-                    splashColor: Colors.blue.withOpacity(0.5),
+                    splashColor: Colors.black.withOpacity(0.5),
                     onTap: () async => {
                       await apiServiceProvider.logoutUser(),
                       Navigator.pushReplacementNamed(context, '/auth/login')

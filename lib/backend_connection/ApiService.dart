@@ -45,14 +45,26 @@ class ApiService {
     Response response = await post(
       url,
       headers: headers,
-      body: jsonEncode(<String, String>{
+      body: jsonEncode(<String, dynamic>{
         'email': user.email,
         'username': user.username,
         'password': user.password,
         'first_name': user.firstName,
         'last_name': user.lastName,
+        'roles': user.roles.map((role) => role.name).toList(),
       }),
     );
+
+    print(jsonEncode(<String, dynamic>{
+      'email': user.email,
+      'username': user.username,
+      'password': user.password,
+      'first_name': user.firstName,
+      'last_name': user.lastName,
+      'roles': user.roles.map((role) => {'name': role.name}).toList(),
+    }));
+
+    print(response.body);
 
     if (response.statusCode == 200) {
       return User.fromJson(jsonDecode(utf8.decode(response.bodyBytes)));
