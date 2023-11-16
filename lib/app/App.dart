@@ -2,7 +2,6 @@ import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:jura_hostic_i_film_app/app/auth/RegisterScreen.dart';
 import 'package:jura_hostic_i_film_app/app/main/MainScreen.dart';
-import 'package:jura_hostic_i_film_app/app/main/Tabs/HistoryScreen.dart';
 import 'package:provider/provider.dart';
 import '../backend_connection/ApiServiceProvider.dart';
 import '../components/loading/LoadingModal.dart';
@@ -41,7 +40,8 @@ class App extends StatelessWidget {
               ),
               routes: {
                 '/auth/login': (context) => const LoginScreen(),
-                '/auth/register': (context) => const RegisterScreen(),
+                '/auth/register': (context) => const RegisterScreen(registerFirstUser: false),
+                '/users/register': (context) => const RegisterScreen(registerFirstUser: true),
                 '/home': (context) => const HomeScreen(),
               },
               initialRoute: snapshot.requireData ? '/home' : '/auth/login',

@@ -12,6 +12,7 @@ class HomeScreen extends StatefulWidget {
 }
 
 class HomeScreenState extends State<HomeScreen> {
+  //final GlobalKey<ScaffoldState> _key = GlobalKey();
   int tabIndex = 0;
 
   List<SideTab> tabList = [
@@ -27,9 +28,16 @@ class HomeScreenState extends State<HomeScreen> {
 
   @override
   Widget build(BuildContext context) {
+    //final statusBarHeight = MediaQuery.of(context).viewPadding.top;
+
     return Scaffold(
       drawer: SideBarNavigator(tabList, changeTab, 240),
-      appBar: AppBar(),
+      appBar: AppBar(
+        shadowColor: Colors.transparent,
+        backgroundColor: Colors.white,
+        foregroundColor: Colors.black,
+        title: Text(tabList[tabIndex].name),
+      ),
       body: tabList[tabIndex].screen,
     );
   }
