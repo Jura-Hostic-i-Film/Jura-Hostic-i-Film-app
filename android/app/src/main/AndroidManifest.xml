@@ -1,7 +1,8 @@
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
     package="com.example.jura_hostic_i_film_app">
+    <uses-permission android:name="android.permission.INTERNET"/>
    <application
-        android:label="jura_hostic_i_film_app"
+        android:label="Digitalizacija"
         android:name="${applicationName}"
         android:icon="@mipmap/ic_launcher">
         <activity

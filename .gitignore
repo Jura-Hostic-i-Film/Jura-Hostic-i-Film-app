@@ -43,6 +43,7 @@ app.*.map.json
 /android/app/profile
 /android/app/release
 .env
+build.exe
 lib/constants.dart
 
 # Latex
