@@ -2,12 +2,27 @@
 		
 		%\textbf{\textit{dio 1. revizije}}\\
 
-		\textit{ Potrebno je opisati stil arhitekture te identificirati: podsustave, preslikavanje na radnu platformu, spremišta podataka, mrežne protokole, globalni upravljački tok i sklopovsko-programske zahtjeve. Po točkama razraditi i popratiti odgovarajućim skicama:}
-	\begin{itemize}
-		\item 	\textit{izbor arhitekture temeljem principa oblikovanja pokazanih na predavanjima (objasniti zašto ste baš odabrali takvu arhitekturu)}
-		\item 	\textit{organizaciju sustava s najviše razine apstrakcije (npr. klijent-poslužitelj, baza podataka, datotečni sustav, grafičko sučelje)}
-		\item 	\textit{organizaciju aplikacije (npr. slojevi frontend i backend, MVC arhitektura) }		
-	\end{itemize}
+		%\textit{ Potrebno je opisati stil arhitekture te identificirati: podsustave, preslikavanje na radnu platformu, spremišta podataka, mrežne protokole, globalni upravljački tok i sklopovsko-programske zahtjeve. Po točkama razraditi i popratiti odgovarajućim skicama:}
+%	\begin{itemize}
+%		\item 	\textit{izbor arhitekture temeljem principa oblikovanja pokazanih na predavanjima (objasniti zašto ste baš odabrali takvu arhitekturu)}
+%		\item 	\textit{organizaciju sustava s najviše razine apstrakcije (npr. klijent-poslužitelj, baza podataka, datotečni sustav, grafičko sučelje)}
+%		\item 	\textit{organizaciju aplikacije (npr. slojevi frontend i backend, MVC arhitektura) }		
+%	\end{itemize}
+	
+		{Arhitektura rješenja se sastoji od 3 sustava: Mobilne aplikacije(Frontend), Web aplikacije(Backend) i Baze podataka.}
+		
+		{\underbar{Mobilna aplikacija} je softver namjenjen pokretanju na mobilnim uređajima poput mobitela i tableta. Ona pomoću API-a \textbf{(Application programming interface)} komunicira s web aplikacijom koja se brine za logiku. API je je skup pravila, protokola i definicija koje omogućuje komunikaciju između različitih programa ili aplikacija. Sama komunikacija se odvija pomoću HTTPS-a \textbf{(Hypertext Transfer Protocol Secure)}, što je sigurnija inačica HTTP-a \textbf{(Hypertext Transfer Protocol)} koji omogućuje kkomunikaciju na internetu. Kada web aplikacija primi zahtjev od mobilne aplikacije, ona ovisno o zahtjevu, pristupa bazi podataka kako bi dohvatila, promjenila ili dodala informacije. Ovisno o zahtjevu, web aplikacija vraća odgovor na orginalni zahtjev mobilne aplikacije i mobilna aplikacija prikazuje dobivene informacije kroz svoje sučelje.}
+		
+		{Mobilna aplikacija je razvijena pomoću programskog jezika \textit{Dart} te radnog okvira \textit{Flutter} unutar razvojnog okruženja \textit{Android Studio}. Web aplikacija je razvijena pomoću programskog jezika \textit{Python} te radnog okvira \textit{FastAPI} unutar razvojnog okruženja \textit{PyCharm} te je postavljena na \textit{render.com}. Sve podatke pohranjujemo unutar \textit{PostgreSQL} baze podataka koja je na \textit{Azure}-u.}
+		
+		{Aplikacija se temelji na MVC konceptu u modernijoj izvedbi koja je na web aplikaciji bliža tipičnoj arhitekturi fastapi aplikacija:}
+		\begin{itemize}
+			\item {\textbf{Model} - Model predstavlja strukture podatakae. On pristupa bazi podataka, te upravlja podacima. Unutar našeg rješenja, postoji poseban sloj u web aplikaciji koji komunicira s bazom podataka (CRUD klase).}
+			\item {\textbf{View} - Pogled predstavlja korisničko sučelje aplikacije te prikazuje sve informacije korisniku. Pomoću njega, korisnik može imati interakciju s ostatkom aplikacije. U našoj arhitekturi, to bi bila mobilna aplikacija koja prikazuje sve informacije i sama po sebi ima minimalnu logiku te primarna svrha je prikaz informacija korisniku.}
+			\item {\textbf{Controller} - Kontroler postoji između Viewa i Modela te služi da bi primao zahtjeve od Viewa, slao odgovore natrag Viewu, vrši poslovnu logiku te proslijeduje zahtjeve pripadnom djelu modela. Unutar naše izvedbe, Controller je dio Web aplikacije koji prima zahtjeve od mobilne aplikacije, vrši poslovnu logiku nad njima te prosljeđuje potrebne podatke iz zahtjeva modelu te od modela dobiva natrag podatke koje u prikladnom obliku prosljeđuje mobilnoj aplikaciji. U našoj izvedbi je izveden pomoću route funckija i Service klasa.}
+		\end{itemize} 
+		
+				
 
 	
 				
@@ -54,7 +69,7 @@
 				\end{longtblr}
 				
 				\textbf{Users} 
-				{  Sprema informacije o korisnicima, uključujući korisničko ime i lozinku. Ovaj entitet u vezi je \textit{One-to-Many} s entitetom \textbf{documents} preko atributa \textit{userID}, u vezi je \textit{One-to-Many} s entitetom \textbf{signatures} preko atributa \textit{userID}, u vezi je \textit{One-to-Many} s entitetom \textbf{audits} preko atributa \textit{userID}, u vezi je \textit{One-to-Many} s entitetom \textbf{archive} preko atributa \textit{userID}, u vezi je \textit{One-to-One} s entitetom \textbf{user\textunderscore role} preko atributa \textit{userID}.}
+				{  Sprema informacije o korisnicima, uključujući korisničko ime i lozinku, ime i prezime korisnika te email. Ovaj entitet u vezi je \textit{One-to-Many} s entitetom \textbf{documents} preko atributa \textit{userID}, u vezi je \textit{One-to-Many} s entitetom \textbf{signatures} preko atributa \textit{userID}, u vezi je \textit{One-to-Many} s entitetom \textbf{audits} preko atributa \textit{userID}, u vezi je \textit{One-to-Many} s entitetom \textbf{archive} preko atributa \textit{userID}, u vezi je \textit{One-to-Many} s entitetom \textbf{user\textunderscore role} preko atributa \textit{userID}.}
 				
 				\begin{longtblr}[
 					label=none,
@@ -66,9 +81,13 @@
 					} 
 					\hline \SetCell[c=3]{c}{\textbf{users}}	 \\ \hline[3pt]
 					\SetCell{LightGreen}userID & INT & identifikacijski broj korisnika  	\\ \hline
+					email & VARCHAR & email korisnika \\ \hline
+					firstName & VARCHAR & ime korisnika \\ \hline
+					lastName & VARCHAR & prezime korisnika \\ \hline
 					username	& VARCHAR & korisničko ime za prijavu korisnika	\\ \hline 
 					password & VARCHAR & šifa za prijavu korisnika  \\ \hline 
 				\end{longtblr}
+				
 				
 				\textbf{Signatures}
 				{  Služi za praćenje potpisa na dokumentima, s informacijama o korisniku koji je potpisao, statusu potpisa i vremenskoj oznaci potpisa. Ovaj entitet u vezi je \textit{Many-to-One} s entitetom \textbf{users} preko atributa \textit{signedBy}, u vezi je \textit{One-to-One} s entitetom \textbf{documents} preko atributa \textit{documentID}.}
