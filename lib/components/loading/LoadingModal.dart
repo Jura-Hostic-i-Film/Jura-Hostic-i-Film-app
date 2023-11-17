@@ -8,6 +8,7 @@ class LoadingModal extends StatelessWidget {
     return const Directionality(
       textDirection: TextDirection.ltr,
       child: Scaffold(
+        backgroundColor: Colors.white,
         body: Center(
           child: CircularProgressIndicator(
             color: Colors.black,
