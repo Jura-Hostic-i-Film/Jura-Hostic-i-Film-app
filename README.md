@@ -7,5 +7,8 @@ This is the REST API for the "Digitalizacija" app. You can access the api reposi
 3. Click on the `.apk` file and install the app
 
 ## Usage
-Currently, only the login and registration are implemented and you can test the app with accounts: Admin(username: **admin**, password: **admin**), Director(username: **director**, password: **director**).
-When there are no accounts in the app you can register the first account and it will be an admin, after that only admins and directors can register new users into the app.
+Currently, only the login and registration are implemented, and you can test the app with accounts: Admin(username: **admin**, password: **admin**), Director(username: **director**, password: **director**).
+When there are no accounts in the app you can register the first account, and it will be an admin, after that only admins and directors can register new users into the app.
+
+## Deployed API
+The API is deployed on render.com and you can access it [here](https://jura-hostic-i-film-api.onrender.com/docs).
