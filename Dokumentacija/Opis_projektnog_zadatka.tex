@@ -1,115 +1,46 @@
 \chapter{Opis projektnog zadatka}
 		
-		\textbf{\textit{dio 1. revizije}}\\
-		
-		\textit{Na osnovi projektnog zadatka detaljno opisati korisničke zahtjeve. Što jasnije opisati cilj projektnog zadatka, razraditi problematiku zadatka, dodati nove aspekte problema i potencijalnih rješenja. Očekuje se minimalno 3, a poželjno 4-5 stranica opisa.	Teme koje treba dodatno razraditi u ovom poglavlju su:}
-		\begin{packed_item}
-			\item \textit{potencijalna korist ovog projekta}
-			\item \textit{postojeća slična rješenja (istražiti i ukratko opisati razlike u odnosu na zadani zadatak). Dodajte slike koja predočavaju slična rješenja.}
-			\item \textit{skup korisnika koji bi mogao biti zainteresiran za ostvareno rješenje.}
-			\item \textit{mogućnost prilagodbe rješenja }
-			\item \textit{opseg projektnog zadatka}
-			\item \textit{moguće nadogradnje projektnog zadatka}
-		\end{packed_item}
-		
-		\textit{Za pomoć pogledati reference navedene u poglavlju „Popis literature“, a po potrebi konzultirati sadržaj na internetu koji nudi dobre smjernice u tom pogledu.}
+		Cilj ovog projekta je pružiti specifičnom klijentu, u ovom slučaju računovodstvenom uredu, prilagođeno i primjenjivo rješenje za njihove potrebe. Rješenje se ostvaruje u obliku mobilne aplikacije koja mora biti prilagođena i konfigurirana prema njihovim specifičnim potrebama i strukturi posla što osigurava da klijent dobije optimalno rješenje za digitalizaciju i održavanje postojeće arhive dokumenata, usklađeno s njihovom poslovnom strukturom. To podrazumijeva sagledavanje potreba svih zaposlenika, proučavanje obrazaca upotrebe i pronalaska najboljeg načina za tehnološko ostvarenje. Potrebno je dostaviti gotovo, primjenjivo rješenje koje istovremeno zadovoljava zadane uvjete i obrasce upotrebe te primijeniti valjana inženjerska načela kako bi se osigurala kvaliteta proizvoda, kao i mogućnost lake održivosti te dugovremene upotrebe.
 		\eject
 		
-		\section{Primjeri u \LaTeX u}
+		\section{Skup ciljanih korisnika i upotrebe}
 		
-		\textit{Ovo potpoglavlje izbrisati.}\\
-
-		U nastavku se nalaze različiti primjeri kako koristiti osnovne funkcionalnosti \LaTeX a koje su potrebne za izradu dokumentacije. Za dodatnu pomoć obratiti se asistentu na projektu ili potražiti upute na sljedećim web sjedištima:
-		\begin{itemize}
-			\item Upute za izradu diplomskog rada u \LaTeX u - \url{https://www.fer.unizg.hr/_download/repository/LaTeX-upute.pdf}
-			\item \LaTeX\ projekt - \url{https://www.latex-project.org/help/}
-			\item StackExchange za Tex - \url{https://tex.stackexchange.com/}\\
+		\par Skup ciljanih korisnika čine svi zaposlenici firme, uz dodatnog vanjskog administratora koji početno postavlja sustav. Rješenje mora biti prilagođeno zahtjevima svih vrsta korisnika, odnosno prilagođeno potrebama za rad svih zaposlenika unutar ureda. U daljnjem tekstu će zaposlenici biti vezani s istoimenim ulogama. Važno je napomenuti kako je za sve namijene potrebno ostvariti funkcionalno i jednostavno sučelje.
+		\par Kako je računovodstveni ured zatvoreni sustav, nepovezan s vanjskim čimbenicima, generalno nije potrebno imati nadstrukturu koja će upravljati sustavom već ured može upravljati samim sobom, za što je zadužen direktor. Vanjski administrator postoji jedino u vidu početnog postavljanja sustava gdje on stvara direktora i po potrebi druge korisnike. Vanjski administrator također može uređivati korisnike po potrebi ako dođe do nepredviđenih grešaka u radu, no zamišljen je samo kao pomoćni alat koji odstranjuje potrebu za direktnim pristupom bazi podataka. Prvenstveno bi administrator trebao biti vanjski akter, na primjer član razvojnog tima, no ulogu je umjesto toga također moguće dati zaposleniku ureda ovisno o klijentovim željama.
+		\par Sukladno zahtjevima zaposlenici ureda se dijele na općenite zaposlenike, revizore, računovođe i direktore. Svi zaposlenici trebaju imati mogućnost digitalizacije dokumenata, kao i pregleda vlastitih, prethodno predanih. Također, valjalo bi omogućiti pregled statusa pojedinog predanog dokumenta u tijeku procesa potvrđivanja. Nadalje, općeniti zaposlenik je onaj koji nema dodatnih ovlaštenja osim digitalizacije pojedinog dokumenta.
+		\par Nakon predaje dokumenta potrebno ga je revidirati, čime se bave revizori. Revizorima se dokumenti trebaju dodijeliti ovisno o trenutnom statusu i zaposlenosti, nakon čega je odabranog revizora potrebno obavijestiti. Revizor pojedini dokument može odbiti ili potvrditi, a potvrđene prosljeđuje dalje računovođi. Sustav bi trebao omogućiti lako prosljeđivanje kako bi se proces ubrzao, stoga se mogu ponuditi opcije za automatsko ili ručno prosljeđivanje. U slučaju automatskog prosljeđivanja bira se valjani računovođa s trenutno najmanje posla. Dodatno, valjalo bi revizoru omogućiti pregled prethodno revidiranih dokumenata i njihovog daljnjeg statusa.
+		\par Računovođe se dijele ovisno o vrstama dokumenata koje mogu arhivirati. Prije arhiviranja određenog dokumenta računovođa također ima mogućnost prosljeđivanja dokumenta direktoru na potpis, na koji se treba čekati u tom slučaju. Računovođu valja obavijestiti o dokumentima spremnim za arhiviranje, bili oni novi ili novo-potpisani. Kao i prethodnim zaposlenicima valjalo bi računovođi omogućiti pregled dokumenata na kojima je radio, konkretnije prethodno arhiviranih.
+		\par Direktor je glavni upravitelj ureda i kao takav mora imati pristup stvaranju i brisanju korisnika, kao i uređivanju podataka i dopuštenja istih. Stoga mu je potrebno omogućiti pregled svih korisnika, njihovih statistika i dokumenata na kojima su radili. Sam direktor također sudjeluje u tijeku digitalizacije dokumenata ako se od njega traži potpis, o čemu ga se mora obavijestiti. Konačno, direktoru se mora omogućiti objavljivanje dokumenata na društvenim mrežama.
+		\par Rješenje osim što mora zadovoljavati početne zahtjeve, također mora biti lako prilagodljivo novim zahtjevima, zaposlenicima ili ulogama, zbog čega ga je važno pravilno koncipirati.
+		\eject
 		
-		\end{itemize} 	
-
-
+		\section{Osnovni zahtjevi}
+		\par Osnovni zahtjevi koje planirana aplikacija mora ostvariti odnose se na procese digitalizacije i upravljanja prenesenim dokumentima te upravljanja zaposlenicima u sklopu aplikacije. Svaki od navedenih procesa ima svoje specifične zahtjeve, a oni koji nisu detaljnije obrađeni pri pregledu skupa korisnika opisani su u nastavku.
+		\par Proces digitalizacije sastoji se od unosa dokumenata u aplikaciju. Mora biti omogućen unos do 50 dokumenata odjednom. Za svaki dokument mora se provesti OCR (optical character recognition), što čini osnovnu funkcionalnost samog procesa. Prije same digitalizacije za svaki predani dokument valja provjeriti zadovoljava li sve predodređene uvjete, što se odnosi na kut slikanja i dobiveni oblik sadržaja. Uvjete valja provjeriti kako bi se ispravno mogao provesti OCR proces. Ako je digitalizacija pojedinog dokumenta uspješna korisniku se prikazuje sažetak dokumenta, nakon čega mora označiti dokument pravilno ili nepravilno skeniranim, ovisno o čemu se prosljeđuje dalje u sklopu tijeka upravljanja prenesenim dokumentima.
+		\par Važno je napomenuti kako se skup dokumenata koje je moguće skenirati sastoji od tri tipa dokumenata, odnosno računa, ponuda i internih dokumenta. Svaki tip zadovoljava određeni format po čemu se mogu razvrstati u procesu upravljanja. Računi će u svom tekstu nakon OCR-a imati oznaku računa koja je veliko slovo R te šest znamenaka, oznaka ponude imat će veliko slovo P i devet znamenaka, a oznaka internog dokumenta „INT“ i četiri znamenke. Računi osim oznake sadrže ime klijenta, artikle s cijenama i ukupnu cijenu. Ponude su kao računi, ali ne sadrže ime klijenta. Interni dokumenti sadrže samo nestrukturirani tekst. Očekuje se kako će u slučaju ispravnog predanog dokumenta, valjanog formata, aplikacija biti u stanju prepoznati tip i pravilno ga razvrstati.
+		\par Očekuje se kako će pravilno skenirani dokumenti biti spremljeni u bazi podataka te biti dostupni za pregled svim ovlaštenim zaposlenicima, ovisno o stadiju u kojem se nalaze. 
+		\eject
 		
-		\noindent \underbar{podcrtani tekst}, \textbf{podebljani tekst}, 	\textit{nagnuti tekst}\\
-		\noindent \normalsize primjer \large primjer \Large primjer \LARGE {primjer} \huge {primjer} \Huge primjer \normalsize
-				
-		\begin{packed_item}
-			
-			\item  primjer
-			\item  primjer
-			\item  primjer
-			\item[] \begin{packed_enum}
-				\item primjer
-				\item[] \begin{packed_enum}
-					\item[1.a] primjer
-					\item[b] primjer
-				\end{packed_enum}
-				\item primjer
-			\end{packed_enum}
-			
-		\end{packed_item}
+		\section{Korisnost rješenja}
+		Planirano rješenje korisno je u okviru procesa digitalizacije i održavanja postojećih arhiva dokumenata zbog mogućnosti za optimizaciju rada, što se odnosi na raspodjelu posla i točno definiranim koracima koji se provode. Rješenje će omogućiti brzu i efikasnu digitalizaciju postojećih papirnatih dokumenata s pomoću algoritama za prepoznavanje teksta i automatsku klasifikaciju dokumenata, što znatno ubrzava proces pretvaranja fizičkih dokumenata u digitalni format. To čini arhiviranje i pretraživanje dokumenata mnogo jednostavnijim, smanjuje potrebu za skladištenjem fizičkih dokumenata i minimizira rizik od gubitka ili oštećenja dokumenata. Aplikacija također omogućuje digitalno-analogno upravljanje dokumentima. Zaposlenici mogu lako pristupiti digitalnim kopijama dokumenata putem sučelja, pregledavati ih, uređivati i označavati kako bi zadovoljili svoje specifične potrebe. Ovo omogućuje rad s dokumentima na način koji je prilagođen njihovim zahtjevima, bez potrebe za povratkom fizičkih dokumenata iz arhive. Najbitnije je što se olakšava raspodjela posla za održavanje arhiva. Sustav omogućuje postavljanje različitih pristupnih razina i ovlaštenja za korisnike, omogućavajući preciznu kontrolu nad tim tko može pristupiti, pregledavati ili uređivati određene dokumente. To olakšava timski rad, omogućava bolju suradnju i smanjuje rizik od neovlaštenog pristupa. Na kraju rješenje pomaže klijentu da iskoristi prednosti digitalizacije, učinkovitije upravlja svojim arhivom dokumenata te ostvaruju uštede u vremenu, prostoru i resursima.
+		\eject
 		
-		\noindent primjer url-a: \url{https://www.fer.unizg.hr/predmet/proinz/projekt}
-		
-		\noindent posebni znakovi: \# \$ \% \& \{ \} \_ 
-		$|$ $<$ $>$ 
-		\^{} 
-		\~{} 
-		$\backslash$ 
-		
-		
-		\begin{longtblr}[
-			label=none,
-			entry=none
-			]{
-				width = \textwidth,
-				colspec={|X[8,l]|X[8, l]|X[16, l]|}, 
-				rowhead = 1,
-			} %definicija širine tablice, širine stupaca, poravnanje i broja redaka naslova tablice
-			\hline \SetCell[c=3]{c}{\textbf{naslov unutar tablice}}	 \\ \hline[3pt]
-			\SetCell{LightGreen}IDKorisnik & INT	&  	Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod  	\\ \hline
-			korisnickoIme	& VARCHAR &   	\\ \hline 
-			email & VARCHAR &   \\ \hline 
-			ime & VARCHAR	&  		\\ \hline 
-			\SetCell{LightBlue} primjer	& VARCHAR &   	\\ \hline 
-		\end{longtblr}
-		
-
-		\begin{longtblr}[
-				caption = {Naslov s referencom izvan tablice},
-				entry = {Short Caption},
-			]{
-				width = \textwidth, 
-				colspec = {|X[8,l]|X[8,l]|X[16,l]|}, 
-				rowhead = 1,
-			}
-			\hline
-			\SetCell{LightGreen}IDKorisnik & INT	&  	Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod  	\\ \hline
-			korisnickoIme	& VARCHAR &   	\\ \hline 
-			email & VARCHAR &   \\ \hline 
-			ime & VARCHAR	&  		\\ \hline 
-			\SetCell{LightBlue} primjer	& VARCHAR &   	\\ \hline 
-		\end{longtblr}
-	
-
-
-		
-		
-		%unos slike
-		\begin{figure}[H]
-			\includegraphics[scale=0.4]{slike/aktivnost.PNG} %veličina slike u odnosu na originalnu datoteku i pozicija slike
-			\centering
-			\caption{Primjer slike s potpisom}
-			\label{fig:promjene}
-		\end{figure}
-		
-		\begin{figure}[H]
-			\includegraphics[width=\textwidth]{slike/aktivnost.PNG} %veličina u odnosu na širinu linije
-			\caption{Primjer slike s potpisom 2}
-			\label{fig:promjene2} %label mora biti drugaciji za svaku sliku
-		\end{figure}
-		
-		Referenciranje slike \ref{fig:promjene2} u tekstu.
-		
+		\section{Slična postojeća rješenja}
+		\par Uz zahtjeve i želje klijenta nužno je proučiti i druga dostupna rješenja koja se bave sličnom problematikom kako bi se upotpunila lista zahtjeva i poboljšao plan rješenja. Načini na koje postojeća rješenja pristupaju određenim odrednicama problema mogu pomoći pri razradi vlastitog rješenja, a pogotovo ako se klijent već susretao s nekim od alata ili već koristi jedan od istih. U nastavku su navedena najpoznatija i najraširenija postojeća rješenja koja se mogu pronaći u upotrebi, kao i kratki opis svakog.
+		\par Adobe Acrobat je poznata platforma za uređivanje i upravljanje dokumentima. S obzirom na proširenja, omogućava napredne mogućnosti za obradu dokumenata, uključujući OCR za pretvaranje skeniranih dokumenata u pretražive tekstualne datoteke. Dodatno, proširenja kao što su Adobe Sign omogućuju digitalno potpisivanje dokumenata, pojednostavljujući poslovne procese.
+		\par ABBYY FineReader i FlexiCapture su rješenja specijalizirana za OCR i automatizaciju procesa. FineReader se koristi za OCR, konverziju i prepoznavanje teksta na visokoj razini preciznosti, dok FlexiCapture omogućava automatizaciju prikupljanja podataka iz različitih izvora i vrsta dokumenata, uključujući obrasce i fakturiranje.
+		\par Amazon Textract je Amazonova usluga za automatsko prepoznavanje teksta i strukturu dokumenata, a može se integrirati s drugim AWS uslugama kao što su S3, Lambda i Rekognition. Textract kombinira OCR s naprednim algoritmima strojnog učenja kako bi izvlačio podatke iz dokumenata, olakšavajući njihovu analizu i upotrebu.
+		\par Google Workspace (ranije poznat kao G Suite) omogućava korisnicima pohranu, zajedničko uređivanje i dijeljenje dokumenata u oblaku. Dodatno, Google Document AI koristi strojno učenje za analizu i ekstrakciju informacija iz dokumenata, čime se olakšava pretraživanje i organizacija dokumenata unutar platforme.
+		\par Microsoft SharePoint je platforma za upravljanje sadržajem i suradnju koja omogućava organizacijama da pohrane, dijele i upravljaju svojim dokumentima. Ima ugrađene mogućnosti za OCR, omogućujući pretraživanje i indeksiranje sadržaja dokumenata, čime olakšava njihovo upravljanje i održavanje unutar SharePoint okoline.
+		\par Glavno što je zajedničko navedenim rješenjima jest mogućnost baratanja dokumentima, tijek digitalizacije dokumenata kao i mogućnosti za OCR. Prednost vlastitog rješenja nalazi se u većoj prilagođenosti specifičnim zahtjevima, što dodatno povlači lakšu integraciju u postojeći tijek rada čime nestaje potreba za proučavanjem mnoštva dostupnih alata i prilagodbe istih klijentovim potrebama.
+		\eject
+		\section{Mogućnosti dodatnih proširenja}
+		\par Mogućnost slikanja dokumenata direktno putem mobilne aplikacije može biti vrlo korisna značajka koja se može ostvariti zbog izabrane platforme. Predstavljala bi velika prednost nad klasičnim, računalnim programima pružajući korisnicima brz i praktičan način za unos i obradu dokumenata. Uporaba kamere mobilnog uređaja omogućuje korisnicima lak unos slike dokumenta i obrade putem OCR-a. Ovo bi bilo posebno korisno zaposlenicima koji su često u pokretu i žele brzo dokumentirati račune, ponude ili interne dokumente.
+		\par Povezano s time, razvoj paralelne web inačice aplikacije proširio bi korisničko iskustvo omogućujući pregled dokumenata na računalima. Web inačica omogućila bi korisnicima, posebice računovođama i direktorima, pristup dokumentima putem web preglednika. Ovo je korisno za dublje analize, pregledavanje većih količina dokumenata ili jednostavno pristupanje informacijama na radnom računalu.
+		\par Teoretska web inačica zadržala bi sve funkcionalnosti mobilne aplikacije, uključujući pregled sažetaka dokumenata, praćenje povijesti, označavanje ispravno ili krivo skeniranih dokumenata te objavljivanje određenih dokumenata na društvenim mrežama. Ovo proširenje platforme omogućilo bi korisnicima fleksibilnost u radu zbog olakšanog pristupa informacijama iz različitih okruženja, bilo putem mobilnog uređaja ili računala.
+		\eject
+		\section{Daljnja prilagodba, razvoj i održavanje}
+		Velika prednost upotrebe cross-platform tehnologije za razvoj mobilne aplikacije je što olakšava buduću prilagodbu i održavanje. Razvojni okvir Flutter omogućuje ponovnu upotrebu koda između operativnih sustava za mobilne uređaje što pojednostavljuje popravak grešaka, poboljšanje postojećih funkcionalnosti, kao i implementaciju novih, čime se smanjuje vrijeme i trošak održavanja sustava. Razvoj inačice za IOS uređaje u budućnosti bi mogao imati veliki prioritet kako bi svi zaposlenici mogli koristiti aplikaciju na vlastitim uređajima.
 		\eject
 		
 	
