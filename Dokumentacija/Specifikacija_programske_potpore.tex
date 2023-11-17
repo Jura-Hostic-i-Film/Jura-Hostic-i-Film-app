@@ -104,9 +104,36 @@
 				
 			\subsection{Sekvencijski dijagrami}
 				
-				\textbf{\textit{dio 1. revizije}}\\
+				\textbf{\textit{Obrazac uporabe UC2 - Prijava u sustav}}\\
 				
-				\textit{Nacrtati sekvencijske dijagrame koji modeliraju najvažnije dijelove sustava (max. 4 dijagrama). Ukoliko postoji nedoumica oko odabira, razjasniti s asistentom. Uz svaki dijagram napisati detaljni opis dijagrama.}
+				\textit{Korisnik unosi svoje osobne podatke. Sustav provjerava u bazi podataka jesu li uneseni podaci ispravni. Ako jesu, korisnik se prijavi u sustav. No ako uneseni podaci ne odgovaraju niti jednom registriranom korisniku u bazi, sustav korisniku šalje obavijest da su osobni podaci neispravni i daje mu priliku za ponovnu prijavu.}
+				\begin{figure}[H]
+					\includegraphics[width=\textwidth]{slike/sekvencijski_dijagram_UC2.PNG} %veličina u odnosu na širinu linije
+					\caption{Slika broj: Sekvencijski dijagram za UC2}
+					\label{fig:UC2} %label mora biti drugaciji za svaku sliku
+				\end{figure}
+				\clearpage
+
+				\textbf{\textit{Obrazac uporabe UC9 - Pregled skeniranih dokumenata}}\\
+				
+				\textit{Korisnik odabire pregled popisa svih dokumenata koje je skenirao. Sustav pretraži u bazi njegove skenirane dokumente i vraća ih korisniku na uvid.}
+				\begin{figure}[H]
+					\includegraphics[width=\textwidth]{slike/sekvencijski_dijagram_UC9.PNG} %veličina u odnosu na širinu linije
+					\caption{Slika broj: Sekvencijski dijagram za UC9}
+					\label{fig:UC9} %label mora biti drugaciji za svaku sliku
+				\end{figure}
+				\clearpage
+
+				\textbf{\textit{Obrazac uporabe UC21 - Digitalizacija dokumenta}}\\
+				
+				\textit{Korisnik šalje sliku  u sustav koji zatim tu sliiku učitava i pregledava je li na slici dokument. Ako je, onda na njega primjenjuje OCR te novonastali dokument sprema u bazu podataka. Ako na slici nije očitan dokument, sustav korisniku šalje obavijst da učitana slika ne sadrži dokument te mu daje opciju da priloži novu sliku.}
+				\begin{figure}[H]
+					\includegraphics[width=\textwidth]{slike/sekvencijski_dijagram_UC21.PNG} %veličina u odnosu na širinu linije
+					\caption{Slika broj: Sekvencijski dijagram za UC21}
+					\label{fig:UC21} %label mora biti drugaciji za svaku sliku
+				\end{figure}		
+				\clearpage
+
 				\eject
 	
 		\section{Ostali zahtjevi}
