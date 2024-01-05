@@ -4,6 +4,9 @@ import '../DTOs/LoginDTO.dart';
 import '../DTOs/RegisterDTO.dart';
 import '../constants.dart';
 import '../models/User.dart';
+import '../models/documents/Document.dart';
+import '../models/documents/DocumentStatus.dart';
+import '../models/documents/DocumentType.dart';
 import 'ApiService.dart';
 
 class ApiServiceProvider extends ChangeNotifier {
@@ -14,14 +17,14 @@ class ApiServiceProvider extends ChangeNotifier {
   ApiServiceProvider(this.token);
 
   Future<bool> authUser(LoginDTO user) async {
-      String? responseToken = await ApiService.usersLogin(user);
-      if (responseToken != null) {
-        token = responseToken;
-        await getCurrentUser();
-        notifyListeners();
-        return await LocalStorageManager.writePair('token', token, true);
-      }
-      return false;
+    String? responseToken = await ApiService.usersLogin(user);
+    if (responseToken != null) {
+      token = responseToken;
+      await getCurrentUser();
+      notifyListeners();
+      return await LocalStorageManager.writePair('token', token, true);
+    }
+    return false;
   }
 
   Future<bool> createUser(RegisterDTO user) async {
@@ -64,5 +67,53 @@ class ApiServiceProvider extends ChangeNotifier {
 
   Future<bool> checkAdmin() async {
     return await ApiService.usersAdminExists();
+  }
+
+  Future<List<Document>> getDocuments(DocumentType? typeQuery, DocumentStatus? statusQuery) async {
+    if (token != null) {
+      return await ApiService.documents(token!, typeQuery.toString(), statusQuery.toString());
+    }
+
+    return [];
+  }
+
+  Future<List<Document>> getUserDocuments() async {
+    if (token != null) {
+      return await ApiService.documentsMe(token!);
+    }
+
+    return [];
+  }
+
+  Future<Document?> createDocument(Image image) async {
+    if (token != null) {
+      return await ApiService.documentsCreate(token!, image.toString());
+    }
+
+    return null;
+  }
+
+  Future<Document?> getDocumentByID(int documentId) async {
+    if (token != null) {
+      return await ApiService.documentsDocument(token!, documentId.toString());
+    }
+
+    return null;
+  }
+
+  Future<Image?> getImageByID(int imageId) async {
+    if (token != null) {
+      return await ApiService.documentsImage(token!, imageId.toString());
+    }
+
+    return null;
+  }
+
+  Future<Document?> updateDocument(int documentId, DocumentStatus documentStatus) async {
+    if (token != null) {
+      return await ApiService.documentsUpdate(token!, documentId.toString(), documentStatus.toString());
+    }
+
+    return null;
   }
 }
