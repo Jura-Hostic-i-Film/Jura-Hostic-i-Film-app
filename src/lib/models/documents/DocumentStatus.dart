@@ -28,6 +28,25 @@ enum DocumentStatus {
     }
   }
 
+  static DocumentStatus fromString(String string) {
+    switch (string) {
+      case 'scanned':
+        return scanned;
+      case 'approved':
+        return approved;
+      case 'audited':
+        return audited;
+      case 'signed':
+        return signed;
+      case 'archived':
+        return archived;
+      case 'signed_and_archived':
+        return signed_and_archived;
+      default:
+        return refused;
+    }
+  }
+
   String displayName() {
     switch (name) {
       case 'scanned':

@@ -1,5 +1,7 @@
 import 'dart:convert';
+import 'dart:typed_data';
 import 'package:flutter/material.dart';
+import 'package:http/http.dart';
 import 'package:http/http.dart';
 import 'package:jura_hostic_i_film_app/DTOs/RegisterDTO.dart';
 import 'package:jura_hostic_i_film_app/util/helpers/formatToken.dart';
@@ -88,8 +90,7 @@ class ApiService {
       url,
       headers: <String, String>{
         'Content-Type': 'application/json; charset=UTF-8',
-        'Authorization': formatToken(token),
-      },
+        'Authorization': formatToken(token), },
     );
 
     if (response.statusCode == 200) {
@@ -184,25 +185,24 @@ class ApiService {
     }
   }
 
-  static Future<Document?> documentsCreate(String token, String imageBinary) async {
+  static Future<Document?> documentsCreate(String token, String imagePath) async {
     final url = Uri.https(root, "/documents/create");
 
-    Response response = await post(
-      url,
-      headers: {
-        'Content-Type': 'application/json; charset=UTF-8',
-        'Authorization': formatToken(token)
-      },
-      body: jsonEncode(<String, dynamic>{
-        'image': imageBinary,
-      }),
-    );
+    MultipartRequest request = MultipartRequest("POST", url);
+    request.headers['Authorization'] = formatToken(token);
+    request.files.add(await MultipartFile.fromPath(
+      'image',
+      imagePath,
+    ));
+    StreamedResponse response = await request.send();
 
+    String responseBody = await response.stream.bytesToString();
+    Map<String, dynamic> decoded = jsonDecode(responseBody);
     if (response.statusCode == 200) {
-      return Document.fromJson(jsonDecode(utf8.decode(response.bodyBytes)));
-    } else {
-      return null;
+      return Document.fromJson(decoded);
     }
+
+    return null;
   }
 
   static Future<Document?> documentsDocument(String token, String documentId) async {
@@ -223,7 +223,7 @@ class ApiService {
     }
   }
 
-  static Future<Image?> documentsImage(String token, String documentId) async {
+  static Future<Uint8List?> documentsImage(String token, String documentId) async {
     final url = Uri.https(root, "/documents/image/$documentId");
 
     Response response = await get(
@@ -235,7 +235,7 @@ class ApiService {
     );
 
     if (response.statusCode == 200) {
-      return Image.memory(response.bodyBytes.buffer.asUint8List());
+      return response.bodyBytes;
     } else {
       return null;
     }
@@ -244,7 +244,7 @@ class ApiService {
   static Future<Document?> documentsUpdate(String token, String documentId, String newStatus) async {
     final url = Uri.https(root, "/documents/update/$documentId", {"new_status": newStatus});
 
-    Response response = await get(
+    Response response = await post(
       url,
       headers: {
         'Content-Type': 'application/json; charset=UTF-8',

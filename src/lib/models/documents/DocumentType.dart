@@ -18,6 +18,19 @@ enum DocumentType {
     }
   }
 
+  static DocumentType fromString(String string) {
+    switch (string) {
+      case 'receipt':
+        return receipt;
+      case 'offer':
+        return offer;
+      case 'internal':
+        return internal;
+      default:
+        return receipt;
+    }
+  }
+
   String displayName() {
     switch (name) {
       case 'receipt':

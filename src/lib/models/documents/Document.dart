@@ -1,3 +1,5 @@
+import 'dart:convert';
+
 import 'package:jura_hostic_i_film_app/models/documents/DocumentType.dart';
 import '../User.dart';
 import 'DocumentStatus.dart';
@@ -26,9 +28,9 @@ class Document {
       id: json["id"] as int,
       imageId: json["image_id"] as int,
       owner: User.fromJson(json["owner"]),
-      documentType: DocumentType.fromJson(json["document_type"]),
+      documentType: DocumentType.fromString(json["document_type"]),
       summary: json["summary"],
-      documentStatus: DocumentStatus.fromJson(json["document_status"]),
+      documentStatus: DocumentStatus.fromString(json["document_status"]),
       scanTime: DateTime.parse(json["scan_time"]),
     );
   }
