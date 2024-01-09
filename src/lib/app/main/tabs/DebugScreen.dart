@@ -36,9 +36,9 @@ class DebugScreenState extends State<DebugScreen> {
               ),
           ),
           Center(
-            child: false ? FutureBuilder(
+            child: true ? FutureBuilder(
                 future: apiServiceProvider.apiDocumentsTest(),
-                builder: (BuildContext context, AsyncSnapshot<Image?> snapshot) {
+                builder: (BuildContext context, AsyncSnapshot<ImageProvider?> snapshot) {
                   return snapshot.hasData ? Container(
                     width: 300,
                     height: 300,
@@ -46,7 +46,7 @@ class DebugScreenState extends State<DebugScreen> {
                       border: Border.all(color: Colors.black, width: 5),
                       color: Colors.red,
                     ),
-                    child: snapshot.requireData ?? const SizedBox(),
+                    child: snapshot.requireData != null ? Image(image: snapshot.requireData!) : const SizedBox(),
                   ) : const LoadingModal();
                 }
             ) : const Text("disabled"),

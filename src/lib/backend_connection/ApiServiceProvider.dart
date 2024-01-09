@@ -105,18 +105,18 @@ class ApiServiceProvider extends ChangeNotifier {
     return null;
   }
 
-  Future<Image?> getImageByID(int imageId) async {
+  Future<ImageProvider?> getImageByID(int imageId) async {
     if (token != null) {
       Uint8List? imageString = await ApiService.documentsImage(token!, imageId.toString());
       if (imageString != null) {
-        return Image.memory(imageString);
+        return MemoryImage(imageString);
       }
     }
 
     return null;
   }
 
-  Future<Document?> updateDocument(int documentId, DocumentStatus documentStatus) async {
+  Future<Document?> updateDocumentStatus(int documentId, DocumentStatus documentStatus) async {
     if (token != null) {
       return await ApiService.documentsUpdate(token!, documentId.toString(), documentStatus.name);
     }
@@ -124,7 +124,7 @@ class ApiServiceProvider extends ChangeNotifier {
     return null;
   }
 
-  Future<Image?> apiDocumentsTest() async {
+  Future<ImageProvider?> apiDocumentsTest() async {
     final byteData = await rootBundle.load('assets/test_img.jpeg');
 
     final file = File('${(await getTemporaryDirectory()).path}/test_img.jpeg');
@@ -147,12 +147,12 @@ class ApiServiceProvider extends ChangeNotifier {
       }
     }
 
-    Image? submitted = await getImageByID(newDoc.imageId);
+    ImageProvider? submitted = await getImageByID(newDoc.imageId);
     Uint8List? uint = await ApiService.documentsImage(token!, newDoc.imageId.toString());
     print("image good: " + (uint.toString() == byteData.buffer.asUint8List(byteData.offsetInBytes, byteData.lengthInBytes).toString()).toString());
 
     print("old status: " + newDoc.documentStatus.name);
-    newDoc = await updateDocument(newDoc.id, DocumentStatus.refused);
+    newDoc = await updateDocumentStatus(newDoc.id, DocumentStatus.refused);
     print("new status: " + newDoc!.documentStatus.name);
 
     List<Document> refusedDocs = await getDocuments(DocumentType.internal, DocumentStatus.refused);
