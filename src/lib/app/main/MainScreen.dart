@@ -1,5 +1,7 @@
+import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:jura_hostic_i_film_app/app/main/Tabs/UsersScreen.dart';
+import 'package:jura_hostic_i_film_app/app/main/tabs/DebugScreen.dart';
 import 'package:jura_hostic_i_film_app/app/main/tabs/UnaothorizedScreen.dart';
 import 'package:provider/provider.dart';
 import '../../backend_connection/ApiServiceProvider.dart';
@@ -16,7 +18,7 @@ class HomeScreen extends StatefulWidget {
 }
 
 class HomeScreenState extends State<HomeScreen> {
-  int tabIndex = 1;
+  int tabIndex = 0;
 
   void changeTab(SideTab sideTab) {
     setState(() {
@@ -27,7 +29,8 @@ class HomeScreenState extends State<HomeScreen> {
   final List<SideTab> tabList = [
     SideTab(screen: const UsersScreen(), name: 'Korisnici', icon: null, enabled: false),
     SideTab(screen: const HistoryScreen(), name: 'Povijest', icon: null, enabled: false),
-    SideTab(screen: UnauthorizedScreen(), name: '', icon: null, enabled: false),
+    SideTab(screen: const UnauthorizedScreen(), name: '', icon: null, enabled: false),
+    SideTab(screen: const DebugScreen(), name: 'DEBUG', icon: null, enabled: false),
   ];
 
   @override
@@ -40,12 +43,17 @@ class HomeScreenState extends State<HomeScreen> {
     }
     if (currentRoles.where((role) => role != Role.admin).isNotEmpty) {
       tabList[1].enabled = true;
-    } else {
-      tabIndex = 0;
+      tabIndex = 1;
     }
+
     if (currentRoles.isEmpty) {
       tabList[2].enabled = true;
       tabIndex = 2;
+    }
+
+    if (kDebugMode && !tabList[3].enabled) {
+      tabList[3].enabled = true;
+      tabIndex = 3;
     }
 
     return Scaffold(
