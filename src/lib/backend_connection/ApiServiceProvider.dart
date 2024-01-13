@@ -1,13 +1,15 @@
-import 'dart:convert';
 import 'dart:io';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
+import 'package:jura_hostic_i_film_app/models/audits/AuditStatus.dart';
 import 'package:jura_hostic_i_film_app/util/local_storage/LocalStorageManager.dart';
 import 'package:path_provider/path_provider.dart';
+import '../DTOs/AuditDTO.dart';
 import '../DTOs/LoginDTO.dart';
 import '../DTOs/RegisterDTO.dart';
 import '../constants.dart';
 import '../models/User.dart';
+import '../models/audits/Audit.dart';
 import '../models/documents/Document.dart';
 import '../models/documents/DocumentStatus.dart';
 import '../models/documents/DocumentType.dart';
@@ -119,6 +121,38 @@ class ApiServiceProvider extends ChangeNotifier {
   Future<Document?> updateDocumentStatus(int documentId, DocumentStatus documentStatus) async {
     if (token != null) {
       return await ApiService.documentsUpdate(token!, documentId.toString(), documentStatus.name);
+    }
+
+    return null;
+  }
+
+  Future<List<Audit>> getAudits(int? userIdQuery, AuditStatus? statusQuery) async {
+    if (token != null) {
+      return await ApiService.audits(token!, userIdQuery != null ? userIdQuery.toString() : '', statusQuery != null ? statusQuery.name : '');
+    }
+
+    return [];
+  }
+
+  Future<List<Audit>> getUserAudits(AuditStatus? statusQuery) async {
+    if (token != null) {
+      return await ApiService.auditsMe(token!, statusQuery != null ? statusQuery.name : '');
+    }
+
+    return [];
+  }
+
+  Future<Audit?> createAuditRequest(AuditDTO audit) async {
+    if (token != null) {
+      return await ApiService.auditsCreate(token!, audit);
+    }
+
+    return null;
+  }
+
+  Future<Audit?> auditDocument(int documentId) async {
+    if (token != null) {
+      return await ApiService.auditsDocument(token!, documentId.toString());
     }
 
     return null;

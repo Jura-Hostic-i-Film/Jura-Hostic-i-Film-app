@@ -1,18 +1,20 @@
 import 'dart:convert';
 import 'dart:typed_data';
-import 'package:flutter/material.dart';
-import 'package:http/http.dart';
 import 'package:http/http.dart';
 import 'package:jura_hostic_i_film_app/DTOs/RegisterDTO.dart';
 import 'package:jura_hostic_i_film_app/util/helpers/formatToken.dart';
 import 'package:jura_hostic_i_film_app/util/helpers/secureHash.dart';
+import '../DTOs/AuditDTO.dart';
 import '../DTOs/LoginDTO.dart';
 import '../constants.dart';
 import '../models/User.dart';
+import '../models/audits/Audit.dart';
 import '../models/documents/Document.dart';
 
 class ApiService {
   static const String root = Constants.baseUrl;
+
+  // - /user/*
 
   static Future<String?> usersLogin(LoginDTO user) async {
     final url = Uri.https(root, "/users/login");
@@ -142,6 +144,9 @@ class ApiService {
     }
   }
 
+
+  // - /documents/*
+
   static Future<List<Document>> documents(String token, String? typeQuery, String? statusQuery) async {
     Map<String, String> queryParams = {};
     if (typeQuery != null) {
@@ -254,6 +259,96 @@ class ApiService {
 
     if (response.statusCode == 200) {
       return Document.fromJson(jsonDecode(utf8.decode(response.bodyBytes)));
+    } else {
+      return null;
+    }
+  }
+
+
+  // - /audits/*
+
+  static Future<List<Audit>> audits(String token, String? userId, String? status) async {
+    Map<String, String> queryParams = {};
+    if (userId != null) {
+      queryParams["user_id"] = userId;
+    }
+    if (status != null) {
+      queryParams["status"] = status;
+    }
+    final url = Uri.https(root, "/audits", queryParams);
+
+    Response response = await get(
+      url,
+      headers: {
+        'Content-Type': 'application/json; charset=UTF-8',
+        'Authorization': formatToken(token)
+      },
+    );
+
+    if (response.statusCode == 200) {
+      return (jsonDecode(utf8.decode(response.bodyBytes)) as List).map<Audit>((json) => Audit.fromJson(json)).toList();
+    } else {
+      return [];
+    }
+  }
+
+  static Future<List<Audit>> auditsMe(String token, String? status) async {
+    Map<String, String> queryParams = {};
+    if (status != null) {
+      queryParams["status"] = status;
+    }
+    final url = Uri.https(root, "/audits/me", queryParams);
+
+    Response response = await get(
+      url,
+      headers: {
+        'Content-Type': 'application/json; charset=UTF-8',
+        'Authorization': formatToken(token)
+      },
+    );
+
+    if (response.statusCode == 200) {
+      return (jsonDecode(utf8.decode(response.bodyBytes)) as List).map<Audit>((json) => Audit.fromJson(json)).toList();
+    } else {
+      return [];
+    }
+  }
+
+  static Future<Audit?> auditsCreate(String token, AuditDTO audit) async {
+    final url = Uri.https(root, "/audits/create");
+
+    Response response = await post(
+      url,
+      headers: {
+        'Content-Type': 'application/json; charset=UTF-8',
+        'Authorization': formatToken(token),
+      },
+      body: jsonEncode(<String, dynamic>{
+        'audit_by': audit.auditBy,
+        'document_id': audit.documentId,
+      }),
+    );
+
+    if (response.statusCode == 200) {
+      return Audit.fromJson(jsonDecode(utf8.decode(response.bodyBytes)));
+    } else {
+      return null;
+    }
+  }
+
+  static Future<Audit?> auditsDocument(String token, String documentId) async {
+    final url = Uri.https(root, "/audits/$documentId");
+
+    Response response = await post(
+      url,
+      headers: {
+        'Content-Type': 'application/json; charset=UTF-8',
+        'Authorization': formatToken(token),
+      },
+    );
+
+    if (response.statusCode == 200) {
+      return Audit.fromJson(jsonDecode(utf8.decode(response.bodyBytes)));
     } else {
       return null;
     }

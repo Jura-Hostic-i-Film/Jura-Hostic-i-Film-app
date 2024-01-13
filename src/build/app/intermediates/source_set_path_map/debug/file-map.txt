@@ -12,4 +12,5 @@ com.example.jura_hostic_i_film_app-mergeDebugResources-10 C:\Users\Tvrtko\Androi
 com.example.jura_hostic_i_film_app-mergeDebugResources-11 C:\Users\Tvrtko\AndroidStudioProjects\jura_hostic_i_film_app\src\build\app\intermediates\incremental\debug\mergeDebugResources\stripped.dir
 com.example.jura_hostic_i_film_app-merged_res-12 C:\Users\Tvrtko\AndroidStudioProjects\jura_hostic_i_film_app\src\build\app\intermediates\merged_res\debug
 com.example.jura_hostic_i_film_app-packaged_res-13 C:\Users\Tvrtko\AndroidStudioProjects\jura_hostic_i_film_app\src\build\flutter_secure_storage\intermediates\packaged_res\debug
-com.example.jura_hostic_i_film_app-packaged_res-14 C:\Users\Tvrtko\AndroidStudioProjects\jura_hostic_i_film_app\src\build\shared_preferences_android\intermediates\packaged_res\debug
+com.example.jura_hostic_i_film_app-packaged_res-14 C:\Users\Tvrtko\AndroidStudioProjects\jura_hostic_i_film_app\src\build\path_provider_android\intermediates\packaged_res\debug
+com.example.jura_hostic_i_film_app-packaged_res-15 C:\Users\Tvrtko\AndroidStudioProjects\jura_hostic_i_film_app\src\build\shared_preferences_android\intermediates\packaged_res\debug

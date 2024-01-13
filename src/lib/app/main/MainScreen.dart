@@ -2,6 +2,7 @@ import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:jura_hostic_i_film_app/app/main/Tabs/UsersScreen.dart';
 import 'package:jura_hostic_i_film_app/app/main/tabs/DebugScreen.dart';
+import 'package:jura_hostic_i_film_app/app/main/tabs/RevisionScreen.dart';
 import 'package:jura_hostic_i_film_app/app/main/tabs/UnaothorizedScreen.dart';
 import 'package:provider/provider.dart';
 import '../../backend_connection/ApiServiceProvider.dart';
@@ -31,30 +32,38 @@ class HomeScreenState extends State<HomeScreen> {
     SideTab(screen: const HistoryScreen(), name: 'Povijest', icon: null, enabled: false),
     SideTab(screen: const UnauthorizedScreen(), name: '', icon: null, enabled: false),
     SideTab(screen: const DebugScreen(), name: 'DEBUG', icon: null, enabled: false),
+    SideTab(screen: const RevisionScreen(), name: 'Revizije', icon: null, enabled: false),
   ];
+
+  bool setupTabList = true;
 
   @override
   Widget build(BuildContext context) {
     ApiServiceProvider apiServiceProvider = Provider.of<ApiServiceProvider>(context, listen: true);
     List<Role> currentRoles = apiServiceProvider.currentUser?.roles ?? [];
 
-    if (currentRoles.contains(Role.admin) || currentRoles.contains(Role.director)) {
-      tabList[0].enabled = true;
-    }
-    if (currentRoles.where((role) => role != Role.admin).isNotEmpty) {
-      tabList[1].enabled = true;
-      tabIndex = 1;
+    if (setupTabList) {
+      if (currentRoles.contains(Role.admin) || currentRoles.contains(Role.director)) {
+        tabList[0].enabled = true;
+      }
+      if (currentRoles.where((role) => role != Role.admin).isNotEmpty) {
+        tabList[1].enabled = true;
+        tabIndex = 1;
+      }
+      if (currentRoles.contains(Role.auditor)) {
+        tabList[4].enabled = true;
+      }
+      if (currentRoles.isEmpty) {
+        tabList[2].enabled = true;
+        tabIndex = 2;
+      }
+      if (kDebugMode) {
+        tabList[3].enabled = true;
+        tabIndex = 3;
+      }
+      setupTabList = false;
     }
 
-    if (currentRoles.isEmpty) {
-      tabList[2].enabled = true;
-      tabIndex = 2;
-    }
-
-    if (kDebugMode && !tabList[3].enabled) {
-      tabList[3].enabled = true;
-      tabIndex = 3;
-    }
 
     return Scaffold(
       drawer: SideBarNavigator(
