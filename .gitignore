@@ -61,3 +61,4 @@ lib/constants.dart
 *.toc
 PROGI_ProjektnaDokumentacija.pdf
 
+/src/build/
