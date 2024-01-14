@@ -14,10 +14,11 @@ dependencies:
 
   cupertino_icons: ^1.0.2
   provider: ^6.0.5
-  http: ^0.13.6
+  http: ^1.1.0
   flutter_secure_storage: ^8.1.0
   shared_preferences: ^2.2.2
   crypto: ^3.0.3
+  path_provider: ^2.1.1
 
 dev_dependencies:
   flutter_test:
@@ -27,3 +28,5 @@ dev_dependencies:
 
 flutter:
   uses-material-design: true
+  assets:
+    - assets/test_img.jpeg
