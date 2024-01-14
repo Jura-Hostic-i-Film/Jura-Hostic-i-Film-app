@@ -4,10 +4,12 @@ import 'package:http/http.dart';
 import 'package:jura_hostic_i_film_app/DTOs/RegisterDTO.dart';
 import 'package:jura_hostic_i_film_app/util/helpers/formatToken.dart';
 import 'package:jura_hostic_i_film_app/util/helpers/secureHash.dart';
+import '../DTOs/ArchiveDTO.dart';
 import '../DTOs/AuditDTO.dart';
 import '../DTOs/LoginDTO.dart';
 import '../constants.dart';
 import '../models/User.dart';
+import '../models/archives/Archive.dart';
 import '../models/audits/Audit.dart';
 import '../models/documents/Document.dart';
 
@@ -349,6 +351,96 @@ class ApiService {
 
     if (response.statusCode == 200) {
       return Audit.fromJson(jsonDecode(utf8.decode(response.bodyBytes)));
+    } else {
+      return null;
+    }
+  }
+
+
+  // - /archives/*
+
+  static Future<List<Archive>> archives(String token, String? userId, String? status) async {
+    Map<String, String> queryParams = {};
+    if (userId != null) {
+      queryParams["user_id"] = userId;
+    }
+    if (status != null) {
+      queryParams["status"] = status;
+    }
+    final url = Uri.https(root, "/archives", queryParams);
+
+    Response response = await get(
+      url,
+      headers: {
+        'Content-Type': 'application/json; charset=UTF-8',
+        'Authorization': formatToken(token)
+      },
+    );
+
+    if (response.statusCode == 200) {
+      return (jsonDecode(utf8.decode(response.bodyBytes)) as List).map<Archive>((json) => Archive.fromJson(json)).toList();
+    } else {
+      return [];
+    }
+  }
+
+  static Future<List<Archive>> archivesMe(String token, String? status) async {
+    Map<String, String> queryParams = {};
+    if (status != null) {
+      queryParams["status"] = status;
+    }
+    final url = Uri.https(root, "/archives/me", queryParams);
+
+    Response response = await get(
+      url,
+      headers: {
+        'Content-Type': 'application/json; charset=UTF-8',
+        'Authorization': formatToken(token)
+      },
+    );
+
+    if (response.statusCode == 200) {
+      return (jsonDecode(utf8.decode(response.bodyBytes)) as List).map<Archive>((json) => Archive.fromJson(json)).toList();
+    } else {
+      return [];
+    }
+  }
+
+  static Future<Archive?> archivesCreate(String token, ArchiveDTO archive) async {
+    final url = Uri.https(root, "/archives/create");
+
+    Response response = await post(
+      url,
+      headers: {
+        'Content-Type': 'application/json; charset=UTF-8',
+        'Authorization': formatToken(token),
+      },
+      body: jsonEncode(<String, dynamic>{
+        'archive_by': archive.archiveBy,
+        'document_id': archive.documentId,
+      }),
+    );
+
+    if (response.statusCode == 200) {
+      return Archive.fromJson(jsonDecode(utf8.decode(response.bodyBytes)));
+    } else {
+      return null;
+    }
+  }
+
+  static Future<Archive?> archivesArchiveDocument(String token, String documentId) async {
+    final url = Uri.https(root, "/archives/archive/$documentId");
+
+    Response response = await post(
+      url,
+      headers: {
+        'Content-Type': 'application/json; charset=UTF-8',
+        'Authorization': formatToken(token),
+      },
+    );
+
+    if (response.statusCode == 200) {
+      return Archive.fromJson(jsonDecode(utf8.decode(response.bodyBytes)));
     } else {
       return null;
     }

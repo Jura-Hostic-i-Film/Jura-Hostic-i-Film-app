@@ -1,6 +1,9 @@
 import 'dart:io';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
+import 'package:jura_hostic_i_film_app/DTOs/ArchiveDTO.dart';
+import 'package:jura_hostic_i_film_app/models/archives/Archive.dart';
+import 'package:jura_hostic_i_film_app/models/archives/ArchiveStatus.dart';
 import 'package:jura_hostic_i_film_app/models/audits/AuditStatus.dart';
 import 'package:jura_hostic_i_film_app/util/local_storage/LocalStorageManager.dart';
 import 'package:path_provider/path_provider.dart';
@@ -158,6 +161,38 @@ class ApiServiceProvider extends ChangeNotifier {
     return null;
   }
 
+  Future<List<Archive>> getArchives(int? userIdQuery, ArchiveStatus? statusQuery) async {
+    if (token != null) {
+      return await ApiService.archives(token!, userIdQuery != null ? userIdQuery.toString() : '', statusQuery != null ? statusQuery.name : '');
+    }
+
+    return [];
+  }
+
+  Future<List<Archive>> getUserArchives(ArchiveStatus? statusQuery) async {
+    if (token != null) {
+      return await ApiService.archivesMe(token!, statusQuery != null ? statusQuery.name : '');
+    }
+
+    return [];
+  }
+
+  Future<Archive?> createArchiveRequest(ArchiveDTO archiveDTO) async {
+    if (token != null) {
+      return await ApiService.archivesCreate(token!, archiveDTO);
+    }
+
+    return null;
+  }
+
+  Future<Archive?> archiveDocument(int documentId) async {
+    if (token != null) {
+      return await ApiService.archivesArchiveDocument(token!, documentId.toString());
+    }
+
+    return null;
+  }
+
   Future<ImageProvider?> apiDocumentsTest() async {
     final byteData = await rootBundle.load('assets/test_img.jpeg');
 
@@ -200,5 +235,30 @@ class ApiServiceProvider extends ChangeNotifier {
     }
 
     return submitted;
+  }
+
+  Future<void> apiAuditArchiveTest() async {
+    final byteData = await rootBundle.load('assets/test_img.jpeg');
+
+    final file = File('${(await getTemporaryDirectory()).path}/test_img.jpeg');
+    await file.create(recursive: true);
+    await file.writeAsBytes(byteData.buffer.asUint8List(byteData.offsetInBytes, byteData.lengthInBytes));
+
+    Document? newDoc1 = await createDocument(file.path);
+    Document? newDoc2 = await createDocument(file.path);
+    int newDoc1Id = newDoc1!.id;
+    int newDoc2Id = newDoc2!.id;
+
+    Audit? audit1 = await createAuditRequest(new AuditDTO(25, newDoc1Id));
+    Audit? audit2 = await createAuditRequest(new AuditDTO(25, newDoc2Id));
+    print(audit1);
+    print(audit2);
+
+    Document? newDoc3 = await createDocument(file.path);
+    int newDoc3Id = newDoc3!.id;
+    Archive? archive1 = await createArchiveRequest(new ArchiveDTO(25, newDoc3Id));
+    print(archive1);
+
+    return;
   }
 }

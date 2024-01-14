@@ -1,6 +1,7 @@
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:jura_hostic_i_film_app/app/main/Tabs/UsersScreen.dart';
+import 'package:jura_hostic_i_film_app/app/main/tabs/ArchiveScreen.dart';
 import 'package:jura_hostic_i_film_app/app/main/tabs/DebugScreen.dart';
 import 'package:jura_hostic_i_film_app/app/main/tabs/RevisionScreen.dart';
 import 'package:jura_hostic_i_film_app/app/main/tabs/UnaothorizedScreen.dart';
@@ -33,6 +34,7 @@ class HomeScreenState extends State<HomeScreen> {
     SideTab(screen: const UnauthorizedScreen(), name: '', icon: null, enabled: false),
     SideTab(screen: const DebugScreen(), name: 'DEBUG', icon: null, enabled: false),
     SideTab(screen: const RevisionScreen(), name: 'Revizije', icon: null, enabled: false),
+    SideTab(screen: const ArchiveScreen(), name: 'Arhiva', icon: null, enabled: false),
   ];
 
   bool setupTabList = true;
@@ -52,6 +54,11 @@ class HomeScreenState extends State<HomeScreen> {
       }
       if (currentRoles.contains(Role.auditor)) {
         tabList[4].enabled = true;
+      }
+      if (currentRoles.contains(Role.accountant_internal) ||
+          currentRoles.contains(Role.accountant_offer) ||
+          currentRoles.contains(Role.accountant_receipt)) {
+        tabList[5].enabled = true;
       }
       if (currentRoles.isEmpty) {
         tabList[2].enabled = true;

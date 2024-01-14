@@ -22,9 +22,6 @@ class RevisionScreenState extends State<RevisionScreen> {
   Widget build(BuildContext context) {
     ApiServiceProvider apiServiceProvider = Provider.of<ApiServiceProvider>(context, listen: true);
 
-    apiServiceProvider.createAuditRequest(AuditDTO(1, 15));
-    apiServiceProvider.createAuditRequest(AuditDTO(2, 15));
-
     return DefaultTabController(
       length: 2,
       child: Scaffold(
@@ -72,58 +69,46 @@ class RevisionScreenState extends State<RevisionScreen> {
                   FutureBuilder(
                     future: apiServiceProvider.getUserAudits(AuditStatus.pending),
                     builder: (BuildContext context, AsyncSnapshot<List<Audit>> snapshot) {
-                      return snapshot.hasData ? Column(
-                        children: [
-                          Expanded(
-                            child: SingleChildScrollView(
-                              child: Column(
-                                  children: snapshot.requireData
-                                      .asMap().map((i, audit) => MapEntry(
-                                    i,
-                                    Container(
-                                      decoration: BoxDecoration(
-                                          border: Border(
-                                            bottom: BorderSide(
-                                              color: i != snapshot.requireData.length - 2 ? Colors.black : Colors.transparent,
-                                            ),
-                                          )
-                                      ),
-                                      child: Text(audit.auditId.toString()),
+                      return snapshot.hasData ? SingleChildScrollView(
+                        child: Column(
+                          children: snapshot.requireData
+                              .asMap().map((i, audit) => MapEntry(
+                            i,
+                            Container(
+                              decoration: BoxDecoration(
+                                  border: Border(
+                                    bottom: BorderSide(
+                                      color: i != snapshot.requireData.length - 1 ? Colors.black : Colors.transparent,
                                     ),
-                                  )).values.toList(),
+                                  )
                               ),
+                              child: Text(audit.document.id.toString()),
                             ),
-                          ),
-                        ],
+                          )).values.toList(),
+                        ),
                       ) : const LoadingModal();
                     }
                   ),
                   FutureBuilder(
                       future: apiServiceProvider.getUserAudits(AuditStatus.done),
                       builder: (BuildContext context, AsyncSnapshot<List<Audit>> snapshot) {
-                        return snapshot.hasData ? Column(
-                          children: [
-                            Expanded(
-                              child: SingleChildScrollView(
-                                child: Column(
-                                    children: snapshot.requireData
-                                        .asMap().map((i, audit) => MapEntry(
-                                      i,
-                                      Container(
-                                        decoration: BoxDecoration(
-                                            border: Border(
-                                              bottom: BorderSide(
-                                                color: i != snapshot.requireData.length - 2 ? Colors.black : Colors.transparent,
-                                              ),
-                                            )
-                                        ),
-                                        child: Text(audit.auditId.toString()),
+                        return snapshot.hasData ? SingleChildScrollView(
+                          child: Column(
+                            children: snapshot.requireData
+                                .asMap().map((i, audit) => MapEntry(
+                              i,
+                              Container(
+                                decoration: BoxDecoration(
+                                    border: Border(
+                                      bottom: BorderSide(
+                                        color: i != snapshot.requireData.length - 1 ? Colors.black : Colors.transparent,
                                       ),
-                                    )).values.toList(),
+                                    )
                                 ),
+                                child: Text(audit.document.id.toString()),
                               ),
-                            ),
-                          ],
+                            )).values.toList(),
+                          ),
                         ) : const LoadingModal();
                       }
                   ),

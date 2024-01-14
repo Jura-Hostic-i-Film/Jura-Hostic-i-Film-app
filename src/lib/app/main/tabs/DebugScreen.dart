@@ -15,6 +15,8 @@ class DebugScreenState extends State<DebugScreen> {
   @override
   Widget build(BuildContext context) {
     ApiServiceProvider apiServiceProvider = Provider.of<ApiServiceProvider>(context, listen: true);
+    print("current user id: " + apiServiceProvider.currentUser!.id.toString());
+    if (false) apiServiceProvider.apiAuditArchiveTest();
 
     return Scaffold(
       backgroundColor: Colors.white,
@@ -36,7 +38,7 @@ class DebugScreenState extends State<DebugScreen> {
               ),
           ),
           Center(
-            child: true ? FutureBuilder(
+            child: false ? FutureBuilder(
                 future: apiServiceProvider.apiDocumentsTest(),
                 builder: (BuildContext context, AsyncSnapshot<ImageProvider?> snapshot) {
                   return snapshot.hasData ? Container(

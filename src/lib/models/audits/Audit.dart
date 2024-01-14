@@ -1,4 +1,3 @@
-import 'package:jura_hostic_i_film_app/models/documents/DocumentType.dart';
 import '../User.dart';
 import '../documents/Document.dart';
 import 'AuditStatus.dart';
@@ -6,7 +5,7 @@ import 'AuditStatus.dart';
 class Audit {
   int auditId;
   AuditStatus status;
-  DateTime auditedAt;
+  DateTime? auditedAt;
   User audited;
   Document document;
 
@@ -22,8 +21,8 @@ class Audit {
   factory Audit.fromJson(Map<String, dynamic> json) {
     return Audit(
       auditId: json["audit_id"] as int,
-      status: AuditStatus.fromString(json["document_status"]),
-      auditedAt: DateTime.parse(json["scan_time"]),
+      status: AuditStatus.fromString(json["status"]),
+      auditedAt: json["audited_at"] != null ? DateTime.parse(json["audited_at"]) : null,
       audited: User.fromJson(json["audited"]),
       document: Document.fromJson(json["document"]),
     );
