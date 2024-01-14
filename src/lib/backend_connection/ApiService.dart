@@ -7,11 +7,13 @@ import 'package:jura_hostic_i_film_app/util/helpers/secureHash.dart';
 import '../DTOs/ArchiveDTO.dart';
 import '../DTOs/AuditDTO.dart';
 import '../DTOs/LoginDTO.dart';
+import '../DTOs/SignatureDTO.dart';
 import '../constants.dart';
 import '../models/User.dart';
 import '../models/archives/Archive.dart';
 import '../models/audits/Audit.dart';
 import '../models/documents/Document.dart';
+import '../models/signatures/Signature.dart';
 
 class ApiService {
   static const String root = Constants.baseUrl;
@@ -441,6 +443,96 @@ class ApiService {
 
     if (response.statusCode == 200) {
       return Archive.fromJson(jsonDecode(utf8.decode(response.bodyBytes)));
+    } else {
+      return null;
+    }
+  }
+
+
+  // - /signatures/*
+
+  static Future<List<Signature>> signatures(String token, String? userId, String? status) async {
+    Map<String, String> queryParams = {};
+    if (userId != null) {
+      queryParams["user_id"] = userId;
+    }
+    if (status != null) {
+      queryParams["status"] = status;
+    }
+    final url = Uri.https(root, "/signature", queryParams);
+
+    Response response = await get(
+      url,
+      headers: {
+        'Content-Type': 'application/json; charset=UTF-8',
+        'Authorization': formatToken(token)
+      },
+    );
+
+    if (response.statusCode == 200) {
+      return (jsonDecode(utf8.decode(response.bodyBytes)) as List).map<Signature>((json) => Signature.fromJson(json)).toList();
+    } else {
+      return [];
+    }
+  }
+
+  static Future<List<Signature>> signaturesMe(String token, String? status) async {
+    Map<String, String> queryParams = {};
+    if (status != null) {
+      queryParams["status"] = status;
+    }
+    final url = Uri.https(root, "/signatures/me", queryParams);
+
+    Response response = await get(
+      url,
+      headers: {
+        'Content-Type': 'application/json; charset=UTF-8',
+        'Authorization': formatToken(token)
+      },
+    );
+
+    if (response.statusCode == 200) {
+      return (jsonDecode(utf8.decode(response.bodyBytes)) as List).map<Signature>((json) => Signature.fromJson(json)).toList();
+    } else {
+      return [];
+    }
+  }
+
+  static Future<Signature?> signaturesCreate(String token, SignatureDTO archive) async {
+    final url = Uri.https(root, "/signatures/create");
+
+    Response response = await post(
+      url,
+      headers: {
+        'Content-Type': 'application/json; charset=UTF-8',
+        'Authorization': formatToken(token),
+      },
+      body: jsonEncode(<String, dynamic>{
+        'sign_by': archive.signBy,
+        'document_id': archive.documentId,
+      }),
+    );
+
+    if (response.statusCode == 200) {
+      return Signature.fromJson(jsonDecode(utf8.decode(response.bodyBytes)));
+    } else {
+      return null;
+    }
+  }
+
+  static Future<Signature?> signaturesDocument(String token, String documentId) async {
+    final url = Uri.https(root, "/signatures/$documentId");
+
+    Response response = await post(
+      url,
+      headers: {
+        'Content-Type': 'application/json; charset=UTF-8',
+        'Authorization': formatToken(token),
+      },
+    );
+
+    if (response.statusCode == 200) {
+      return Signature.fromJson(jsonDecode(utf8.decode(response.bodyBytes)));
     } else {
       return null;
     }

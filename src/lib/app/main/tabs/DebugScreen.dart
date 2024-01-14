@@ -17,6 +17,7 @@ class DebugScreenState extends State<DebugScreen> {
     ApiServiceProvider apiServiceProvider = Provider.of<ApiServiceProvider>(context, listen: true);
     print("current user id: " + apiServiceProvider.currentUser!.id.toString());
     if (false) apiServiceProvider.apiAuditArchiveTest();
+    if (true) apiServiceProvider.apiSignaturesTest();
 
     return Scaffold(
       backgroundColor: Colors.white,

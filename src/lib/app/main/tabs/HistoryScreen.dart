@@ -41,7 +41,7 @@ class HistoryScreenState extends State<HistoryScreen> {
                                     decoration: BoxDecoration(
                                         border: Border(
                                           bottom: BorderSide(
-                                            color: i != snapshot.requireData.length - 2 ? Colors.black : Colors.transparent,
+                                            color: i != snapshot.requireData.length - 1 ? Colors.black : Colors.transparent,
                                           ),
                                         )
                                     ),
@@ -55,6 +55,40 @@ class HistoryScreenState extends State<HistoryScreen> {
                     ),
                   ) : const LoadingModal();
                 },
+              ),
+            ),
+            Positioned(
+              top: 0,
+              left: 0,
+              right: 0,
+              child: Container(
+                decoration: const BoxDecoration(
+                  color: Colors.white,
+                  boxShadow: <BoxShadow>[
+                    BoxShadow(
+                      color: Colors.black45,
+                      blurRadius: 8,
+                      spreadRadius: 2,
+                    ),
+                  ],
+                ),
+              ),
+            ),
+            Positioned(
+              bottom: 0,
+              left: 0,
+              right: 0,
+              child: Container(
+                decoration: const BoxDecoration(
+                  color: Colors.white,
+                  boxShadow: <BoxShadow>[
+                    BoxShadow(
+                      color: Colors.black45,
+                      blurRadius: 8,
+                      spreadRadius: 2,
+                    ),
+                  ],
+                ),
               ),
             ),
           ],

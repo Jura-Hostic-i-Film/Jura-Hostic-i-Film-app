@@ -2,6 +2,7 @@ import 'dart:io';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:jura_hostic_i_film_app/DTOs/ArchiveDTO.dart';
+import 'package:jura_hostic_i_film_app/DTOs/SignatureDTO.dart';
 import 'package:jura_hostic_i_film_app/models/archives/Archive.dart';
 import 'package:jura_hostic_i_film_app/models/archives/ArchiveStatus.dart';
 import 'package:jura_hostic_i_film_app/models/audits/AuditStatus.dart';
@@ -16,6 +17,8 @@ import '../models/audits/Audit.dart';
 import '../models/documents/Document.dart';
 import '../models/documents/DocumentStatus.dart';
 import '../models/documents/DocumentType.dart';
+import '../models/signatures/Signature.dart';
+import '../models/signatures/SignatureStatus.dart';
 import 'ApiService.dart';
 
 class ApiServiceProvider extends ChangeNotifier {
@@ -193,6 +196,38 @@ class ApiServiceProvider extends ChangeNotifier {
     return null;
   }
 
+  Future<List<Signature>> getSignatures(int? userIdQuery, SignatureStatus? statusQuery) async {
+    if (token != null) {
+      return await ApiService.signatures(token!, userIdQuery != null ? userIdQuery.toString() : '', statusQuery != null ? statusQuery.name : '');
+    }
+
+    return [];
+  }
+
+  Future<List<Signature>> getUserSignatures(SignatureStatus? statusQuery) async {
+    if (token != null) {
+      return await ApiService.signaturesMe(token!, statusQuery != null ? statusQuery.name : '');
+    }
+
+    return [];
+  }
+
+  Future<Signature?> createSignatureRequest(SignatureDTO signatureDTO) async {
+    if (token != null) {
+      return await ApiService.signaturesCreate(token!, signatureDTO);
+    }
+
+    return null;
+  }
+
+  Future<Signature?> signDocument(int documentId) async {
+    if (token != null) {
+      return await ApiService.signaturesDocument(token!, documentId.toString());
+    }
+
+    return null;
+  }
+
   Future<ImageProvider?> apiDocumentsTest() async {
     final byteData = await rootBundle.load('assets/test_img.jpeg');
 
@@ -258,6 +293,25 @@ class ApiServiceProvider extends ChangeNotifier {
     int newDoc3Id = newDoc3!.id;
     Archive? archive1 = await createArchiveRequest(new ArchiveDTO(25, newDoc3Id));
     print(archive1);
+
+    return;
+  }
+
+  Future<void> apiSignaturesTest() async {
+    /*
+    int signatureId = 102;
+    Signature? newSignature = await createSignatureRequest(new SignatureDTO(21, signatureId));
+    print(newSignature!.status.toString() + " " + newSignature!.document.id.toString());
+
+    List<Signature> listSignatures = await getSignatures(null, null);
+    print(listSignatures);
+
+    newSignature = await signDocument(signatureId);
+    print(newSignature!.status.toString() + " " + newSignature!.document.id.toString());
+    */
+
+    List<Signature> listSignaturesMy = await getUserSignatures(SignatureStatus.done);
+    print(listSignaturesMy);
 
     return;
   }
