@@ -1,12 +1,10 @@
 import 'package:flutter/material.dart';
-import 'package:jura_hostic_i_film_app/components/buttons/AddButton.dart';
 import 'package:jura_hostic_i_film_app/components/loading/LoadingModal.dart';
-import 'package:jura_hostic_i_film_app/components/users/UserDisplayable.dart';
 import 'package:provider/provider.dart';
+import 'package:jura_hostic_i_film_app/components/revision/RevisionPendingDisplayable.dart';
+import 'package:jura_hostic_i_film_app/components/revision/RevisedDisplayable.dart';
 
-import '../../../DTOs/AuditDTO.dart';
 import '../../../backend_connection/ApiServiceProvider.dart';
-import '../../../models/User.dart';
 import '../../../models/audits/Audit.dart';
 import '../../../models/audits/AuditStatus.dart';
 
@@ -82,7 +80,7 @@ class RevisionScreenState extends State<RevisionScreen> {
                                     ),
                                   )
                               ),
-                              child: Text(audit.document.id.toString()),
+                              child: RevisionPendingDisplayable(audit: audit),
                             ),
                           )).values.toList(),
                         ),
@@ -105,7 +103,7 @@ class RevisionScreenState extends State<RevisionScreen> {
                                       ),
                                     )
                                 ),
-                                child: Text(audit.document.id.toString()),
+                                child: RevisedDisplayable(audit: audit),
                               ),
                             )).values.toList(),
                           ),
