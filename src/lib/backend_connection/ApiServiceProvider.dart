@@ -1,4 +1,6 @@
+import 'dart:async';
 import 'dart:io';
+import 'dart:math';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:jura_hostic_i_film_app/DTOs/ArchiveDTO.dart';
@@ -19,14 +21,32 @@ import '../models/documents/DocumentStatus.dart';
 import '../models/documents/DocumentType.dart';
 import '../models/signatures/Signature.dart';
 import '../models/signatures/SignatureStatus.dart';
+import '../util/TabList.dart';
 import 'ApiService.dart';
 
 class ApiServiceProvider extends ChangeNotifier {
   final String root = Constants.baseUrl;
   String? token;
   User? currentUser;
+  Map<String, int> notifications = { for (var tab in TabList.tabList) tab.key : 0 };
+  late Timer _timer;
 
-  ApiServiceProvider(this.token);
+  ApiServiceProvider(this.token) {
+    _timer = Timer.periodic(const Duration(seconds: 10),(_) => updateNotifications());
+  }
+
+  @override
+  void dispose(){
+    _timer.cancel();
+    super.dispose();
+  }
+
+  Future<void> updateNotifications() async {
+    //TODO
+    notifications["/home/debug"] = Random().nextInt(25);
+    notifyListeners();
+    return;
+  }
 
   Future<bool> authUser(LoginDTO user) async {
     String? responseToken = await ApiService.usersLogin(user);
