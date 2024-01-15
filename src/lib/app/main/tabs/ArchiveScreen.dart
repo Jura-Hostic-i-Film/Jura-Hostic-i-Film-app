@@ -1,16 +1,12 @@
 import 'package:flutter/material.dart';
-import 'package:jura_hostic_i_film_app/components/buttons/AddButton.dart';
 import 'package:jura_hostic_i_film_app/components/loading/LoadingModal.dart';
-import 'package:jura_hostic_i_film_app/components/users/UserDisplayable.dart';
 import 'package:jura_hostic_i_film_app/models/archives/ArchiveStatus.dart';
+import 'package:jura_hostic_i_film_app/components/archive/ArchivedDisplayable.dart';
+import 'package:jura_hostic_i_film_app/components/archive/ArchivePendingDisplayable.dart';
 import 'package:provider/provider.dart';
 
-import '../../../DTOs/AuditDTO.dart';
 import '../../../backend_connection/ApiServiceProvider.dart';
-import '../../../models/User.dart';
 import '../../../models/archives/Archive.dart';
-import '../../../models/audits/Audit.dart';
-import '../../../models/audits/AuditStatus.dart';
 
 class ArchiveScreen extends StatefulWidget {
   const ArchiveScreen({super.key});
@@ -39,7 +35,7 @@ class ArchiveScreenState extends State<ArchiveScreen> {
                   child: Row(
                     mainAxisAlignment: MainAxisAlignment.center,
                     children: [
-                      Icon(Icons.folder_copy_outlined),
+                      Icon(Icons.rate_review_outlined),
                       Padding(
                         padding: EdgeInsets.symmetric(horizontal: 6),
                         child: Text("Predstojeći"),
@@ -51,7 +47,7 @@ class ArchiveScreenState extends State<ArchiveScreen> {
                   child: Row(
                     mainAxisAlignment: MainAxisAlignment.center,
                     children: [
-                      Icon(Icons.folder_copy),
+                      Icon(Icons.check),
                       Padding(
                         padding: EdgeInsets.symmetric(horizontal: 6),
                         child: Text("Arhivirani"),
@@ -66,56 +62,56 @@ class ArchiveScreenState extends State<ArchiveScreen> {
         body: Stack(
           children: [
             Positioned.fill(
-              child: TabBarView(
-                children: [
-                  FutureBuilder(
-                    future: apiServiceProvider.getUserArchives(ArchiveStatus.pending),
-                    builder: (BuildContext context, AsyncSnapshot<List<Archive>> snapshot) {
-                      return snapshot.hasData ? SingleChildScrollView(
-                        child: Column(
-                          children: snapshot.requireData
-                              .asMap().map((i, archive) => MapEntry(
-                            i,
-                            Container(
-                              decoration: BoxDecoration(
-                                  border: Border(
-                                    bottom: BorderSide(
-                                      color: i != snapshot.requireData.length - 1 ? Colors.black : Colors.transparent,
-                                    ),
-                                  )
-                              ),
-                              child: Text(archive.document.id.toString()),
-                            ),
-                          )).values.toList(),
-                        ),
-                      ) : const LoadingModal();
-                    }
-                  ),
-                  FutureBuilder(
-                      future: apiServiceProvider.getUserArchives(ArchiveStatus.done),
-                      builder: (BuildContext context, AsyncSnapshot<List<Archive>> snapshot) {
-                        return snapshot.hasData ? SingleChildScrollView(
-                          child: Column(
-                            children: snapshot.requireData
-                                .asMap().map((i, archive) => MapEntry(
-                              i,
-                              Container(
-                                decoration: BoxDecoration(
-                                    border: Border(
-                                      bottom: BorderSide(
-                                        color: i != snapshot.requireData.length - 1 ? Colors.black : Colors.transparent,
-                                      ),
-                                    )
+                child: TabBarView(
+                  children: [
+                    FutureBuilder(
+                        future: apiServiceProvider.getUserArchives(ArchiveStatus.pending),
+                        builder: (BuildContext context, AsyncSnapshot<List<Archive>> snapshot) {
+                          return snapshot.hasData ? SingleChildScrollView(
+                            child: Column(
+                              children: snapshot.requireData
+                                  .asMap().map((i, archive) => MapEntry(
+                                i,
+                                Container(
+                                  decoration: BoxDecoration(
+                                      border: Border(
+                                        bottom: BorderSide(
+                                          color: i != snapshot.requireData.length - 1 ? Colors.black : Colors.transparent,
+                                        ),
+                                      )
+                                  ),
+                                  child: ArchivePendingDisplayable(archive: archive),
                                 ),
-                                child: Text(archive.document.id.toString()),
-                              ),
-                            )).values.toList(),
-                          ),
-                        ) : const LoadingModal();
-                      }
-                  ),
-                ],
-              )
+                              )).values.toList(),
+                            ),
+                          ) : const LoadingModal();
+                        }
+                    ),
+                    FutureBuilder(
+                        future: apiServiceProvider.getUserArchives(ArchiveStatus.done),
+                        builder: (BuildContext context, AsyncSnapshot<List<Archive>> snapshot) {
+                          return snapshot.hasData ? SingleChildScrollView(
+                            child: Column(
+                              children: snapshot.requireData
+                                  .asMap().map((i, archive) => MapEntry(
+                                i,
+                                Container(
+                                  decoration: BoxDecoration(
+                                      border: Border(
+                                        bottom: BorderSide(
+                                          color: i != snapshot.requireData.length - 1 ? Colors.black : Colors.transparent,
+                                        ),
+                                      )
+                                  ),
+                                  child: ArchivedDisplayable(archive: archive),
+                                ),
+                              )).values.toList(),
+                            ),
+                          ) : const LoadingModal();
+                        }
+                    ),
+                  ],
+                )
             ),
             Positioned(
               top: 0,
