@@ -81,7 +81,7 @@ class ArchiveScreenState extends State<ArchiveScreen> {
                                         ),
                                       )
                                   ),
-                                  child: ArchivePendingDisplayable(archive: archive),
+                                  child: ArchivePendingDisplayable(archive: archive, callback: () => setState(() {})),
                                 ),
                               )).values.toList(),
                             ),

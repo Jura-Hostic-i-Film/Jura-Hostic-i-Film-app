@@ -8,7 +8,8 @@ import '../history/DocumentStatusDisplayable.dart';
 
 class ArchivePendingDisplayable extends StatelessWidget {
   final Archive archive;
-  const ArchivePendingDisplayable({required this.archive, super.key});
+  final Function callback;
+  const ArchivePendingDisplayable({required this.archive, required this.callback, super.key});
 
   @override
   Widget build(BuildContext context) {
@@ -83,7 +84,7 @@ class ArchivePendingDisplayable extends StatelessWidget {
                               ),
                             ),
                             const SizedBox(width: 6),
-                            ArchiveIcon(archive: archive),
+                            ArchiveIcon(archive: archive, callback: () => callback()),
                           ],
                         ),
                       ],

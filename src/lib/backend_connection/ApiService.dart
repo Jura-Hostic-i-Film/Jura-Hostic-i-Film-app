@@ -269,9 +269,9 @@ class ApiService {
   }
 
   static Future<Document?> documentsApproveDocument(String token, String documentId, bool approve) async {
-    final url = Uri.https(root, "/documents/approve/$documentId", {"approve": approve});
+    final url = Uri.https(root, "/documents/approve/$documentId", {"approve": approve.toString()});
 
-    Response response = await post(
+    Response response = await get(
       url,
       headers: {
         'Content-Type': 'application/json; charset=UTF-8',
@@ -448,8 +448,8 @@ class ApiService {
     }
   }
 
-  static Future<Archive?> archivesArchiveDocument(String token, String documentId) async {
-    final url = Uri.https(root, "/archives/archive/$documentId");
+  static Future<Archive?> archivesArchiveDocument(String token, String documentId, String status) async {
+    final url = Uri.https(root, "/archives/archive/$documentId/$status");
 
     Response response = await post(
       url,
@@ -458,6 +458,8 @@ class ApiService {
         'Authorization': formatToken(token),
       },
     );
+
+    print(response.body);
 
     if (response.statusCode == 200) {
       return Archive.fromJson(jsonDecode(utf8.decode(response.bodyBytes)));

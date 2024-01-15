@@ -1,8 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:jura_hostic_i_film_app/components/history/DocumentTypeDisplayable.dart';
 import 'package:jura_hostic_i_film_app/components/users/ParticipantDisplayable.dart';
-import 'package:provider/provider.dart';
-import '../../backend_connection/ApiServiceProvider.dart';
 import '../../components/buttons/AsyncButton.dart';
 import '../../models/signatures/Signature.dart';
 

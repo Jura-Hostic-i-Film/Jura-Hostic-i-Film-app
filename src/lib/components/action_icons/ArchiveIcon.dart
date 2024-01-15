@@ -3,14 +3,15 @@ import '../../models/archives/Archive.dart';
 
 class ArchiveIcon extends StatelessWidget {
   final Archive archive;
-  const ArchiveIcon({super.key, required this.archive});
+  final Function callback;
+  const ArchiveIcon({super.key, required this.archive, required this.callback});
 
   @override
   Widget build(BuildContext context) {
     return GestureDetector(
       onTap: () => Navigator.pushNamed(
           context, "/docs/archive",
-          arguments: archive),
+          arguments: archive).then((value) => callback()),
       child: Container(
         width: 40,
         height: 40,

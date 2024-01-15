@@ -8,7 +8,8 @@ import '../history/DocumentStatusDisplayable.dart';
 
 class RevisionPendingDisplayable extends StatelessWidget {
   final Audit audit;
-  const RevisionPendingDisplayable({required this.audit, super.key});
+  final Function callback;
+  const RevisionPendingDisplayable({required this.audit, required this.callback, super.key});
 
   @override
   Widget build(BuildContext context) {
@@ -58,7 +59,7 @@ class RevisionPendingDisplayable extends StatelessWidget {
                       mainAxisAlignment: MainAxisAlignment.end,
                       crossAxisAlignment: CrossAxisAlignment.center,
                       children: [
-                        ReviseIcon(document: audit.document),
+                        ReviseIcon(document: audit.document, callback: () => callback()),
                         const SizedBox(width: 6),
                         OverviewIcon(document: audit.document),
                         const SizedBox(width: 6),

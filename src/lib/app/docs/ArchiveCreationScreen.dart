@@ -6,8 +6,10 @@ import 'package:provider/provider.dart';
 import '../../backend_connection/ApiServiceProvider.dart';
 import '../../components/buttons/AsyncButton.dart';
 import '../../models/archives/Archive.dart';
+import '../../models/archives/ArchiveStatus.dart';
 import '../../models/audits/Audit.dart';
 import '../../models/documents/Document.dart';
+import '../../util/LoadingDialog.dart';
 
 class ArchiveCreationScreen extends StatefulWidget {
   const ArchiveCreationScreen({super.key});
@@ -154,8 +156,8 @@ class ArchiveCreationScreenState extends State<ArchiveCreationScreen> {
               children: [
                 AsyncButton(
                   onTap: () async {
-                    Navigator.pop(context);
-                    //if (await apiServiceProvider.authUser(loginUser) && mounted) Navigator.pushReplacementNamed(context, '/home');
+                    ApiServiceProvider apiServiceProvider = Provider.of<ApiServiceProvider>(context, listen: false);
+                    LoadingDialog.useLoadingDialog<Archive?>(context, apiServiceProvider.archiveDocument(archive.document.id, ArchiveStatus.awaiting_signature), "Uspješno je zatražen potpis!", "Došlo je do pogreške!", () => Navigator.pop(context), () {});
                   },
                   content: const Center(
                     child: Text(
@@ -168,8 +170,8 @@ class ArchiveCreationScreenState extends State<ArchiveCreationScreen> {
                 const SizedBox(height: 10),
                 AsyncButton(
                   onTap: () async {
-                    Navigator.pop(context);
-                    //if (await apiServiceProvider.authUser(loginUser) && mounted) Navigator.pushReplacementNamed(context, '/home');
+                    ApiServiceProvider apiServiceProvider = Provider.of<ApiServiceProvider>(context, listen: false);
+                    LoadingDialog.useLoadingDialog<Archive?>(context, apiServiceProvider.archiveDocument(archive.document.id, ArchiveStatus.done), "Dokument je uspješno arhiviran!", "Došlo je do pogreške!", () => Navigator.pop(context), () {});
                   },
                   content: const Center(
                     child: Text(

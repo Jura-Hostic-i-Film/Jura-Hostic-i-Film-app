@@ -3,14 +3,15 @@ import '../../models/documents/Document.dart';
 
 class ReviseIcon extends StatelessWidget {
   final Document document;
-  const ReviseIcon({super.key, required this.document});
+  final Function callback;
+  const ReviseIcon({super.key, required this.document, required this.callback});
 
   @override
   Widget build(BuildContext context) {
     return GestureDetector(
       onTap: () => Navigator.pushNamed(
           context, "/docs/revision",
-          arguments: document),
+          arguments: document).then((value) => callback()),
       child: Container(
         width: 40,
         height: 40,

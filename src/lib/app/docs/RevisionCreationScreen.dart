@@ -1,9 +1,11 @@
 import 'package:flutter/material.dart';
 import 'package:jura_hostic_i_film_app/components/history/DocumentTypeDisplayable.dart';
 import 'package:jura_hostic_i_film_app/components/users/ParticipantDisplayable.dart';
+import 'package:jura_hostic_i_film_app/util/LoadingDialog.dart';
 import 'package:provider/provider.dart';
 import '../../backend_connection/ApiServiceProvider.dart';
 import '../../components/buttons/AsyncButton.dart';
+import '../../models/audits/Audit.dart';
 import '../../models/documents/Document.dart';
 
 class RevisionCreationScreen extends StatefulWidget {
@@ -150,8 +152,8 @@ class RevisionCreationScreenState extends State<RevisionCreationScreen> {
             child: Center(
               child: AsyncButton(
                 onTap: () async {
-                  Navigator.pop(context);
-                  //if (await apiServiceProvider.authUser(loginUser) && mounted) Navigator.pushReplacementNamed(context, '/home');
+                  ApiServiceProvider apiServiceProvider = Provider.of<ApiServiceProvider>(context, listen: false);
+                  LoadingDialog.useLoadingDialog<Audit?>(context, apiServiceProvider.auditDocument(document.id), "Dokument je uspješno revidiran!", "Došlo je do pogreške!", () => Navigator.pop(context), () {});
                 },
                 content: const Center(
                   child: Text(

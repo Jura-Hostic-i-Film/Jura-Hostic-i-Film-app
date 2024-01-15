@@ -232,9 +232,9 @@ class ApiServiceProvider extends ChangeNotifier {
     return null;
   }
 
-  Future<Archive?> archiveDocument(int documentId) async {
+  Future<Archive?> archiveDocument(int documentId, ArchiveStatus status) async {
     if (token != null) {
-      return await ApiService.archivesArchiveDocument(token!, documentId.toString());
+      return await ApiService.archivesArchiveDocument(token!, documentId.toString(), status.name);
     }
 
     return null;
@@ -300,9 +300,10 @@ class ApiServiceProvider extends ChangeNotifier {
     print("image good: " + (uint.toString() == byteData.buffer.asUint8List(byteData.offsetInBytes, byteData.lengthInBytes).toString()).toString());
 
     print("old status: " + newDoc.documentStatus.name);
-    newDoc = await updateDocumentStatus(newDoc.id, DocumentStatus.refused);
+    newDoc = await approveDocument(newDoc.id, true);
     print("new status: " + newDoc!.documentStatus.name);
 
+    /*
     List<Document> refusedDocs = await getDocuments(DocumentType.internal, DocumentStatus.refused);
     print(refusedDocs.length);
 
@@ -313,6 +314,8 @@ class ApiServiceProvider extends ChangeNotifier {
       print("first not found!");
     }
 
+
+     */
     return submitted;
   }
 
