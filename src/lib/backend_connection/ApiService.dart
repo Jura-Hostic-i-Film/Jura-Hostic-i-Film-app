@@ -477,7 +477,7 @@ class ApiService {
     if (status != null) {
       queryParams["status"] = status;
     }
-    final url = Uri.https(root, "/signature", queryParams);
+    final url = Uri.https(root, "/signatures", queryParams);
 
     Response response = await get(
       url,

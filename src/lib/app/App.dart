@@ -6,7 +6,9 @@ import '../backend_connection/ApiServiceProvider.dart';
 import '../components/loading/LoadingModal.dart';
 import '../constants.dart';
 import 'auth/LoginScreen.dart';
-
+import 'docs/ArchiveCreationScreen.dart';
+import 'docs/RevisionCreationScreen.dart';
+import 'docs/SignatureCreationScreen.dart';
 class App extends StatelessWidget {
   final String? token;
 
@@ -42,6 +44,9 @@ class App extends StatelessWidget {
                 primarySwatch: Colors.grey,
               ),
               routes: {
+                '/docs/revision': (context) => const RevisionCreationScreen(),
+                '/docs/archive': (context) => const ArchiveCreationScreen(),
+                '/docs/signature': (context) => const SignatureCreationScreen(),
                 '/auth/login': (context) => const LoginScreen(logoutFirst: false),
                 '/auth/register': (context) => const RegisterScreen(registerFirstUser: true),
                 '/auth/logout': (context) => const LoginScreen(logoutFirst: true),
