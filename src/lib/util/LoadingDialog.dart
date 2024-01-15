@@ -36,7 +36,6 @@ class LoadingDialog {
                                 style: const TextStyle(
                                   fontSize: 18,
                                 ),
-                                textAlign: TextAlign.justify,
                               ),
                               const SizedBox(
                                 height: 10,
@@ -47,7 +46,7 @@ class LoadingDialog {
                                   GestureDetector(
                                     onTap: () {
                                       Navigator.pop(context);
-                                      if (snapshot.requireData != null) {
+                                      if (snapshot.requireData.$1 != null) {
                                         successCallback();
                                       } else {
                                         failCallback();

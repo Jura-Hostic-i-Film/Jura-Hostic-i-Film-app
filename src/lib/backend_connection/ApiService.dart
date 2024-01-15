@@ -376,6 +376,24 @@ class ApiService {
     }
   }
 
+  static Future<Audit?> auditsDocumentGET(String token, int documentId) async {
+    final url = Uri.https(root, "/audits/$documentId");
+
+    Response response = await get(
+      url,
+      headers: {
+        'Content-Type': 'application/json; charset=UTF-8',
+        'Authorization': formatToken(token),
+      },
+    );
+
+    if (response.statusCode == 200) {
+      return Audit.fromJson(jsonDecode(utf8.decode(response.bodyBytes)));
+    } else {
+      return null;
+    }
+  }
+
   static Future<int> auditsMePending(String token) async {
     final url = Uri.https(root, "/audits/me/pending");
 
@@ -499,6 +517,24 @@ class ApiService {
       return jsonDecode(response.body) as int;
     } else {
       return 0;
+    }
+  }
+
+  static Future<Archive?> archivesDocument(String token, int documentId) async {
+    final url = Uri.https(root, "/archives/$documentId");
+
+    Response response = await get(
+      url,
+      headers: {
+        'Content-Type': 'application/json; charset=UTF-8',
+        'Authorization': formatToken(token),
+      },
+    );
+
+    if (response.statusCode == 200) {
+      return Archive.fromJson(jsonDecode(utf8.decode(response.bodyBytes)));
+    } else {
+      return null;
     }
   }
 

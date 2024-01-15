@@ -44,6 +44,24 @@ class DebugScreenState extends State<DebugScreen> {
           ),
           Positioned(
             top: 0,
+            left: 42,
+            child: GestureDetector(
+              child: const SizedBox(
+                width: 40,
+                height: 40,
+                child: Icon(
+                  Icons.add,
+                  color: Colors.black,
+                  size: 28,
+                ),
+              ),
+              onTap: () async {
+                apiServiceProvider.apiDocumentsTest();
+              },
+            ),
+          ),
+          Positioned(
+            top: 0,
             right: 84,
             child: GestureDetector(
               child: const SizedBox(

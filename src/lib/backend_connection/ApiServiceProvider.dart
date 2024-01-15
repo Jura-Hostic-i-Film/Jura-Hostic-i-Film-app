@@ -1,6 +1,5 @@
 import 'dart:async';
 import 'dart:io';
-import 'dart:math';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:jura_hostic_i_film_app/DTOs/ArchiveDTO.dart';
@@ -220,13 +219,13 @@ class ApiServiceProvider extends ChangeNotifier {
     return (null, "Error");
   }
 
-  /*
   Future<Audit?> getAuditByID(int documentId) async {
     if (token != null) {
-      return await ApiService.audits(token, documentId)
+      return await ApiService.auditsDocumentGET(token!, documentId);
     }
+
+    return null;
   }
-   */
 
   Future<List<Archive>> getArchives(
       int? userIdQuery, ArchiveStatus? statusQuery) async {
@@ -266,6 +265,14 @@ class ApiServiceProvider extends ChangeNotifier {
     }
 
     return (null, "Error");
+  }
+
+  Future<Archive?> getArchiveByID(int documentId) async {
+    if (token != null) {
+      return await ApiService.archivesDocument(token!, documentId);
+    }
+
+    return null;
   }
 
   Future<List<Signature>> getSignatures(

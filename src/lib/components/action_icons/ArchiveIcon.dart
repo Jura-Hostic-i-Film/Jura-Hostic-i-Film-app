@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
 import '../../models/archives/Archive.dart';
-
 class ArchiveIcon extends StatelessWidget {
   final Archive archive;
   final Function callback;
@@ -11,7 +10,7 @@ class ArchiveIcon extends StatelessWidget {
     return GestureDetector(
       onTap: () => Navigator.pushNamed(
           context, "/docs/archive",
-          arguments: archive).then((value) => callback()),
+          arguments: (archive)),
       child: Container(
         width: 40,
         height: 40,
