@@ -1,15 +1,15 @@
 import 'package:flutter/material.dart';
 import '../../models/documents/Document.dart';
 
-class OverviewIcon extends StatelessWidget {
+class ReviseIcon extends StatelessWidget {
   final Document document;
-  const OverviewIcon({super.key, required this.document});
+  const ReviseIcon({super.key, required this.document});
 
   @override
   Widget build(BuildContext context) {
     return GestureDetector(
       onTap: () => Navigator.pushNamed(
-          context, "/docs/overview",
+          context, "/docs/revision",
           arguments: document),
       child: Container(
         width: 40,
@@ -19,11 +19,10 @@ class OverviewIcon extends StatelessWidget {
           border: Border.all(color: Colors.black, width: 2),
         ),
         child: const Icon(
-          Icons.file_open,
+          Icons.edit_note_outlined,
           size: 28,
         ),
       ),
     );
   }
-
 }

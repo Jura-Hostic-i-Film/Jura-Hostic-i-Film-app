@@ -1,16 +1,16 @@
 import 'package:flutter/material.dart';
-import '../../models/documents/Document.dart';
+import '../../models/archives/Archive.dart';
 
-class OverviewIcon extends StatelessWidget {
-  final Document document;
-  const OverviewIcon({super.key, required this.document});
+class ArchiveIcon extends StatelessWidget {
+  final Archive archive;
+  const ArchiveIcon({super.key, required this.archive});
 
   @override
   Widget build(BuildContext context) {
     return GestureDetector(
       onTap: () => Navigator.pushNamed(
-          context, "/docs/overview",
-          arguments: document),
+          context, "/docs/archive",
+          arguments: archive),
       child: Container(
         width: 40,
         height: 40,
@@ -19,11 +19,10 @@ class OverviewIcon extends StatelessWidget {
           border: Border.all(color: Colors.black, width: 2),
         ),
         child: const Icon(
-          Icons.file_open,
+          Icons.archive,
           size: 28,
         ),
       ),
     );
   }
-
 }

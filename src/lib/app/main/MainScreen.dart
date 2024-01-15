@@ -25,43 +25,52 @@ class HomeScreenState extends State<HomeScreen> {
 
   final List<SideTab> tabList = TabList.tabList;
 
-  bool setupTabList = true;
+  List<Role> currentRoles = [];
+
+  int? setupFor;
+
+  void setupTabs() {
+    for (SideTab tab in tabList) {
+      tab.enabled = false;
+    }
+
+    if (currentRoles.contains(Role.admin) ||
+        currentRoles.contains(Role.director)) {
+      tabList[0].enabled = true;
+    }
+    if (currentRoles.where((role) => role != Role.admin).isNotEmpty) {
+      tabList[1].enabled = true;
+      tabIndex = 1;
+    }
+    if (currentRoles.contains(Role.auditor)) {
+      tabList[4].enabled = true;
+    }
+    if (currentRoles.contains(Role.accountant_internal) ||
+        currentRoles.contains(Role.accountant_offer) ||
+        currentRoles.contains(Role.accountant_receipt)) {
+      tabList[5].enabled = true;
+    }
+    if (currentRoles.contains(Role.director)) {
+      tabList[6].enabled = true;
+    }
+    if (currentRoles.isEmpty) {
+      tabList[2].enabled = true;
+      tabIndex = 2;
+    }
+    if (kDebugMode) {
+      tabList[3].enabled = true;
+      tabIndex = 3;
+    }
+  }
 
   @override
   Widget build(BuildContext context) {
     ApiServiceProvider apiServiceProvider =
         Provider.of<ApiServiceProvider>(context, listen: true);
-    List<Role> currentRoles = apiServiceProvider.currentUser?.roles ?? [];
-
-    if (setupTabList) {
-      if (currentRoles.contains(Role.admin) ||
-          currentRoles.contains(Role.director)) {
-        tabList[0].enabled = true;
-      }
-      if (currentRoles.where((role) => role != Role.admin).isNotEmpty) {
-        tabList[1].enabled = true;
-        tabIndex = 1;
-      }
-      if (currentRoles.contains(Role.auditor)) {
-        tabList[4].enabled = true;
-      }
-      if (currentRoles.contains(Role.accountant_internal) ||
-          currentRoles.contains(Role.accountant_offer) ||
-          currentRoles.contains(Role.accountant_receipt)) {
-        tabList[5].enabled = true;
-      }
-      if (currentRoles.contains(Role.director)) {
-        tabList[6].enabled = true;
-      }
-      if (currentRoles.isEmpty) {
-        tabList[2].enabled = true;
-        tabIndex = 2;
-      }
-      if (kDebugMode) {
-        tabList[3].enabled = true;
-        tabIndex = 3;
-      }
-      setupTabList = false;
+    currentRoles = apiServiceProvider.currentUser?.roles ?? [];
+    if (apiServiceProvider.currentUser != null && setupFor != apiServiceProvider.currentUser?.id) {
+      setupFor = apiServiceProvider.currentUser?.id;
+      setupTabs();
     }
 
     return Scaffold(

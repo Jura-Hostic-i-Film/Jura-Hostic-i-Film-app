@@ -1,5 +1,8 @@
 import 'package:flutter/material.dart';
+import 'package:jura_hostic_i_film_app/backend_connection/ApiServiceProvider.dart';
 import 'package:jura_hostic_i_film_app/components/history/DocumentTypeDisplayable.dart';
+import 'package:provider/provider.dart';
+import '../../components/users/ParticipantDisplayable.dart';
 import '../../models/documents/Document.dart';
 
 class DocumentOverviewScreen extends StatefulWidget {
@@ -16,7 +19,8 @@ class DocumentOverviewScreenState extends State<DocumentOverviewScreen> {
   Widget build(BuildContext context) {
     final Document document =
     ModalRoute.of(context)!.settings.arguments as Document;
-    summaryController.text = document.summary;
+
+    ApiServiceProvider apiServiceProvider = Provider.of<ApiServiceProvider>(context, listen: true);
 
     return Scaffold(
       backgroundColor: Colors.white,
@@ -108,27 +112,24 @@ class DocumentOverviewScreenState extends State<DocumentOverviewScreen> {
                     ],
                   ),
                 ),
-                SingleChildScrollView(
-                  scrollDirection: Axis.vertical,
-                  child: Container(
-                    height: 320,
-                    decoration: BoxDecoration(
-                      border: Border.all(color: Colors.black, width: 2),
-                      borderRadius: BorderRadius.circular(8),
-                    ),
-                    padding: const EdgeInsetsDirectional.symmetric(horizontal: 16),
-                    child: TextField(
-                      maxLines: null,
-                      minLines: null,
-                      expands: true,
-                      onChanged: (value) => {document.summary = value},
+                document.owner.id != apiServiceProvider.currentUser?.id ? Padding(
+                  padding: const EdgeInsets.only(bottom: 24),
+                  child: ParticipantDisplayable(role: "Skenirao:", user: document.owner),
+                ) : const SizedBox(),
+                Container(
+                  height: 320,
+                  decoration: BoxDecoration(
+                    border: Border.all(color: Colors.black, width: 2),
+                    borderRadius: BorderRadius.circular(8),
+                  ),
+                  padding: const EdgeInsetsDirectional.symmetric(horizontal: 16, vertical: 12),
+                  child: SingleChildScrollView(
+                    scrollDirection: Axis.vertical,
+                    child: Text(
+                      document.summary,
                       style: const TextStyle(
                         fontSize: 14,
                       ),
-                      decoration: const InputDecoration(
-                        border: InputBorder.none,
-                      ),
-                      controller: summaryController,
                     ),
                   ),
                 ),

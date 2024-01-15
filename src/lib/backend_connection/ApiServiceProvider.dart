@@ -200,6 +200,14 @@ class ApiServiceProvider extends ChangeNotifier {
     return null;
   }
 
+  /*
+  Future<Audit?> getAuditByID(int documentId) async {
+    if (token != null) {
+      return await ApiService.audits(token, documentId)
+    }
+  }
+   */
+
   Future<List<Archive>> getArchives(int? userIdQuery, ArchiveStatus? statusQuery) async {
     if (token != null) {
       return await ApiService.archives(token!, userIdQuery != null ? userIdQuery.toString() : '', statusQuery != null ? statusQuery.name : '');
