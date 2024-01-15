@@ -17,7 +17,6 @@ class DebugScreenState extends State<DebugScreen> {
   @override
   Widget build(BuildContext context) {
     ApiServiceProvider apiServiceProvider = Provider.of<ApiServiceProvider>(context, listen: true);
-    print("current user id: " + apiServiceProvider.currentUser!.id.toString());
     if (false) apiServiceProvider.apiDocumentsTest();
     if (false) apiServiceProvider.apiAuditArchiveTest();
     if (false) apiServiceProvider.apiSignaturesTest();

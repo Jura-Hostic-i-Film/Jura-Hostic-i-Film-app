@@ -1,8 +1,11 @@
 import 'package:flutter/material.dart';
 import 'package:jura_hostic_i_film_app/components/history/DocumentTypeDisplayable.dart';
 import 'package:jura_hostic_i_film_app/components/users/ParticipantDisplayable.dart';
+import 'package:provider/provider.dart';
+import '../../backend_connection/ApiServiceProvider.dart';
 import '../../components/buttons/AsyncButton.dart';
 import '../../models/signatures/Signature.dart';
+import '../../util/LoadingDialog.dart';
 
 class SignatureCreationScreen extends StatefulWidget {
   const SignatureCreationScreen({super.key});
@@ -15,7 +18,7 @@ class SignatureCreationScreenState extends State<SignatureCreationScreen> {
 
   @override
   Widget build(BuildContext context) {
-    final Signature archivedDocument =
+    final Signature signatureDocument =
     ModalRoute.of(context)!.settings.arguments as Signature;
 
     return Scaffold(
@@ -73,18 +76,18 @@ class SignatureCreationScreenState extends State<SignatureCreationScreen> {
                             spacing: 12,
                             children: [
                               Text(
-                                "Dokument ID: ${archivedDocument.document.id.toString()}",
+                                "Dokument ID: ${signatureDocument.document.id.toString()}",
                                 textAlign: TextAlign.start,
                                 style: const TextStyle(
                                   fontWeight: FontWeight.bold,
                                   fontSize: 20,
                                 ),
                               ),
-                              DocumentTypeDisplayable(documentType: archivedDocument.document.documentType),
+                              DocumentTypeDisplayable(documentType: signatureDocument.document.documentType),
                             ],
                           ),
                           Text(
-                            "Stvoren: ${archivedDocument.document.scanTime}",
+                            "Stvoren: ${signatureDocument.document.scanTime}",
                             textAlign: TextAlign.start,
                             style: const TextStyle(
                               fontStyle: FontStyle.italic,
@@ -110,11 +113,11 @@ class SignatureCreationScreenState extends State<SignatureCreationScreen> {
                 ),
                 Padding(
                   padding: const EdgeInsets.only(bottom: 12),
-                  child: ParticipantDisplayable(role: "Skenirao:", user: archivedDocument.document.owner),
+                  child: ParticipantDisplayable(role: "Skenirao:", user: signatureDocument.document.owner),
                 ),
                 Padding(
                   padding: const EdgeInsets.only(bottom: 24),
-                  child: ParticipantDisplayable(role: "Zatražio potpis:", user: archivedDocument.signed),
+                  child: ParticipantDisplayable(role: "Zatražio potpis:", user: signatureDocument.signed),
                 ),
                 Container(
                   height: 180,
@@ -126,7 +129,7 @@ class SignatureCreationScreenState extends State<SignatureCreationScreen> {
                   child: SingleChildScrollView(
                     scrollDirection: Axis.vertical,
                     child: Text(
-                      archivedDocument.document.summary,
+                      signatureDocument.document.summary,
                       style: const TextStyle(
                         fontSize: 14,
                       ),
@@ -146,26 +149,12 @@ class SignatureCreationScreenState extends State<SignatureCreationScreen> {
               children: [
                 AsyncButton(
                   onTap: () async {
-                    Navigator.pop(context);
-                    //if (await apiServiceProvider.authUser(loginUser) && mounted) Navigator.pushReplacementNamed(context, '/home');
+                    ApiServiceProvider apiServiceProvider = Provider.of<ApiServiceProvider>(context, listen: false);
+                    LoadingDialog.useLoadingDialog<Signature?, String>(context, apiServiceProvider.signDocument(signatureDocument.document.id), "Dokument je uspješno potpisan!", "Došlo je do pogreške!", () => Navigator.pop(context), () {});
                   },
                   content: const Center(
                     child: Text(
-                      "Zatraži potpis",
-                      style: TextStyle(color: Colors.white),
-                    ),
-                  ),
-                  backgroundColor: Colors.blue,
-                ),
-                const SizedBox(height: 10),
-                AsyncButton(
-                  onTap: () async {
-                    Navigator.pop(context);
-                    //if (await apiServiceProvider.authUser(loginUser) && mounted) Navigator.pushReplacementNamed(context, '/home');
-                  },
-                  content: const Center(
-                    child: Text(
-                      "Dodaj u arhivu",
+                      "Potpiši",
                       style: TextStyle(color: Colors.white),
                     ),
                   ),

@@ -3,9 +3,9 @@ import 'package:flutter/material.dart';
 import '../components/loading/LoadingModal.dart';
 
 class LoadingDialog {
-  static void useLoadingDialog<G>(
+  static void useLoadingDialog<G, V>(
     BuildContext context,
-    Future<G> future,
+    Future<(G, V)> future,
     String successMessage,
     String failMessage,
     Function successCallback,
@@ -16,7 +16,7 @@ class LoadingDialog {
         builder: (BuildContext context) {
           return FutureBuilder(
             future: future,
-            builder: (BuildContext context, AsyncSnapshot<G> snapshot) {
+            builder: (BuildContext context, AsyncSnapshot<(G, V)> snapshot) {
               return SimpleDialog(
                 titlePadding: EdgeInsets.zero,
                 contentPadding: const EdgeInsets.all(12),
@@ -30,7 +30,7 @@ class LoadingDialog {
                       children: snapshot.hasData
                           ? [
                               Text(
-                                snapshot.requireData != null
+                                snapshot.requireData.$1 != null
                                     ? successMessage
                                     : failMessage,
                                 style: const TextStyle(

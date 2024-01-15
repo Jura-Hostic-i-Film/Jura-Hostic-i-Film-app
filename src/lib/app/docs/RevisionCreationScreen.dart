@@ -153,7 +153,7 @@ class RevisionCreationScreenState extends State<RevisionCreationScreen> {
               child: AsyncButton(
                 onTap: () async {
                   ApiServiceProvider apiServiceProvider = Provider.of<ApiServiceProvider>(context, listen: false);
-                  LoadingDialog.useLoadingDialog<Audit?>(context, apiServiceProvider.auditDocument(document.id), "Dokument je uspješno revidiran!", "Došlo je do pogreške!", () => Navigator.pop(context), () {});
+                  LoadingDialog.useLoadingDialog<Audit?, String>(context, apiServiceProvider.auditDocument(document.id), "Dokument je uspješno revidiran!", "Došlo je do pogreške!", () => Navigator.pop(context), () {});
                 },
                 content: const Center(
                   child: Text(

@@ -17,7 +17,6 @@ class LocalDocumentHandler {
     if (imageData == null || downloadFolderPath == null) {
       return false;
     }
-    print(downloadFolderPath);
 
     final file = File('$downloadFolderPath/${document.id}.jpeg');
     await file.create(recursive: false);
@@ -33,8 +32,6 @@ class LocalDocumentHandler {
         directory = await getApplicationDocumentsDirectory();
       } else {
         directory = Directory('/storage/emulated/0/Download');
-        // Put file in global download folder, if for an unknown reason it didn't exist, we fallback
-        // ignore: avoid_slow_async_io
         if (!await directory.exists()) directory = await getExternalStorageDirectory();
       }
     } catch (err) {

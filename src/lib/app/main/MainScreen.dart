@@ -73,6 +73,9 @@ class HomeScreenState extends State<HomeScreen> {
       setupTabs();
     }
 
+    int notificationsCount = apiServiceProvider.notifications.values
+        .reduce((value, element) => value + element);
+
     return Scaffold(
       drawer: SideBarNavigator(
           tabList: tabList,
@@ -96,7 +99,7 @@ class HomeScreenState extends State<HomeScreen> {
                       padding: EdgeInsets.symmetric(vertical: 3, horizontal: 4),
                       child: Icon(Icons.menu),
                     ),
-                    Positioned(
+                    notificationsCount != 0 ? Positioned(
                       top: 0,
                       right: 0,
                       child: Container(
@@ -108,9 +111,7 @@ class HomeScreenState extends State<HomeScreen> {
                         ),
                         child: Center(
                           child: Text(
-                            apiServiceProvider.notifications.values
-                                .reduce((value, element) => value + element)
-                                .toString(),
+                            notificationsCount.toString(),
                             textAlign: TextAlign.center,
                             style: const TextStyle(
                               fontSize: 6,
@@ -120,7 +121,7 @@ class HomeScreenState extends State<HomeScreen> {
                           ),
                         ),
                       ),
-                    ),
+                    ) : const SizedBox(),
                   ],
                 ),
               ),

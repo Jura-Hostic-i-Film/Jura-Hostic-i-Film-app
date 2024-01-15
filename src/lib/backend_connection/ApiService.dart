@@ -376,6 +376,24 @@ class ApiService {
     }
   }
 
+  static Future<int> auditsMePending(String token) async {
+    final url = Uri.https(root, "/audits/me/pending");
+
+    Response response = await get(
+      url,
+      headers: {
+        'Content-Type': 'application/json; charset=UTF-8',
+        'Authorization': formatToken(token)
+      },
+    );
+
+    if (response.statusCode == 200) {
+      return jsonDecode(response.body) as int;
+    } else {
+      return 0;
+    }
+  }
+
 
   // - /archives/*
 
@@ -459,12 +477,28 @@ class ApiService {
       },
     );
 
-    print(response.body);
-
     if (response.statusCode == 200) {
       return Archive.fromJson(jsonDecode(utf8.decode(response.bodyBytes)));
     } else {
       return null;
+    }
+  }
+
+  static Future<int> archivesMePending(String token) async {
+    final url = Uri.https(root, "/archives/me/pending");
+
+    Response response = await get(
+      url,
+      headers: {
+        'Content-Type': 'application/json; charset=UTF-8',
+        'Authorization': formatToken(token)
+      },
+    );
+
+    if (response.statusCode == 200) {
+      return jsonDecode(response.body) as int;
+    } else {
+      return 0;
     }
   }
 
@@ -555,6 +589,24 @@ class ApiService {
       return Signature.fromJson(jsonDecode(utf8.decode(response.bodyBytes)));
     } else {
       return null;
+    }
+  }
+
+  static Future<int> signaturesMePending(String token) async {
+    final url = Uri.https(root, "/signatures/me/pending");
+
+    Response response = await get(
+      url,
+      headers: {
+        'Content-Type': 'application/json; charset=UTF-8',
+        'Authorization': formatToken(token)
+      },
+    );
+
+    if (response.statusCode == 200) {
+      return jsonDecode(response.body) as int;
+    } else {
+      return 0;
     }
   }
 }

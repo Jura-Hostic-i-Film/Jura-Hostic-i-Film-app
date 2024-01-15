@@ -55,38 +55,15 @@ class ArchivePendingDisplayable extends StatelessWidget {
                         ),
                       ],
                     ),
-                    Column(
+                    Row(
+                      mainAxisAlignment: MainAxisAlignment.end,
+                      crossAxisAlignment: CrossAxisAlignment.center,
                       children: [
-                        Row(
-                          mainAxisAlignment: MainAxisAlignment.end,
-                          crossAxisAlignment: CrossAxisAlignment.center,
-                          children: [
-                            OverviewIcon(document: archive.document),
-                            const SizedBox(width: 6),
-                            DownloadOriginalIcon(document: archive.document),
-                          ],
-                        ),
-                        const SizedBox(height: 6),
-                        Row(
-                          mainAxisAlignment: MainAxisAlignment.end,
-                          crossAxisAlignment: CrossAxisAlignment.center,
-                          children: [
-                            Container(
-                              width: 40,
-                              height: 40,
-                              decoration: BoxDecoration(
-                                borderRadius: BorderRadius.circular(8),
-                                border: Border.all(color: Colors.black, width: 2),
-                              ),
-                              child: const Icon(
-                                Icons.draw,
-                                size: 28,
-                              ),
-                            ),
-                            const SizedBox(width: 6),
-                            ArchiveIcon(archive: archive, callback: () => callback()),
-                          ],
-                        ),
+                        ArchiveIcon(archive: archive, callback: () => callback()),
+                        const SizedBox(width: 6),
+                        OverviewIcon(document: archive.document),
+                        const SizedBox(width: 6),
+                        DownloadOriginalIcon(document: archive.document),
                       ],
                     ),
                   ]
