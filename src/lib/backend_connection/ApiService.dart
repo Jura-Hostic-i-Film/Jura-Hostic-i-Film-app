@@ -268,6 +268,24 @@ class ApiService {
     }
   }
 
+  static Future<Document?> documentsApproveDocument(String token, String documentId, bool approve) async {
+    final url = Uri.https(root, "/documents/approve/$documentId", {"approve": approve});
+
+    Response response = await post(
+      url,
+      headers: {
+        'Content-Type': 'application/json; charset=UTF-8',
+        'Authorization': formatToken(token),
+      },
+    );
+
+    if (response.statusCode == 200) {
+      return Document.fromJson(jsonDecode(utf8.decode(response.bodyBytes)));
+    } else {
+      return null;
+    }
+  }
+
 
   // - /audits/*
 
