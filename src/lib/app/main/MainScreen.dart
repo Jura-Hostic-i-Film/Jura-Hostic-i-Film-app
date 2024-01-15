@@ -77,7 +77,7 @@ class HomeScreenState extends State<HomeScreen> {
         foregroundColor: Colors.black,
         leading: Builder(
           builder: (context) => GestureDetector(
-            child: Container(
+            child: SizedBox(
               width: 50,
               height: 50,
               child: Center(

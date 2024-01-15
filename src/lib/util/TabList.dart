@@ -10,7 +10,7 @@ import '../models/SideTab.dart';
 class TabList {
   static List<SideTab> tabList = [
     SideTab(screen: const UsersScreen(), name: 'Korisnici', key: '/home/users', icon: null, enabled: false),
-    SideTab(screen: const HistoryScreen(), name: 'Povijest', key: '/home/history', icon: null, enabled: false),
+    SideTab(screen: const HistoryScreen(), name: 'Moja povijest', key: '/home/history', icon: null, enabled: false),
     SideTab(screen: const UnauthorizedScreen(), name: '', key: '/home/unauth', icon: null, enabled: false),
     SideTab(screen: const DebugScreen(), name: 'DEBUG', key: '/home/debug', icon: null, enabled: false),
     SideTab(screen: const RevisionScreen(), name: 'Revizije', key: '/home/revision', icon: null, enabled: false),

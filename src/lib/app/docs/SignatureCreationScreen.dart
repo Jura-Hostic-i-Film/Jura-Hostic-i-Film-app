@@ -4,7 +4,7 @@ import 'package:jura_hostic_i_film_app/components/users/ParticipantDisplayable.d
 import 'package:provider/provider.dart';
 import '../../backend_connection/ApiServiceProvider.dart';
 import '../../components/buttons/AsyncButton.dart';
-import '../../models/archives/Archive.dart';
+import '../../models/signatures/Signature.dart';
 
 class SignatureCreationScreen extends StatefulWidget {
   const SignatureCreationScreen({super.key});
@@ -17,11 +17,8 @@ class SignatureCreationScreenState extends State<SignatureCreationScreen> {
 
   @override
   Widget build(BuildContext context) {
-    ApiServiceProvider apiServiceProvider =
-    Provider.of<ApiServiceProvider>(context, listen: false);
-
-    final Archive archivedDocument =
-    ModalRoute.of(context)!.settings.arguments as Archive;
+    final Signature archivedDocument =
+    ModalRoute.of(context)!.settings.arguments as Signature;
 
     return Scaffold(
       backgroundColor: Colors.white,
@@ -48,7 +45,7 @@ class SignatureCreationScreenState extends State<SignatureCreationScreen> {
             top: 120,
             left: 28,
             child: Text(
-              "Arhiviranje",
+              "Potpisivanje",
               textAlign: TextAlign.start,
               style: TextStyle(
                 fontWeight: FontWeight.bold,
@@ -119,7 +116,7 @@ class SignatureCreationScreenState extends State<SignatureCreationScreen> {
                 ),
                 Padding(
                   padding: const EdgeInsets.only(bottom: 24),
-                  child: ParticipantDisplayable(role: "Zatražio potpis:", user: archivedDocument.archived),
+                  child: ParticipantDisplayable(role: "Zatražio potpis:", user: archivedDocument.signed),
                 ),
                 Container(
                   height: 180,

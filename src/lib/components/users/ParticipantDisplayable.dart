@@ -13,16 +13,19 @@ class ParticipantDisplayable extends StatelessWidget {
       mainAxisAlignment: MainAxisAlignment.spaceBetween,
       crossAxisAlignment: CrossAxisAlignment.center,
       children: [
-        Text(
-          role,
-          style: const TextStyle(
-            fontWeight: FontWeight.bold,
-            decoration: TextDecoration.underline,
-            fontSize: 20,
+        Expanded(
+          flex: 1,
+          child: Text(
+            role,
+            style: const TextStyle(
+              fontWeight: FontWeight.bold,
+              decoration: TextDecoration.underline,
+              fontSize: 20,
+            ),
           ),
         ),
-        SizedBox(
-          width: 220,
+        Expanded(
+          flex: 2,
           child: Column(
             mainAxisAlignment: MainAxisAlignment.start,
             crossAxisAlignment: CrossAxisAlignment.start,

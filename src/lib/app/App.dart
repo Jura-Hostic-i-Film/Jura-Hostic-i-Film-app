@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:jura_hostic_i_film_app/app/auth/RegisterScreen.dart';
+import 'package:jura_hostic_i_film_app/app/docs/DocumentOverviewScreen.dart';
 import 'package:jura_hostic_i_film_app/app/main/MainScreen.dart';
 import 'package:provider/provider.dart';
 import '../backend_connection/ApiServiceProvider.dart';
@@ -44,6 +45,7 @@ class App extends StatelessWidget {
                 primarySwatch: Colors.grey,
               ),
               routes: {
+                '/docs/overview': (context) => const DocumentOverviewScreen(),
                 '/docs/revision': (context) => const RevisionCreationScreen(),
                 '/docs/archive': (context) => const ArchiveCreationScreen(),
                 '/docs/signature': (context) => const SignatureCreationScreen(),

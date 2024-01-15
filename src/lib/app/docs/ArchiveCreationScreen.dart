@@ -18,9 +18,6 @@ class ArchiveCreationScreenState extends State<ArchiveCreationScreen> {
 
   @override
   Widget build(BuildContext context) {
-    ApiServiceProvider apiServiceProvider =
-    Provider.of<ApiServiceProvider>(context, listen: false);
-
     final Audit auditedDocument =
     ModalRoute.of(context)!.settings.arguments as Audit;
 

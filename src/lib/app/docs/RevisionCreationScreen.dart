@@ -18,9 +18,6 @@ class RevisionCreationScreenState extends State<RevisionCreationScreen> {
 
   @override
   Widget build(BuildContext context) {
-    ApiServiceProvider apiServiceProvider =
-        Provider.of<ApiServiceProvider>(context, listen: false);
-
     final Document document =
         ModalRoute.of(context)!.settings.arguments as Document;
     summaryController.text = document.summary;

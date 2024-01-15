@@ -144,6 +144,14 @@ class ApiServiceProvider extends ChangeNotifier {
     return null;
   }
 
+  Future<Uint8List?> getImageDataByID(int imageId) async {
+    if (token != null) {
+      return await ApiService.documentsImage(token!, imageId.toString());
+    }
+
+    return null;
+  }
+
   Future<Document?> updateDocumentStatus(int documentId, DocumentStatus documentStatus) async {
     if (token != null) {
       return await ApiService.documentsUpdate(token!, documentId.toString(), documentStatus.name);
