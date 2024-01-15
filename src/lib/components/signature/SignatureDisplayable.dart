@@ -1,15 +1,13 @@
 import 'package:flutter/material.dart';
-import 'package:jura_hostic_i_film_app/models/audits/Audit.dart';
+import '../../models/signatures/Signature.dart';
 import '../action_icons/DownloadOriginalIcon.dart';
 import '../action_icons/OverviewIcon.dart';
-import '../action_icons/ReviseIcon.dart';
 import '../history/DocumentTypeDisplayable.dart';
 import '../history/DocumentStatusDisplayable.dart';
 
-class RevisionPendingDisplayable extends StatelessWidget {
-  final Audit audit;
-  final Function callback;
-  const RevisionPendingDisplayable({required this.audit, required this.callback, super.key});
+class SignatureDisplayable extends StatelessWidget {
+  final Signature signature;
+  const SignatureDisplayable({required this.signature, super.key});
 
   @override
   Widget build(BuildContext context) {
@@ -35,7 +33,7 @@ class RevisionPendingDisplayable extends StatelessWidget {
                           crossAxisAlignment: WrapCrossAlignment.center,
                           children: [
                             Text(
-                              'Document ID: ${audit.document.id}',
+                              'Document ID: ${signature.document.id}',
                               style: const TextStyle(
                                 fontWeight: FontWeight.bold,
                                 fontSize: 20,
@@ -46,7 +44,7 @@ class RevisionPendingDisplayable extends StatelessWidget {
                         Padding(
                           padding: const EdgeInsets.symmetric(vertical: 2),
                           child: Text(
-                            'Stvoren: ${audit.document.scanTime.toString().split(".")[0]}\nSkenirao: ${audit.document.owner.username.toString()}',
+                            'Stvoren: ${signature.document.scanTime.toString().split(".")[0]}\nSkenirao: ${signature.document.owner.username.toString()}',
                             style: const TextStyle(
                               fontSize: 14,
                               fontStyle: FontStyle.italic,
@@ -57,13 +55,11 @@ class RevisionPendingDisplayable extends StatelessWidget {
                     ),
                     Row(
                       mainAxisAlignment: MainAxisAlignment.end,
-                      crossAxisAlignment: CrossAxisAlignment.center,
+                      crossAxisAlignment: CrossAxisAlignment.start,
                       children: [
-                        ReviseIcon(document: audit.document, callback: () => callback()),
+                        OverviewIcon(document: signature.document),
                         const SizedBox(width: 6),
-                        OverviewIcon(document: audit.document),
-                        const SizedBox(width: 6),
-                        DownloadOriginalIcon(document: audit.document),
+                        DownloadOriginalIcon(document: signature.document),
                       ],
                     ),
                   ]
@@ -71,19 +67,17 @@ class RevisionPendingDisplayable extends StatelessWidget {
               Row(
                 mainAxisAlignment: MainAxisAlignment.start,
                 crossAxisAlignment: CrossAxisAlignment.start,
-
-                //
                 children: [
                   Container(
                       padding: const EdgeInsets.symmetric(vertical: 5),
                       child:
-                      DocumentStatusDisplayable(documentStatus: audit.document.documentStatus)
+                      DocumentStatusDisplayable(documentStatus: signature.document.documentStatus)
                   ),
                   const SizedBox(width:6),
                   Container(
                       padding: const EdgeInsets.symmetric(vertical: 5),
                       child:
-                      DocumentTypeDisplayable(documentType: audit.document.documentType)
+                      DocumentTypeDisplayable(documentType: signature.document.documentType)
                   ),
                 ],
               )

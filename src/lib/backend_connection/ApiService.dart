@@ -269,9 +269,9 @@ class ApiService {
   }
 
   static Future<Document?> documentsApproveDocument(String token, String documentId, bool approve) async {
-    final url = Uri.https(root, "/documents/approve/$documentId", {"approve": approve});
+    final url = Uri.https(root, "/documents/approve/$documentId", {"approve": approve.toString()});
 
-    Response response = await post(
+    Response response = await get(
       url,
       headers: {
         'Content-Type': 'application/json; charset=UTF-8',
@@ -376,6 +376,42 @@ class ApiService {
     }
   }
 
+  static Future<Audit?> auditsDocumentGET(String token, int documentId) async {
+    final url = Uri.https(root, "/audits/$documentId");
+
+    Response response = await get(
+      url,
+      headers: {
+        'Content-Type': 'application/json; charset=UTF-8',
+        'Authorization': formatToken(token),
+      },
+    );
+
+    if (response.statusCode == 200) {
+      return Audit.fromJson(jsonDecode(utf8.decode(response.bodyBytes)));
+    } else {
+      return null;
+    }
+  }
+
+  static Future<int> auditsMePending(String token) async {
+    final url = Uri.https(root, "/audits/me/pending");
+
+    Response response = await get(
+      url,
+      headers: {
+        'Content-Type': 'application/json; charset=UTF-8',
+        'Authorization': formatToken(token)
+      },
+    );
+
+    if (response.statusCode == 200) {
+      return jsonDecode(response.body) as int;
+    } else {
+      return 0;
+    }
+  }
+
 
   // - /archives/*
 
@@ -448,10 +484,46 @@ class ApiService {
     }
   }
 
-  static Future<Archive?> archivesArchiveDocument(String token, String documentId) async {
-    final url = Uri.https(root, "/archives/archive/$documentId");
+  static Future<Archive?> archivesArchiveDocument(String token, String documentId, String status) async {
+    final url = Uri.https(root, "/archives/archive/$documentId/$status");
 
     Response response = await post(
+      url,
+      headers: {
+        'Content-Type': 'application/json; charset=UTF-8',
+        'Authorization': formatToken(token),
+      },
+    );
+
+    if (response.statusCode == 200) {
+      return Archive.fromJson(jsonDecode(utf8.decode(response.bodyBytes)));
+    } else {
+      return null;
+    }
+  }
+
+  static Future<int> archivesMePending(String token) async {
+    final url = Uri.https(root, "/archives/me/pending");
+
+    Response response = await get(
+      url,
+      headers: {
+        'Content-Type': 'application/json; charset=UTF-8',
+        'Authorization': formatToken(token)
+      },
+    );
+
+    if (response.statusCode == 200) {
+      return jsonDecode(response.body) as int;
+    } else {
+      return 0;
+    }
+  }
+
+  static Future<Archive?> archivesDocument(String token, int documentId) async {
+    final url = Uri.https(root, "/archives/$documentId");
+
+    Response response = await get(
       url,
       headers: {
         'Content-Type': 'application/json; charset=UTF-8',
@@ -477,7 +549,7 @@ class ApiService {
     if (status != null) {
       queryParams["status"] = status;
     }
-    final url = Uri.https(root, "/signature", queryParams);
+    final url = Uri.https(root, "/signatures", queryParams);
 
     Response response = await get(
       url,
@@ -553,6 +625,24 @@ class ApiService {
       return Signature.fromJson(jsonDecode(utf8.decode(response.bodyBytes)));
     } else {
       return null;
+    }
+  }
+
+  static Future<int> signaturesMePending(String token) async {
+    final url = Uri.https(root, "/signatures/me/pending");
+
+    Response response = await get(
+      url,
+      headers: {
+        'Content-Type': 'application/json; charset=UTF-8',
+        'Authorization': formatToken(token)
+      },
+    );
+
+    if (response.statusCode == 200) {
+      return jsonDecode(response.body) as int;
+    } else {
+      return 0;
     }
   }
 }

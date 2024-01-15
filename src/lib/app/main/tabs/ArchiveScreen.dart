@@ -16,6 +16,7 @@ class ArchiveScreen extends StatefulWidget {
 }
 
 class ArchiveScreenState extends State<ArchiveScreen> {
+
   @override
   Widget build(BuildContext context) {
     ApiServiceProvider apiServiceProvider = Provider.of<ApiServiceProvider>(context, listen: true);
@@ -80,7 +81,7 @@ class ArchiveScreenState extends State<ArchiveScreen> {
                                         ),
                                       )
                                   ),
-                                  child: ArchivePendingDisplayable(archive: archive),
+                                  child: ArchivePendingDisplayable(archive: archive, callback: () => setState(() {})),
                                 ),
                               )).values.toList(),
                             ),

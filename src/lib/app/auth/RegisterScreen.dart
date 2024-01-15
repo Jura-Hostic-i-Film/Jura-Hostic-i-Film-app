@@ -50,17 +50,14 @@ class RegisterScreenState extends State<RegisterScreen> {
             left: 10,
             child: GestureDetector(
               onTap: () => {Navigator.pop(context)},
-              child: GestureDetector(
-                onTap: () => {Navigator.pop(context)},
-                child: const SizedBox(
-                    width: 50,
-                    height: 50,
-                    child: Icon(
-                      Icons.arrow_back,
-                      color: Colors.black,
-                      size: 32,
-                    )
-                ),
+              child: const SizedBox(
+                  width: 50,
+                  height: 50,
+                  child: Icon(
+                    Icons.arrow_back,
+                    color: Colors.black,
+                    size: 32,
+                  )
               ),
             ),
           ),

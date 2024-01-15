@@ -1,4 +1,6 @@
 import 'package:flutter/material.dart';
+import 'package:jura_hostic_i_film_app/backend_connection/ApiServiceProvider.dart';
+import 'package:provider/provider.dart';
 import '../../models/SideTab.dart';
 import '../../models/User.dart';
 import '../users/RoleDisplayable.dart';
@@ -13,6 +15,8 @@ class SideBarNavigator extends Drawer {
 
   @override
   Widget build(BuildContext context) {
+    ApiServiceProvider apiServiceProvider = Provider.of<ApiServiceProvider>(context, listen: true);
+
     return SizedBox(
       width: drawerWidth,
       child: Drawer(
@@ -78,12 +82,36 @@ class SideBarNavigator extends Drawer {
                           padding: const EdgeInsets.symmetric(horizontal: 10),
                           width: drawerWidth,
                           height: 40,
-                          child: Text(
-                            sideTab.name,
-                            textAlign: TextAlign.left,
-                            style: const TextStyle(
-                              fontSize: 24,
-                            ),
+                          child: Row(
+                            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                            children: [
+                              Text(
+                                sideTab.name,
+                                textAlign: TextAlign.left,
+                                style: const TextStyle(
+                                  fontSize: 24,
+                                ),
+                              ),
+                              apiServiceProvider.notifications[sideTab.key] != 0 ? Container(
+                                width: 28,
+                                height: 28,
+                                decoration: BoxDecoration(
+                                  color: Colors.redAccent,
+                                  borderRadius: BorderRadius.circular(14),
+                                ),
+                                child: Center(
+                                  child: Text(
+                                    apiServiceProvider.notifications[sideTab.key].toString(),
+                                    textAlign: TextAlign.center,
+                                    style: const TextStyle(
+                                      fontSize: 13,
+                                      fontWeight: FontWeight.bold,
+                                      color: Colors.white,
+                                    ),
+                                  ),
+                                ),
+                              ) : const SizedBox(),
+                            ],
                           ),
                         ),
                       ),

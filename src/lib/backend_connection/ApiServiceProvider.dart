@@ -1,3 +1,4 @@
+import 'dart:async';
 import 'dart:io';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
@@ -19,20 +20,43 @@ import '../models/documents/DocumentStatus.dart';
 import '../models/documents/DocumentType.dart';
 import '../models/signatures/Signature.dart';
 import '../models/signatures/SignatureStatus.dart';
+import '../util/TabList.dart';
 import 'ApiService.dart';
 
 class ApiServiceProvider extends ChangeNotifier {
   final String root = Constants.baseUrl;
   String? token;
   User? currentUser;
+  Map<String, int> notifications = {
+    for (var tab in TabList.tabList) tab.key: 0
+  };
+  late Timer _timer;
 
-  ApiServiceProvider(this.token);
+  ApiServiceProvider(this.token) {
+    _timer = Timer.periodic(
+        const Duration(seconds: 10), (_) => updateNotifications());
+  }
+
+  @override
+  void dispose() {
+    _timer.cancel();
+    super.dispose();
+  }
+
+  Future<void> updateNotifications() async {
+    notifications["/home/signature"] = await getUserSignaturePendingCount();
+    notifications["/home/archive"] = await getUserArchivePendingCount();
+    notifications["/home/revision"] = await getUserAuditPendingCount();
+    notifyListeners();
+    return;
+  }
 
   Future<bool> authUser(LoginDTO user) async {
     String? responseToken = await ApiService.usersLogin(user);
     if (responseToken != null) {
       token = responseToken;
       await getCurrentUser();
+      await updateNotifications();
       notifyListeners();
       return await LocalStorageManager.writePair('token', token, true);
     }
@@ -81,9 +105,13 @@ class ApiServiceProvider extends ChangeNotifier {
     return await ApiService.usersAdminExists();
   }
 
-  Future<List<Document>> getDocuments(DocumentType? typeQuery, DocumentStatus? statusQuery) async {
+  Future<List<Document>> getDocuments(
+      DocumentType? typeQuery, DocumentStatus? statusQuery) async {
     if (token != null) {
-      return await ApiService.documents(token!, typeQuery != null ? typeQuery.name : '', statusQuery != null ? statusQuery.name : '');
+      return await ApiService.documents(
+          token!,
+          typeQuery != null ? typeQuery.name : '',
+          statusQuery != null ? statusQuery.name : '');
     }
 
     return [];
@@ -115,7 +143,8 @@ class ApiServiceProvider extends ChangeNotifier {
 
   Future<ImageProvider?> getImageByID(int imageId) async {
     if (token != null) {
-      Uint8List? imageString = await ApiService.documentsImage(token!, imageId.toString());
+      Uint8List? imageString =
+          await ApiService.documentsImage(token!, imageId.toString());
       if (imageString != null) {
         return MemoryImage(imageString);
       }
@@ -124,9 +153,19 @@ class ApiServiceProvider extends ChangeNotifier {
     return null;
   }
 
-  Future<Document?> updateDocumentStatus(int documentId, DocumentStatus documentStatus) async {
+  Future<Uint8List?> getImageDataByID(int imageId) async {
     if (token != null) {
-      return await ApiService.documentsUpdate(token!, documentId.toString(), documentStatus.name);
+      return await ApiService.documentsImage(token!, imageId.toString());
+    }
+
+    return null;
+  }
+
+  Future<Document?> updateDocumentStatus(
+      int documentId, DocumentStatus documentStatus) async {
+    if (token != null) {
+      return await ApiService.documentsUpdate(
+          token!, documentId.toString(), documentStatus.name);
     }
 
     return null;
@@ -134,15 +173,20 @@ class ApiServiceProvider extends ChangeNotifier {
 
   Future<Document?> approveDocument(int documentId, bool approve) async {
     if (token != null) {
-      return await ApiService.documentsApproveDocument(token!, documentId.toString(), approve);
+      return await ApiService.documentsApproveDocument(
+          token!, documentId.toString(), approve);
     }
 
     return null;
   }
 
-  Future<List<Audit>> getAudits(int? userIdQuery, AuditStatus? statusQuery) async {
+  Future<List<Audit>> getAudits(
+      int? userIdQuery, AuditStatus? statusQuery) async {
     if (token != null) {
-      return await ApiService.audits(token!, userIdQuery != null ? userIdQuery.toString() : '', statusQuery != null ? statusQuery.name : '');
+      return await ApiService.audits(
+          token!,
+          userIdQuery != null ? userIdQuery.toString() : '',
+          statusQuery != null ? statusQuery.name : '');
     }
 
     return [];
@@ -150,7 +194,8 @@ class ApiServiceProvider extends ChangeNotifier {
 
   Future<List<Audit>> getUserAudits(AuditStatus? statusQuery) async {
     if (token != null) {
-      return await ApiService.auditsMe(token!, statusQuery != null ? statusQuery.name : '');
+      return await ApiService.auditsMe(
+          token!, statusQuery != null ? statusQuery.name : '');
     }
 
     return [];
@@ -164,17 +209,31 @@ class ApiServiceProvider extends ChangeNotifier {
     return null;
   }
 
-  Future<Audit?> auditDocument(int documentId) async {
+  Future<(Audit?, String)> auditDocument(int documentId) async {
     if (token != null) {
-      return await ApiService.auditsDocument(token!, documentId.toString());
+      Audit? rValue = await ApiService.auditsDocument(token!, documentId.toString());
+      await updateNotifications();
+      return (rValue, rValue == null ? "Success" : "Error");
+    }
+
+    return (null, "Error");
+  }
+
+  Future<Audit?> getAuditByID(int documentId) async {
+    if (token != null) {
+      return await ApiService.auditsDocumentGET(token!, documentId);
     }
 
     return null;
   }
 
-  Future<List<Archive>> getArchives(int? userIdQuery, ArchiveStatus? statusQuery) async {
+  Future<List<Archive>> getArchives(
+      int? userIdQuery, ArchiveStatus? statusQuery) async {
     if (token != null) {
-      return await ApiService.archives(token!, userIdQuery != null ? userIdQuery.toString() : '', statusQuery != null ? statusQuery.name : '');
+      return await ApiService.archives(
+          token!,
+          userIdQuery != null ? userIdQuery.toString() : '',
+          statusQuery != null ? statusQuery.name : '');
     }
 
     return [];
@@ -182,7 +241,8 @@ class ApiServiceProvider extends ChangeNotifier {
 
   Future<List<Archive>> getUserArchives(ArchiveStatus? statusQuery) async {
     if (token != null) {
-      return await ApiService.archivesMe(token!, statusQuery != null ? statusQuery.name : '');
+      return await ApiService.archivesMe(
+          token!, statusQuery != null ? statusQuery.name : '');
     }
 
     return [];
@@ -196,25 +256,42 @@ class ApiServiceProvider extends ChangeNotifier {
     return null;
   }
 
-  Future<Archive?> archiveDocument(int documentId) async {
+  Future<(Archive?, String)> archiveDocument(int documentId, ArchiveStatus status) async {
     if (token != null) {
-      return await ApiService.archivesArchiveDocument(token!, documentId.toString());
+      Archive? rValue = await ApiService.archivesArchiveDocument(
+          token!, documentId.toString(), status.name);
+      await updateNotifications();
+      return (rValue, rValue == null ? "Success" : "Error");
+    }
+
+    return (null, "Error");
+  }
+
+  Future<Archive?> getArchiveByID(int documentId) async {
+    if (token != null) {
+      return await ApiService.archivesDocument(token!, documentId);
     }
 
     return null;
   }
 
-  Future<List<Signature>> getSignatures(int? userIdQuery, SignatureStatus? statusQuery) async {
+  Future<List<Signature>> getSignatures(
+      int? userIdQuery, SignatureStatus? statusQuery) async {
     if (token != null) {
-      return await ApiService.signatures(token!, userIdQuery != null ? userIdQuery.toString() : '', statusQuery != null ? statusQuery.name : '');
+      return await ApiService.signatures(
+          token!,
+          userIdQuery != null ? userIdQuery.toString() : '',
+          statusQuery != null ? statusQuery.name : '');
     }
 
     return [];
   }
 
-  Future<List<Signature>> getUserSignatures(SignatureStatus? statusQuery) async {
+  Future<List<Signature>> getUserSignatures(
+      SignatureStatus? statusQuery) async {
     if (token != null) {
-      return await ApiService.signaturesMe(token!, statusQuery != null ? statusQuery.name : '');
+      return await ApiService.signaturesMe(
+          token!, statusQuery != null ? statusQuery.name : '');
     }
 
     return [];
@@ -228,12 +305,38 @@ class ApiServiceProvider extends ChangeNotifier {
     return null;
   }
 
-  Future<Signature?> signDocument(int documentId) async {
+  Future<(Signature?, String)> signDocument(int documentId) async {
     if (token != null) {
-      return await ApiService.signaturesDocument(token!, documentId.toString());
+      Signature? rValue = await ApiService.signaturesDocument(token!, documentId.toString());
+      await updateNotifications();
+      return (rValue, rValue == null ? "Success" : "Error");
     }
 
-    return null;
+    return (null, "Error");
+  }
+
+  Future<int> getUserAuditPendingCount() async {
+    if (token != null) {
+      return await ApiService.auditsMePending(token!);
+    }
+
+    return 0;
+  }
+
+  Future<int> getUserArchivePendingCount() async {
+    if (token != null) {
+      return await ApiService.archivesMePending(token!);
+    }
+
+    return 0;
+  }
+
+  Future<int> getUserSignaturePendingCount() async {
+    if (token != null) {
+      return await ApiService.signaturesMePending(token!);
+    }
+
+    return 0;
   }
 
   Future<ImageProvider?> apiDocumentsTest() async {
@@ -241,7 +344,8 @@ class ApiServiceProvider extends ChangeNotifier {
 
     final file = File('${(await getTemporaryDirectory()).path}/test_img.jpeg');
     await file.create(recursive: true);
-    await file.writeAsBytes(byteData.buffer.asUint8List(byteData.offsetInBytes, byteData.lengthInBytes));
+    await file.writeAsBytes(byteData.buffer
+        .asUint8List(byteData.offsetInBytes, byteData.lengthInBytes));
 
     Document? newDoc = await createDocument(file.path);
     if (newDoc != null) {
@@ -255,18 +359,29 @@ class ApiServiceProvider extends ChangeNotifier {
     print("num of user documents: " + docs.length.toString());
     for (Document doc in docs) {
       if (doc.id > docs.length - 5 || doc.id < 5) {
-        print(doc.id.toString() + " " + doc.documentType.name + " " + doc.documentStatus.name);
+        print(doc.id.toString() +
+            " " +
+            doc.documentType.name +
+            " " +
+            doc.documentStatus.name);
       }
     }
 
     ImageProvider? submitted = await getImageByID(newDoc.imageId);
-    Uint8List? uint = await ApiService.documentsImage(token!, newDoc.imageId.toString());
-    print("image good: " + (uint.toString() == byteData.buffer.asUint8List(byteData.offsetInBytes, byteData.lengthInBytes).toString()).toString());
+    Uint8List? uint =
+        await ApiService.documentsImage(token!, newDoc.imageId.toString());
+    print("image good: " +
+        (uint.toString() ==
+                byteData.buffer
+                    .asUint8List(byteData.offsetInBytes, byteData.lengthInBytes)
+                    .toString())
+            .toString());
 
     print("old status: " + newDoc.documentStatus.name);
-    newDoc = await updateDocumentStatus(newDoc.id, DocumentStatus.refused);
+    newDoc = await approveDocument(newDoc.id, true);
     print("new status: " + newDoc!.documentStatus.name);
 
+    /*
     List<Document> refusedDocs = await getDocuments(DocumentType.internal, DocumentStatus.refused);
     print(refusedDocs.length);
 
@@ -277,6 +392,8 @@ class ApiServiceProvider extends ChangeNotifier {
       print("first not found!");
     }
 
+
+     */
     return submitted;
   }
 
@@ -285,7 +402,8 @@ class ApiServiceProvider extends ChangeNotifier {
 
     final file = File('${(await getTemporaryDirectory()).path}/test_img.jpeg');
     await file.create(recursive: true);
-    await file.writeAsBytes(byteData.buffer.asUint8List(byteData.offsetInBytes, byteData.lengthInBytes));
+    await file.writeAsBytes(byteData.buffer
+        .asUint8List(byteData.offsetInBytes, byteData.lengthInBytes));
 
     Document? newDoc1 = await createDocument(file.path);
     Document? newDoc2 = await createDocument(file.path);
@@ -299,7 +417,8 @@ class ApiServiceProvider extends ChangeNotifier {
 
     Document? newDoc3 = await createDocument(file.path);
     int newDoc3Id = newDoc3!.id;
-    Archive? archive1 = await createArchiveRequest(new ArchiveDTO(25, newDoc3Id));
+    Archive? archive1 =
+        await createArchiveRequest(new ArchiveDTO(25, newDoc3Id));
     print(archive1);
 
     return;
@@ -318,7 +437,8 @@ class ApiServiceProvider extends ChangeNotifier {
     print(newSignature!.status.toString() + " " + newSignature!.document.id.toString());
     */
 
-    List<Signature> listSignaturesMy = await getUserSignatures(SignatureStatus.done);
+    List<Signature> listSignaturesMy =
+        await getUserSignatures(SignatureStatus.done);
     print(listSignaturesMy);
 
     return;

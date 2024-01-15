@@ -20,7 +20,7 @@ class Archive {
 
   factory Archive.fromJson(Map<String, dynamic> json) {
     return Archive(
-      archiveNumber: json["archive_number"] != null ? json["archive_number"] as int : null,
+      archiveNumber: json["archive_number"] as int,
       status: ArchiveStatus.fromString(json["status"]),
       archiveAt: json["archive_at"] != null ? DateTime.parse(json["archive_at"]) : null,
       archived: User.fromJson(json["archived"]),

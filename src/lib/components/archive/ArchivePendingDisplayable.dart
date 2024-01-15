@@ -1,11 +1,15 @@
 import 'package:flutter/material.dart';
-import 'package:jura_hostic_i_film_app/models/archives/Archive.dart';
+import 'package:jura_hostic_i_film_app/components/action_icons/ArchiveIcon.dart';
+import '../../models/archives/Archive.dart';
+import '../action_icons/DownloadOriginalIcon.dart';
+import '../action_icons/OverviewIcon.dart';
 import '../history/DocumentTypeDisplayable.dart';
 import '../history/DocumentStatusDisplayable.dart';
 
 class ArchivePendingDisplayable extends StatelessWidget {
   final Archive archive;
-  const ArchivePendingDisplayable({required this.archive, super.key});
+  final Function callback;
+  const ArchivePendingDisplayable({required this.archive, required this.callback, super.key});
 
   @override
   Widget build(BuildContext context) {
@@ -42,7 +46,7 @@ class ArchivePendingDisplayable extends StatelessWidget {
                         Padding(
                           padding: const EdgeInsets.symmetric(vertical: 2),
                           child: Text(
-                            'Stvoren: ${archive.document.scanTime.toString().split(".")[0]}\nSkenirao: ${archive.document.owner.username.toString()}',
+                            'Stvoren: ${archive.document.scanTime.toString().split(".")[0]}\nSkenirao: ${archive.document.owner.username.toString()}\n',
                             style: const TextStyle(
                               fontSize: 14,
                               fontStyle: FontStyle.italic,
@@ -55,57 +59,11 @@ class ArchivePendingDisplayable extends StatelessWidget {
                       mainAxisAlignment: MainAxisAlignment.end,
                       crossAxisAlignment: CrossAxisAlignment.center,
                       children: [
-                        Container(
-                          width: 40,
-                          height: 40,
-                          decoration: BoxDecoration(
-                            borderRadius: BorderRadius.circular(8),
-                            border: Border.all(color: Colors.black, width: 2),
-                          ),
-                          child: const Icon(
-                            Icons.draw,
-                            size: 28,
-                          ),
-                        ),
+                        ArchiveIcon(archive: archive, callback: () => callback()),
                         const SizedBox(width: 6),
-                        Container(
-                          width: 40,
-                          height: 40,
-                          decoration: BoxDecoration(
-                            borderRadius: BorderRadius.circular(8),
-                            border: Border.all(color: Colors.black, width: 2),
-                          ),
-                          child: const Icon(
-                            Icons.archive,
-                            size: 28,
-                          ),
-                        ),
+                        OverviewIcon(document: archive.document),
                         const SizedBox(width: 6),
-                        Container(
-                          width: 40,
-                          height: 40,
-                          decoration: BoxDecoration(
-                            borderRadius: BorderRadius.circular(8),
-                            border: Border.all(color: Colors.black, width: 2),
-                          ),
-                          child: const Icon(
-                            Icons.file_open,
-                            size: 28,
-                          ),
-                        ),
-                        const SizedBox(width: 6),
-                        Container(
-                          width: 40,
-                          height: 40,
-                          decoration: BoxDecoration(
-                            borderRadius: BorderRadius.circular(8),
-                            border: Border.all(color: Colors.black, width: 2),
-                          ),
-                          child: const Icon(
-                            Icons.download,
-                            size: 28,
-                          ),
-                        ),
+                        DownloadOriginalIcon(document: archive.document),
                       ],
                     ),
                   ]
@@ -113,8 +71,6 @@ class ArchivePendingDisplayable extends StatelessWidget {
               Row(
                 mainAxisAlignment: MainAxisAlignment.start,
                 crossAxisAlignment: CrossAxisAlignment.start,
-
-                //
                 children: [
                   Container(
                       padding: const EdgeInsets.symmetric(vertical: 5),
@@ -128,7 +84,7 @@ class ArchivePendingDisplayable extends StatelessWidget {
                       DocumentTypeDisplayable(documentType: archive.document.documentType)
                   ),
                 ],
-              )
+              ),
             ],
           ),
         ),

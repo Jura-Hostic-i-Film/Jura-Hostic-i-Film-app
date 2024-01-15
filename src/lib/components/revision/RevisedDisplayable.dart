@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:jura_hostic_i_film_app/models/audits/Audit.dart';
+import '../action_icons/DownloadOriginalIcon.dart';
+import '../action_icons/OverviewIcon.dart';
 import '../history/DocumentTypeDisplayable.dart';
 import '../history/DocumentStatusDisplayable.dart';
 
@@ -55,32 +57,9 @@ class RevisedDisplayable extends StatelessWidget {
                       mainAxisAlignment: MainAxisAlignment.end,
                       crossAxisAlignment: CrossAxisAlignment.center,
                       children: [
+                        OverviewIcon(document: audit.document),
                         const SizedBox(width: 6),
-                        Container(
-                          width: 40,
-                          height: 40,
-                          decoration: BoxDecoration(
-                            borderRadius: BorderRadius.circular(8),
-                            border: Border.all(color: Colors.black, width: 2),
-                          ),
-                          child: const Icon(
-                            Icons.file_open,
-                            size: 28,
-                          ),
-                        ),
-                        const SizedBox(width: 6),
-                        Container(
-                          width: 40,
-                          height: 40,
-                          decoration: BoxDecoration(
-                            borderRadius: BorderRadius.circular(8),
-                            border: Border.all(color: Colors.black, width: 2),
-                          ),
-                          child: const Icon(
-                            Icons.download,
-                            size: 28,
-                          ),
-                        ),
+                        DownloadOriginalIcon(document: audit.document),
                       ],
                     ),
                   ]

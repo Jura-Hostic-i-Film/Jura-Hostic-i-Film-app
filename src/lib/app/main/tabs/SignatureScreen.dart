@@ -1,8 +1,10 @@
 import 'package:flutter/material.dart';
 import 'package:jura_hostic_i_film_app/components/loading/LoadingModal.dart';
+import 'package:jura_hostic_i_film_app/components/signature/SignaturePendingDisplayable.dart';
 import 'package:provider/provider.dart';
 
 import '../../../backend_connection/ApiServiceProvider.dart';
+import '../../../components/signature/SignatureDisplayable.dart';
 import '../../../models/signatures/Signature.dart';
 import '../../../models/signatures/SignatureStatus.dart';
 
@@ -78,7 +80,7 @@ class SignatureScreenState extends State<SignatureScreen> {
                                         ),
                                       )
                                   ),
-                                  child: Text(signature.document.id.toString()),
+                                  child: SignaturePendingDisplayable(signature: signature, callback: () => setState(() {})),
                                 ),
                               )).values.toList(),
                             ),
@@ -101,7 +103,7 @@ class SignatureScreenState extends State<SignatureScreen> {
                                         ),
                                       )
                                   ),
-                                  child: Text(signature.document.id.toString()),
+                                  child: SignatureDisplayable(signature: signature),
                                 ),
                               )).values.toList(),
                             ),

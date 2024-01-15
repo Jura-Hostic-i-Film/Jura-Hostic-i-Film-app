@@ -80,7 +80,7 @@ class RevisionScreenState extends State<RevisionScreen> {
                                     ),
                                   )
                               ),
-                              child: RevisionPendingDisplayable(audit: audit),
+                              child: RevisionPendingDisplayable(audit: audit, callback: () => setState(() {})),
                             ),
                           )).values.toList(),
                         ),

@@ -4,7 +4,8 @@ class AsyncButton extends StatefulWidget {
   final Function onTap;
   final Widget content;
   final Widget? loadingContent;
-  const AsyncButton({required this.onTap, required this.content, this.loadingContent, super.key});
+  final Color? backgroundColor;
+  const AsyncButton({required this.onTap, required this.content, this.loadingContent, this.backgroundColor, super.key});
 
   @override
   State<StatefulWidget> createState() => AsyncButtonState();
@@ -19,9 +20,8 @@ class AsyncButtonState extends State<AsyncButton> {
       child: Container(
         decoration: BoxDecoration(
           borderRadius: BorderRadius.circular(25),
-          color: Colors.black,
+          color: widget.backgroundColor ?? Colors.black,
         ),
-        margin: const EdgeInsets.symmetric(vertical: 20),
         height: 50,
         width: 300,
         child: loading ? widget.loadingContent ?? const Center(
