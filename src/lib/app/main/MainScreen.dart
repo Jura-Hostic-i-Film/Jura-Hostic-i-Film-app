@@ -25,7 +25,7 @@ class HomeScreenState extends State<HomeScreen> {
 
   final List<SideTab> tabList = TabList.tabList;
   void goToDocuments() {
-    Navigator.pushNamed(context, '/addDocuments');
+    Navigator.pushNamed(context, '/docs/create');
   }
 
   List<Role> currentRoles = [];
@@ -139,8 +139,8 @@ class HomeScreenState extends State<HomeScreen> {
         onPressed: () {goToDocuments();},
         foregroundColor: Colors.white,
         focusColor: Colors.lightGreen,
-        backgroundColor: Colors.lightBlue,
-        label: const Text("Add documents"),
+        backgroundColor: Colors.black,
+        label: const Text("Skeniraj"),
         icon: const Icon(Icons.add),
       ),
     );
