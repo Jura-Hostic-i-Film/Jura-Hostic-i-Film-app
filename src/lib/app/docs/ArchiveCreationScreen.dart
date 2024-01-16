@@ -168,7 +168,7 @@ class ArchiveCreationScreenState extends State<ArchiveCreationScreen> {
                               style: TextStyle(color: Colors.white),
                             ),
                           ),
-                          backgroundColor: Colors.blue,
+                          backgroundColor: Colors.grey,
                         ) : const SizedBox(),
                         SizedBox(height: archive.status != ArchiveStatus.signed_pending ? 10 : 0),
                         AsyncButton(

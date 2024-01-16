@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:jura_hostic_i_film_app/app/auth/RegisterScreen.dart';
 import 'package:jura_hostic_i_film_app/app/docs/DocumentOverviewScreen.dart';
+import 'package:jura_hostic_i_film_app/app/docs/DocumentReviewScreen.dart';
 import 'package:jura_hostic_i_film_app/app/main/MainScreen.dart';
 import 'package:provider/provider.dart';
 import '../backend_connection/ApiServiceProvider.dart';
@@ -8,6 +9,7 @@ import '../components/loading/LoadingModal.dart';
 import '../constants.dart';
 import 'auth/LoginScreen.dart';
 import 'docs/ArchiveCreationScreen.dart';
+import 'docs/DocumentScreen.dart';
 import 'docs/RevisionCreationScreen.dart';
 import 'docs/SignatureCreationScreen.dart';
 class App extends StatelessWidget {
@@ -54,6 +56,8 @@ class App extends StatelessWidget {
                 '/auth/logout': (context) => const LoginScreen(logoutFirst: true),
                 '/users/register': (context) => const RegisterScreen(registerFirstUser: false),
                 '/home': (context) => const HomeScreen(),
+                '/docs/create': (context) => const DocumentScreen(),
+                '/docs/review': (context) => const DocumentReviewScreen(),
               },
               initialRoute:
                 snapshot.requireData == StartingState.noAdmin ? '/auth/register' :
