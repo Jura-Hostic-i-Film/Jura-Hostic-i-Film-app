@@ -4,6 +4,7 @@ import '../models/documents/Document.dart';
 class DocumentDTO{
   Document? processedDocument;
   XFile imageFile;
+  bool approved = false;
 
   DocumentDTO(
       this.imageFile

@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:jura_hostic_i_film_app/app/auth/RegisterScreen.dart';
 import 'package:jura_hostic_i_film_app/app/docs/DocumentOverviewScreen.dart';
 import 'package:jura_hostic_i_film_app/app/main/MainScreen.dart';
-import 'package:jura_hostic_i_film_app/app/main/DocumentScreen.dart';
+import 'package:jura_hostic_i_film_app/app/main/documents/DocumentScreen.dart';
 import 'package:provider/provider.dart';
 import '../backend_connection/ApiServiceProvider.dart';
 import '../components/loading/LoadingModal.dart';
