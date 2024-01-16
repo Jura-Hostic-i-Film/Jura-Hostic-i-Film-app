@@ -1,23 +1,22 @@
 import 'package:flutter/material.dart';
-import 'package:jura_hostic_i_film_app/components/buttons/AddButton.dart';
+import 'package:jura_hostic_i_film_app/components/buttons/StatusButton.dart';
 import 'package:jura_hostic_i_film_app/components/loading/LoadingModal.dart';
 import 'package:jura_hostic_i_film_app/components/history/DocumentDisplayable.dart';
 import 'package:provider/provider.dart';
 import 'package:jura_hostic_i_film_app/models/documents/Document.dart';
 import '../../../backend_connection/ApiServiceProvider.dart';
-import '../../../components/buttons/StatusButton.dart';
 import '../../../components/buttons/TypeButton.dart';
 import '../../../models/documents/DocumentStatus.dart';
 import '../../../models/documents/DocumentType.dart';
 
-class HistoryScreen extends StatefulWidget {
-  const HistoryScreen({super.key});
+class FullHistoryScreen extends StatefulWidget {
+  const FullHistoryScreen({super.key});
 
   @override
-  State<HistoryScreen> createState() => HistoryScreenState();
+  State<FullHistoryScreen> createState() => FullHistoryScreenState();
 }
 
-class HistoryScreenState extends State<HistoryScreen> {
+class FullHistoryScreenState extends State<FullHistoryScreen> {
   final GlobalKey statusDropdownKey = GlobalKey();
   final GlobalKey typeDropdownKey = GlobalKey();
 
@@ -27,7 +26,7 @@ class HistoryScreenState extends State<HistoryScreen> {
   @override
   Widget build(BuildContext context) {
     ApiServiceProvider apiServiceProvider =
-    Provider.of<ApiServiceProvider>(context, listen: true);
+        Provider.of<ApiServiceProvider>(context, listen: true);
 
     return Scaffold(
       body: Center(
@@ -35,7 +34,7 @@ class HistoryScreenState extends State<HistoryScreen> {
           children: [
             Positioned.fill(
               child: FutureBuilder(
-                future: apiServiceProvider.getUserDocuments(),
+                future: apiServiceProvider.getDocuments(null, null),
                 builder: (BuildContext context,
                     AsyncSnapshot<List<Document>> snapshot) {
                   if (snapshot.hasData) {
@@ -208,10 +207,10 @@ class HistoryScreenState extends State<HistoryScreen> {
                                   ),
                                 ),
                                 onTap: () => setState(
-                                        () {
-                                      statusQuery = null;
-                                      typeQuery = null;
-                                    }
+                                  () {
+                                    statusQuery = null;
+                                    typeQuery = null;
+                                  }
                                 ),
                               ),
                               GestureDetector(
@@ -230,7 +229,6 @@ class HistoryScreenState extends State<HistoryScreen> {
                           ),
                         ],
                       ),
-                      //margin: const EdgeInsets.only(bottom: 10),
                     )
                   ],
                 ),

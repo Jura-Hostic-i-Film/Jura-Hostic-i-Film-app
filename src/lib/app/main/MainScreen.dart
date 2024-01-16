@@ -39,27 +39,28 @@ class HomeScreenState extends State<HomeScreen> {
       tabList[0].enabled = true;
     }
     if (currentRoles.where((role) => role != Role.admin).isNotEmpty) {
-      tabList[1].enabled = true;
-      tabIndex = 1;
+      tabList[2].enabled = true;
+      tabIndex = 2;
     }
     if (currentRoles.contains(Role.auditor)) {
-      tabList[4].enabled = true;
+      tabList[5].enabled = true;
     }
     if (currentRoles.contains(Role.accountant_internal) ||
         currentRoles.contains(Role.accountant_offer) ||
         currentRoles.contains(Role.accountant_receipt)) {
-      tabList[5].enabled = true;
-    }
-    if (currentRoles.contains(Role.director)) {
       tabList[6].enabled = true;
     }
-    if (currentRoles.isEmpty) {
-      tabList[2].enabled = true;
-      tabIndex = 2;
+    if (currentRoles.contains(Role.director)) {
+      tabList[1].enabled = true;
+      tabList[7].enabled = true;
     }
-    if (kDebugMode) {
+    if (currentRoles.isEmpty) {
       tabList[3].enabled = true;
       tabIndex = 3;
+    }
+    if (kDebugMode) {
+      tabList[4].enabled = true;
+      tabIndex = 4;
     }
   }
 

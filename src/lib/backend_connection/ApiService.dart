@@ -148,6 +148,26 @@ class ApiService {
     }
   }
 
+  static Future<void> usersStatisticsUsername(String token, String username) async {
+    final url = Uri.https(root, "/users/statistics/$username");
+
+    Response response = await get(
+      url,
+      headers: <String, String>{
+        'Content-Type': 'application/json; charset=UTF-8',
+        'Authorization': formatToken(token),
+      },
+    );
+
+    print(response.body);
+
+    if (response.statusCode == 200) {
+      return;
+    } else {
+      return;
+    }
+  }
+
 
   // - /documents/*
 

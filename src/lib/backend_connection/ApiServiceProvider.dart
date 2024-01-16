@@ -110,8 +110,8 @@ class ApiServiceProvider extends ChangeNotifier {
     if (token != null) {
       return await ApiService.documents(
           token!,
-          typeQuery != null ? typeQuery.name : '',
-          statusQuery != null ? statusQuery.name : '');
+          typeQuery?.name,
+          statusQuery?.name);
     }
 
     return [];
@@ -185,8 +185,8 @@ class ApiServiceProvider extends ChangeNotifier {
     if (token != null) {
       return await ApiService.audits(
           token!,
-          userIdQuery != null ? userIdQuery.toString() : '',
-          statusQuery != null ? statusQuery.name : '');
+          userIdQuery?.toString(),
+          statusQuery?.name);
     }
 
     return [];
@@ -232,8 +232,8 @@ class ApiServiceProvider extends ChangeNotifier {
     if (token != null) {
       return await ApiService.archives(
           token!,
-          userIdQuery != null ? userIdQuery.toString() : '',
-          statusQuery != null ? statusQuery.name : '');
+          userIdQuery?.toString(),
+          statusQuery?.name);
     }
 
     return [];
@@ -291,7 +291,7 @@ class ApiServiceProvider extends ChangeNotifier {
       SignatureStatus? statusQuery) async {
     if (token != null) {
       return await ApiService.signaturesMe(
-          token!, statusQuery != null ? statusQuery.name : '');
+          token!, statusQuery?.name);
     }
 
     return [];
@@ -337,6 +337,14 @@ class ApiServiceProvider extends ChangeNotifier {
     }
 
     return 0;
+  }
+
+  Future<void> getUserStatistics(String username) async {
+    if (token != null) {
+      return await ApiService.usersStatisticsUsername(token!, username);
+    }
+
+    return;
   }
 
   Future<ImageProvider?> apiDocumentsTest() async {
