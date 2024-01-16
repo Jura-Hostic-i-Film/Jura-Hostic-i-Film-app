@@ -2,7 +2,9 @@ import 'package:flutter/material.dart';
 import 'package:jura_hostic_i_film_app/backend_connection/ApiServiceProvider.dart';
 import 'package:jura_hostic_i_film_app/components/history/DocumentTypeDisplayable.dart';
 import 'package:provider/provider.dart';
+import '../../components/buttons/AsyncButton.dart';
 import '../../components/users/ParticipantDisplayable.dart';
+import '../../models/Role.dart';
 import '../../models/documents/Document.dart';
 
 class DocumentOverviewScreen extends StatefulWidget {
@@ -20,7 +22,7 @@ class DocumentOverviewScreenState extends State<DocumentOverviewScreen> {
     final Document document =
     ModalRoute.of(context)!.settings.arguments as Document;
 
-    ApiServiceProvider apiServiceProvider = Provider.of<ApiServiceProvider>(context, listen: true);
+    ApiServiceProvider apiServiceProvider = Provider.of<ApiServiceProvider>(context, listen: false);
 
     return Scaffold(
       backgroundColor: Colors.white,
@@ -135,6 +137,39 @@ class DocumentOverviewScreenState extends State<DocumentOverviewScreen> {
                 ),
               ],
             ),
+          ),
+          apiServiceProvider.currentUser!.roles.contains(Role.director) ?
+          Positioned(
+            bottom: 20,
+            left: 0,
+            right: 0,
+            child: Center(
+              child: AsyncButton(
+                onTap: () async {
+                  // TODO
+                  print("Pošalji!");
+                },
+                content: const Row(
+                  mainAxisAlignment: MainAxisAlignment.center,
+                  crossAxisAlignment: CrossAxisAlignment.center,
+                  children: [
+                    Icon(
+                      Icons.share,
+                      color: Colors.white,
+                      size: 20,
+                    ),
+                    SizedBox(width: 6),
+                    Text(
+                      "Proslijedi",
+                      style: TextStyle(color: Colors.white),
+                    ),
+                  ],
+                ),
+              ),
+            ),
+          ) : const Positioned(
+              bottom: 0,
+              child: SizedBox(height: 0),
           ),
         ],
       ),

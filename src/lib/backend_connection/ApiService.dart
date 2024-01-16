@@ -148,7 +148,7 @@ class ApiService {
     }
   }
 
-  static Future<void> usersStatisticsUsername(String token, String username) async {
+  static Future<Map<String, dynamic>> usersStatisticsUsername(String token, String username) async {
     final url = Uri.https(root, "/users/statistics/$username");
 
     Response response = await get(
@@ -159,12 +159,10 @@ class ApiService {
       },
     );
 
-    print(response.body);
-
     if (response.statusCode == 200) {
-      return;
+      return jsonDecode(response.body);
     } else {
-      return;
+      return {};
     }
   }
 

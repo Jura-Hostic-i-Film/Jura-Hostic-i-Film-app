@@ -339,12 +339,12 @@ class ApiServiceProvider extends ChangeNotifier {
     return 0;
   }
 
-  Future<void> getUserStatistics(String username) async {
+  Future<Map<String, dynamic>> getUserStatistics(String username) async {
     if (token != null) {
       return await ApiService.usersStatisticsUsername(token!, username);
     }
 
-    return;
+    return {};
   }
 
   Future<ImageProvider?> apiDocumentsTest() async {

@@ -35,7 +35,6 @@ class UsersScreenState extends State<UsersScreen> {
                           child: SingleChildScrollView(
                             child: Column(
                                 children: snapshot.requireData
-                                    .where((user) => user.id != apiServiceProvider.currentUser?.id)
                                     .toList()
                                     .asMap().map((i, user) => MapEntry(
                                   i,
@@ -43,7 +42,7 @@ class UsersScreenState extends State<UsersScreen> {
                                     decoration: BoxDecoration(
                                         border: Border(
                                           bottom: BorderSide(
-                                            color: i != snapshot.requireData.length - 2 ? Colors.black : Colors.transparent,
+                                            color: i != snapshot.requireData.length - 1 ? Colors.black : Colors.transparent,
                                           ),
                                         )
                                     ),
@@ -87,7 +86,7 @@ class UsersScreenState extends State<UsersScreen> {
                           AddButton(
                             displayedText: 'Novi korisnik',
                             onTap: () => Navigator.pushNamed(context, '/users/register'),
-                            fontSize: 14,
+                            fontSize: 12,
                           ),
                           GestureDetector(
                             child: const SizedBox(
