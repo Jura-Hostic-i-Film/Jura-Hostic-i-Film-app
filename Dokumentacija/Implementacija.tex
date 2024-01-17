@@ -19,8 +19,161 @@
 	
 			
 			\subsection{Ispitivanje komponenti}
-			\textit{Potrebno je provesti ispitivanje jedinica (engl. unit testing) nad razredima koji implementiraju temeljne funkcionalnosti. Razraditi \textbf{minimalno 6 ispitnih slučajeva} u kojima će se ispitati redovni slučajevi, rubni uvjeti te izazivanje pogreške (engl. exception throwing). Poželjno je stvoriti i ispitni slučaj koji koristi funkcionalnosti koje nisu implementirane. Potrebno je priložiti izvorni kôd svih ispitnih slučajeva te prikaz rezultata izvođenja ispita u razvojnom okruženju (prolaz/pad ispita). }
+			%\textit{Potrebno je provesti ispitivanje jedinica (engl. unit testing) nad razredima koji implementiraju temeljne funkcionalnosti. Razraditi \textbf{minimalno 6 ispitnih slučajeva} u kojima će se ispitati redovni slučajevi, rubni uvjeti te izazivanje pogreške (engl. exception throwing). Poželjno je stvoriti i ispitni slučaj koji koristi funkcionalnosti koje nisu implementirane. Potrebno je priložiti izvorni kôd svih ispitnih slučajeva te prikaz rezultata izvođenja ispita u razvojnom okruženju (prolaz/pad ispita). }
 			
+			{Ispitivanje funkcionalnosti sustava provedeno je uz pomoć unit testova. Testirani su service razredi te pripadajući routeri. U nastavku je priloženo nekoliko primjera tih testova te prikaz rezultata testiranja u razvojnom okruženju.\newline}
+			
+			{Test za razred UserService kojim se testira ispravno kreiranje novog korisnika. Servisu se šalje objekt tipa UserCreate te u slučaju da direktor još ne postoji očekujemo da će povratna vrijednost biti objekt User s podacima o novom korisniku.}
+			
+\begin{lstlisting}[style=pythonstyle]
+	user_create = UserCreate(email="mail@mail.com",	first_name="Test", last_name="Test", username="test", password="test", roles=[RolesEnum.ADMIN],)
+	user = User(id=1, email="test@email.com", first_name="Test", last_name="Test", username="test", roles=[],)
+	
+	def test_register_user():
+		mock_user_crud = Mock()
+		mock_user_crud.create_user.return_value = user.model_dump()
+		mock_user_crud.get_users_by_role.return_value = None
+		db = Mock()
+		
+		user_service = UserService(db)
+		
+		with patch("app.services.users.UserCRUD", 
+					return_value=mock_user_crud):
+			result = user_service.register_user(user_create)
+		
+		mock_user_crud.create_user.assert_called_once_with(user_create)
+		mock_user_crud.get_users_by_role.assert_not_called()
+		assert result == user.model_dump()
+\end{lstlisting}
+			
+			{Sljedećim testom za documents router testira se reakcija pokušaja dohvaćanja povijesti skeniranih dokumenata za korisnika koji nije ulogiran te se očekuje 'NotAuthenticated' iznimka od servera.}
+			
+\begin{lstlisting}[style=pythonstyle]
+	def test_get_me_not_authenticated():
+		response = client.get("/documents/me")
+		assert response.status_code == 401
+		assert response.json() == {'app_exception': 'NotAuthenticated', 'context': {}}
+\end{lstlisting}
+
+			{Test za razred DocumentService koji testira kreiranje dokumenta. Servisu šaljemo sliku i korisničko ime te ako je dokument uspješno kreiran očekujemo da će nam servis vratiti kreirani novi objekt tipa Document sa svim podacima o dokumentu.}
+			
+\begin{lstlisting}[style=pythonstyle]
+	@patch("app.services.documents.detect_document", return_value="R123456 text")
+	def test_create_document(detect_document):
+		mock_document_crud = Mock()
+		mock_document_crud.create_document.return_value = document1
+		
+		mock_user_service = Mock()
+		mock_user_service.get_user.return_value = admin
+		
+		mock_image_service = Mock()
+		mock_image_service.create_image.return_value = imageDB
+		db = Mock()
+		
+		document_service = DocumentService(db)
+		
+		with patch("app.services.documents.DocumentCRUD", return_value=mock_document_crud), patch("app.services.documents.ImageService", return_value=mock_image_service), patch("app.services.documents.UserService", return_value=mock_user_service):
+			result = document_service.create_document(uploaded_image, "username")
+		
+		detect_document.assert_called_once()
+		mock_user_service.get_user.assert_called_once()
+		mock_image_service.create_image.assert_called_once()
+		
+		assert result == document1
+\end{lstlisting}
+
+			{Sljedeća dva testa testiraju ažuriranje statusa dokumenta u razredu DocumentService. Prvi provjerava dozvoljeni slučaj iz APPROVED želimo status postaviti na AUDITED, stoga nakon što servisu pošaljemo id dokumenta novi status te eventualne promjene u samom tekstualnom sadržaju očekujemo da će nam vratiti taj dokument s novim statusom. Drugi provjerava slučaj u kojem smo nakon statusa APPROVED odmah skočili na status ARCHIVED. Budući da to nije dozvoljeni slijed statusa očekujemo da će nam servis baciti iznimku "DocumentException.DocumentStatusNotCompatible".}
+			
+\begin{lstlisting}[style=pythonstyle]
+	document2 = Document(id=2, image_id=1, owner=director, document_type=DocumentTypeEnum.INTERNAL, summary="test", document_status=DocumentStatusEnum.APPROVED, scan_time="2021-01-01T00:00:00",)
+	document3 = Document(id=2, image_id=1, owner=director, document_type=DocumentTypeEnum.INTERNAL, summary="test", document_status=DocumentStatusEnum.AUDITED, scan_time="2021-01-01T00:00:00",)	
+
+	def test_update_document():
+		mock_document_crud = Mock(spec=DocumentCRUD)
+		mock_document = Mock(spec=document2, document_status=DocumentStatusEnum.APPROVED)
+		mock_document_crud.get_document.return_value = mock_document
+		mock_document_crud.update_document.return_value = document3
+		db = Mock()
+		
+		document_service = DocumentService(db)
+		
+		with patch("app.services.documents.DocumentCRUD", return_value=mock_document_crud):
+		result = document_service.update_document(2, DocumentStatusEnum.AUDITED, None)
+		
+		mock_document_crud.update_document.assert_called_once()
+		assert result == document3
+	
+	def test_update_document_with_invalid_status():
+		mock_document_crud = Mock(spec=DocumentCRUD)
+		mock_document = Mock(spec=document2, document_status=DocumentStatusEnum.APPROVED)
+		mock_document_crud.get_document.return_value = mock_document
+		mock_document_crud.update_document.return_value = document3
+		db = Mock()
+		
+		document_service = DocumentService(db)
+		
+		with patch("app.services.documents.DocumentCRUD", return_value=mock_document_crud):
+		with raises(DocumentException.DocumentStatusNotCompatible):
+		document_service.update_document(2, DocumentStatusEnum.ARCHIVED, None)
+\end{lstlisting}
+
+			{Posljednji testovi testiraju arhiviranje dokumenta u sklopu ArchiveService-a. Dokument se smije arhivirati ako je prethodni status bio PENDING ili SIGNED\textunderscore PENDING. U prvom testu želimo arhivirati dokument čiji status arhiviranja je PENDING te ga želimo postaviti na DONE što je dozvoljeni slijed statusa. Očekuje se uspješni završetak metode archive\textunderscore document koja onda vraća arhivirani dokument s novim statusom DONE.
+			U drugom testu želimo isprobati slučaj u kojem pokušavamo dokument iz AWAITING\textunderscore SIGNATURE statusa pretvoriti u DONE što nije dopušteni slijed stanja pa je i očekivano bacanje iznimke "ArchiveException.IllegalArchiveStatus".}
+			
+\begin{lstlisting}[style=pythonstyle]
+	def test_archive_document():
+		mock_archive_crud = Mock()
+		mock_archive_crud.get_archived_by_document_id.return_value = archive1
+		mock_archive_crud.update_archive.return_value = archive1
+		
+		mock_user_service = Mock(spec=UserService)
+		mock_user_service.get_user.return_value = admin
+		
+		mock_document_service = Mock(spec=DocumentService)
+		mock_document_service.update_document.return_value = None
+		
+		db = Mock()
+		
+		archive_service = ArchiveService(db)
+		
+		with patch("app.services.archives.ArchiveCRUD", return_value=mock_archive_crud):
+			with patch("app.services.archives.UserService", return_value=mock_user_service):
+				with patch("app.services.archives.DocumentService", return_value=mock_document_service):
+					result = archive_service.archive_document(1, ArchiveStatus.DONE, "test")
+		
+		mock_archive_crud.get_archived_by_document_id.assert_called_once_with(1)
+		mock_archive_crud.update_archive.assert_called_once()
+		assert result == archive1
+		
+	def test_archive_document_forbidden():
+		mock_archive_crud = Mock()
+		mock_archive_crud.get_archived_by_document_id.return_value = archive3
+		mock_archive_crud.update_archive.return_value = archive1
+		
+		mock_user_service = Mock(spec=UserService)
+		mock_user_service.get_user.return_value = admin
+		
+		mock_document_service = Mock(spec=DocumentService)
+		mock_document_service.update_document.return_value = None
+		
+		db = Mock()
+		
+		archive_service = ArchiveService(db)
+		
+		with patch("app.services.archives.ArchiveCRUD", 	return_value=mock_archive_crud):
+			with patch("app.services.archives.UserService", return_value=mock_user_service):
+				with patch("app.services.archives.DocumentService", return_value=mock_document_service):
+					with raises(ArchiveException.IllegalArchiveStatus):
+						archive_service.archive_document(1, ArchiveStatus.DONE, "test")
+\end{lstlisting}
+
+			{Svi navedeni ispitni slučajevi prošli su testiranje.}
+
+			\begin{figure}[H]
+				\includegraphics[width=\textwidth]{slike/unitTestovi.png}
+				\caption{Prikaz rezultata ispitnih slučajeva u razvojnom okruženju}
+				\label{fig:rezultatiUnitTestova}
+			\end{figure}		
 			
 			
 			\subsection{Ispitivanje sustava}

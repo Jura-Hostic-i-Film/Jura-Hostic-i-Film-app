@@ -21,6 +21,25 @@
 \usepackage{hyperref}
 \usepackage{fancyhdr}
 
+% dodani package za oblikovanje code snippeta
+\usepackage{listings}
+\lstdefinestyle{pythonstyle}{
+	language=Python,
+	basicstyle=\footnotesize,
+	numbers=left,
+	numberstyle=\small,
+	numbersep=5pt,
+	frame=single,
+	breaklines=true,
+	breakatwhitespace=false,
+	keepspaces=true, 
+	rulecolor=\color{black},         
+	showspaces=false,
+	showstringspaces=false,
+	showtabs=false,
+	tabsize=2,
+}
+
 \usepackage{float}
 \usepackage{setspace}
 \restylefloat{table}
