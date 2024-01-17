@@ -39,7 +39,7 @@ class DocumentPDFPreviewScreen extends StatelessWidget {
             canChangePageFormat: true,
             canChangeOrientation: false,
             canDebug: false,
-            pdfFileName: 'dokument_${document.id}',
+            pdfFileName: 'dokument_${document.id}.pdf',
             build: (context) => LocalDocumentHandler.createPDF(document),
           ),
         )

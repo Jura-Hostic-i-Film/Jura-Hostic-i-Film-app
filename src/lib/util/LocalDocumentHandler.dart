@@ -3,6 +3,7 @@ import 'dart:typed_data';
 import 'package:flutter/material.dart' as mat;
 import 'package:jura_hostic_i_film_app/backend_connection/ApiServiceProvider.dart';
 import 'package:path_provider/path_provider.dart';
+import 'package:printing/printing.dart';
 import 'package:provider/provider.dart';
 import '../models/documents/Document.dart' as dox;
 import 'package:pdf/widgets.dart';
@@ -47,18 +48,30 @@ class LocalDocumentHandler {
   }
 
   static Future<Uint8List> createPDF(dox.Document document) async {
-    Document pdf = Document();
+    Document pdf = Document(
+      theme: ThemeData.withFont(
+        base: await PdfGoogleFonts.robotoRegular(),
+        bold: await PdfGoogleFonts.robotoBold(),
+        italic: await PdfGoogleFonts.robotoItalic(),
+        boldItalic: await PdfGoogleFonts.robotoBoldItalic(),
+      )
+    );
 
-    String testSum =
-        "dokument id\nAutor\nArtikli:\n   \n kupus - 20e \n salata - 80e \n Ukupno: 100e  \n";
-
-    DocumentType type = DocumentType.internal;
-
-    List<String> lines = testSum
+    List<String> lines = document.summary
         .split('\n')
         .where((line) => line.trim().isNotEmpty)
         .map((line) => line.trim())
         .toList();
+
+    if ((document.documentType == DocumentType.internal && lines.length < 2)
+        || (document.documentType == DocumentType.receipt && lines.length < 4)
+        || (document.documentType == DocumentType.offer && lines.length < 3)) {
+      pdf.addPage(Page(build: (context) {
+        return Text(document.summary);
+      }));
+
+      return pdf.save();
+    }
 
     pdf.addPage(Page(build: (context) {
       return Column(
@@ -75,7 +88,7 @@ class LocalDocumentHandler {
               ),
             ),
           ),
-          type == DocumentType.receipt ? Padding(
+          document.documentType == DocumentType.receipt ? Padding(
             padding: const EdgeInsets.only(bottom: 12),
             child: Text(
               lines[1],
@@ -84,7 +97,7 @@ class LocalDocumentHandler {
               ),
             ),
           ) : SizedBox(),
-        ] + (type == DocumentType.internal ? lines.sublist(1).map((line) => Text(
+        ] + (document.documentType == DocumentType.internal ? lines.sublist(1).map((line) => Text(
           line,
           style: const TextStyle(
             fontSize: 12,
@@ -92,16 +105,19 @@ class LocalDocumentHandler {
         )).toList() : <Widget>[Padding(
           padding: const EdgeInsets.only(bottom: 6),
           child: Text(
-            lines[type == DocumentType.receipt ? 2 : 1],
+            lines[document.documentType == DocumentType.receipt ? 2 : 1],
             style: TextStyle(
               fontSize: 14,
               fontWeight: FontWeight.bold,
             ),
           ),
-        )] + lines.sublist(type == DocumentType.receipt ? 3 : 2, lines.length).map((line) => Text(
-          line,
-          style: const TextStyle(
-            fontSize: 12,
+        )] + lines.sublist(document.documentType == DocumentType.receipt ? 3 : 2, lines.length).map((line) => Padding(
+          padding: const EdgeInsets.symmetric(vertical: 2),
+          child: Text(
+            line,
+            style: const TextStyle(
+              fontSize: 12,
+            ),
           ),
         )).toList() + [Padding(
           padding: const EdgeInsets.only(top: 6),
