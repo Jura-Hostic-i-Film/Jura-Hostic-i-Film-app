@@ -73,7 +73,9 @@ class UserDisplayable extends StatelessWidget {
                       mainAxisAlignment: MainAxisAlignment.end,
                       crossAxisAlignment: CrossAxisAlignment.start,
                       children: [
-                        StatisticIcon(user: user),
+                        StatisticIcon(
+                            key: const Key('openStatisticsButtonKey'),
+                            user: user),
                       ],
                     ),
                   ),

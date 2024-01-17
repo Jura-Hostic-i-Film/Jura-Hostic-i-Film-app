@@ -100,7 +100,9 @@ class DocumentOverviewScreenState extends State<DocumentOverviewScreen> {
                           ),
                         ],
                       ),
-                      CreatePDFIcon(document: document),
+                      CreatePDFIcon(
+                          key: const Key('createPdfButtonKey'),
+                          document: document),
                     ],
                   ),
                 ),
