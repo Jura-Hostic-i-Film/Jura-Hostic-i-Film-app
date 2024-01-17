@@ -2,7 +2,10 @@ import 'package:flutter/material.dart';
 import 'package:jura_hostic_i_film_app/backend_connection/ApiServiceProvider.dart';
 import 'package:jura_hostic_i_film_app/components/history/DocumentTypeDisplayable.dart';
 import 'package:provider/provider.dart';
+import '../../components/action_icons/CreatePDFIcon.dart';
+import '../../components/buttons/AsyncButton.dart';
 import '../../components/users/ParticipantDisplayable.dart';
+import '../../models/Role.dart';
 import '../../models/documents/Document.dart';
 
 class DocumentOverviewScreen extends StatefulWidget {
@@ -20,7 +23,7 @@ class DocumentOverviewScreenState extends State<DocumentOverviewScreen> {
     final Document document =
     ModalRoute.of(context)!.settings.arguments as Document;
 
-    ApiServiceProvider apiServiceProvider = Provider.of<ApiServiceProvider>(context, listen: true);
+    ApiServiceProvider apiServiceProvider = Provider.of<ApiServiceProvider>(context, listen: false);
 
     return Scaffold(
       backgroundColor: Colors.white,
@@ -97,18 +100,7 @@ class DocumentOverviewScreenState extends State<DocumentOverviewScreen> {
                           ),
                         ],
                       ),
-                      Container(
-                        width: 40,
-                        height: 40,
-                        decoration: BoxDecoration(
-                          borderRadius: BorderRadius.circular(8),
-                          border: Border.all(color: Colors.black, width: 2),
-                        ),
-                        child: const Icon(
-                          Icons.text_snippet_outlined,
-                          size: 28,
-                        ),
-                      ),
+                      CreatePDFIcon(document: document),
                     ],
                   ),
                 ),

@@ -68,29 +68,8 @@ class RevisionScreenState extends State<RevisionScreen> {
                     future: apiServiceProvider.getUserAudits(AuditStatus.pending),
                     builder: (BuildContext context, AsyncSnapshot<List<Audit>> snapshot) {
                       return snapshot.hasData ? SingleChildScrollView(
-                        child: Column(
-                          children: snapshot.requireData
-                              .asMap().map((i, audit) => MapEntry(
-                            i,
-                            Container(
-                              decoration: BoxDecoration(
-                                  border: Border(
-                                    bottom: BorderSide(
-                                      color: i != snapshot.requireData.length - 1 ? Colors.black : Colors.transparent,
-                                    ),
-                                  )
-                              ),
-                              child: RevisionPendingDisplayable(audit: audit, callback: () => setState(() {})),
-                            ),
-                          )).values.toList(),
-                        ),
-                      ) : const LoadingModal();
-                    }
-                  ),
-                  FutureBuilder(
-                      future: apiServiceProvider.getUserAudits(AuditStatus.done),
-                      builder: (BuildContext context, AsyncSnapshot<List<Audit>> snapshot) {
-                        return snapshot.hasData ? SingleChildScrollView(
+                        child: Padding(
+                          padding: const EdgeInsets.only(bottom: 60),
                           child: Column(
                             children: snapshot.requireData
                                 .asMap().map((i, audit) => MapEntry(
@@ -103,9 +82,36 @@ class RevisionScreenState extends State<RevisionScreen> {
                                       ),
                                     )
                                 ),
-                                child: RevisedDisplayable(audit: audit),
+                                child: RevisionPendingDisplayable(audit: audit, callback: () => setState(() {})),
                               ),
                             )).values.toList(),
+                          ),
+                        ),
+                      ) : const LoadingModal();
+                    }
+                  ),
+                  FutureBuilder(
+                      future: apiServiceProvider.getUserAudits(AuditStatus.done),
+                      builder: (BuildContext context, AsyncSnapshot<List<Audit>> snapshot) {
+                        return snapshot.hasData ? SingleChildScrollView(
+                          child: Padding(
+                            padding: const EdgeInsets.only(bottom: 60),
+                            child: Column(
+                              children: snapshot.requireData
+                                  .asMap().map((i, audit) => MapEntry(
+                                i,
+                                Container(
+                                  decoration: BoxDecoration(
+                                      border: Border(
+                                        bottom: BorderSide(
+                                          color: i != snapshot.requireData.length - 1 ? Colors.black : Colors.transparent,
+                                        ),
+                                      )
+                                  ),
+                                  child: RevisedDisplayable(audit: audit),
+                                ),
+                              )).values.toList(),
+                            ),
                           ),
                         ) : const LoadingModal();
                       }

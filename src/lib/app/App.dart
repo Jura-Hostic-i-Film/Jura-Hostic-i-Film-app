@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:jura_hostic_i_film_app/app/auth/RegisterScreen.dart';
 import 'package:jura_hostic_i_film_app/app/docs/DocumentOverviewScreen.dart';
+import 'package:jura_hostic_i_film_app/app/docs/DocumentPDFPreviewScreen.dart';
 import 'package:jura_hostic_i_film_app/app/docs/DocumentReviewScreen.dart';
 import 'package:jura_hostic_i_film_app/app/main/MainScreen.dart';
 import 'package:provider/provider.dart';
@@ -58,6 +59,7 @@ class App extends StatelessWidget {
                 '/home': (context) => const HomeScreen(),
                 '/docs/create': (context) => const DocumentScreen(),
                 '/docs/review': (context) => const DocumentReviewScreen(),
+                '/docs/PDF': (context) => const DocumentPDFPreviewScreen(),
               },
               initialRoute:
                 snapshot.requireData == StartingState.noAdmin ? '/auth/register' :

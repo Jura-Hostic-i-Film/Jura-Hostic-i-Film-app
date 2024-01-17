@@ -148,6 +148,24 @@ class ApiService {
     }
   }
 
+  static Future<Map<String, dynamic>> usersStatisticsUsername(String token, String username) async {
+    final url = Uri.https(root, "/users/statistics/$username");
+
+    Response response = await get(
+      url,
+      headers: <String, String>{
+        'Content-Type': 'application/json; charset=UTF-8',
+        'Authorization': formatToken(token),
+      },
+    );
+
+    if (response.statusCode == 200) {
+      return jsonDecode(response.body);
+    } else {
+      return {};
+    }
+  }
+
 
   // - /documents/*
 
@@ -358,7 +376,7 @@ class ApiService {
     }
   }
 
-  static Future<Audit?> auditsDocument(String token, String documentId) async {
+  static Future<Audit?> auditsDocument(String token, String documentId, String? summary) async {
     final url = Uri.https(root, "/audits/$documentId");
 
     Response response = await post(
@@ -367,6 +385,9 @@ class ApiService {
         'Content-Type': 'application/json; charset=UTF-8',
         'Authorization': formatToken(token),
       },
+      body: jsonEncode(summary != null ? {
+        'summary': summary
+      } : {})
     );
 
     if (response.statusCode == 200) {
