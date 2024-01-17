@@ -376,7 +376,7 @@ class ApiService {
     }
   }
 
-  static Future<Audit?> auditsDocument(String token, String documentId) async {
+  static Future<Audit?> auditsDocument(String token, String documentId, String? summary) async {
     final url = Uri.https(root, "/audits/$documentId");
 
     Response response = await post(
@@ -385,6 +385,9 @@ class ApiService {
         'Content-Type': 'application/json; charset=UTF-8',
         'Authorization': formatToken(token),
       },
+      body: jsonEncode(summary != null ? {
+        'summary': summary
+      } : {})
     );
 
     if (response.statusCode == 200) {

@@ -209,9 +209,9 @@ class ApiServiceProvider extends ChangeNotifier {
     return null;
   }
 
-  Future<(Audit?, String)> auditDocument(int documentId) async {
+  Future<(Audit?, String)> auditDocument(int documentId, String? summary) async {
     if (token != null) {
-      Audit? rValue = await ApiService.auditsDocument(token!, documentId.toString());
+      Audit? rValue = await ApiService.auditsDocument(token!, documentId.toString(), summary);
       await updateNotifications();
       return (rValue, rValue == null ? "Success" : "Error");
     }

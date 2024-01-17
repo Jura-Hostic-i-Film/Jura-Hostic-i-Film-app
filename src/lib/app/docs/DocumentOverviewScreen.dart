@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:jura_hostic_i_film_app/backend_connection/ApiServiceProvider.dart';
 import 'package:jura_hostic_i_film_app/components/history/DocumentTypeDisplayable.dart';
 import 'package:provider/provider.dart';
+import '../../components/action_icons/CreatePDFIcon.dart';
 import '../../components/buttons/AsyncButton.dart';
 import '../../components/users/ParticipantDisplayable.dart';
 import '../../models/Role.dart';
@@ -99,18 +100,7 @@ class DocumentOverviewScreenState extends State<DocumentOverviewScreen> {
                           ),
                         ],
                       ),
-                      Container(
-                        width: 40,
-                        height: 40,
-                        decoration: BoxDecoration(
-                          borderRadius: BorderRadius.circular(8),
-                          border: Border.all(color: Colors.black, width: 2),
-                        ),
-                        child: const Icon(
-                          Icons.text_snippet_outlined,
-                          size: 28,
-                        ),
-                      ),
+                      CreatePDFIcon(document: document),
                     ],
                   ),
                 ),
@@ -137,39 +127,6 @@ class DocumentOverviewScreenState extends State<DocumentOverviewScreen> {
                 ),
               ],
             ),
-          ),
-          apiServiceProvider.currentUser!.roles.contains(Role.director) ?
-          Positioned(
-            bottom: 20,
-            left: 0,
-            right: 0,
-            child: Center(
-              child: AsyncButton(
-                onTap: () async {
-                  // TODO
-                  print("Pošalji!");
-                },
-                content: const Row(
-                  mainAxisAlignment: MainAxisAlignment.center,
-                  crossAxisAlignment: CrossAxisAlignment.center,
-                  children: [
-                    Icon(
-                      Icons.share,
-                      color: Colors.white,
-                      size: 20,
-                    ),
-                    SizedBox(width: 6),
-                    Text(
-                      "Proslijedi",
-                      style: TextStyle(color: Colors.white),
-                    ),
-                  ],
-                ),
-              ),
-            ),
-          ) : const Positioned(
-              bottom: 0,
-              child: SizedBox(height: 0),
           ),
         ],
       ),

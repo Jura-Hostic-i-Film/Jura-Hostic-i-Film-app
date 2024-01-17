@@ -98,18 +98,6 @@ class DocumentReviewScreen extends StatelessWidget {
                               ),
                             ],
                           ),
-                          Container(
-                            width: 40,
-                            height: 40,
-                            decoration: BoxDecoration(
-                              borderRadius: BorderRadius.circular(8),
-                              border: Border.all(color: Colors.black, width: 2),
-                            ),
-                            child: const Icon(
-                              Icons.text_snippet_outlined,
-                              size: 28,
-                            ),
-                          ),
                         ],
                       ),
                       Container(

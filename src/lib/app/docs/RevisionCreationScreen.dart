@@ -99,18 +99,6 @@ class RevisionCreationScreenState extends State<RevisionCreationScreen> {
                           ),
                         ],
                       ),
-                      Container(
-                        width: 40,
-                        height: 40,
-                        decoration: BoxDecoration(
-                          borderRadius: BorderRadius.circular(8),
-                          border: Border.all(color: Colors.black, width: 2),
-                        ),
-                        child: const Icon(
-                          Icons.text_snippet_outlined,
-                          size: 28,
-                        ),
-                      ),
                     ],
                   ),
                 ),
@@ -153,7 +141,7 @@ class RevisionCreationScreenState extends State<RevisionCreationScreen> {
               child: AsyncButton(
                 onTap: () async {
                   ApiServiceProvider apiServiceProvider = Provider.of<ApiServiceProvider>(context, listen: false);
-                  LoadingDialog.useLoadingDialog<Audit?, String>(context, apiServiceProvider.auditDocument(document.id), "Dokument je uspješno revidiran!", "Došlo je do pogreške!", () => Navigator.pop(context), () {});
+                  LoadingDialog.useLoadingDialog<Audit?, String>(context, apiServiceProvider.auditDocument(document.id, document.summary), "Dokument je uspješno revidiran!", "Došlo je do pogreške!", () => Navigator.pop(context), () {});
                 },
                 content: const Center(
                   child: Text(
