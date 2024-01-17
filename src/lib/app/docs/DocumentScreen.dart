@@ -89,6 +89,7 @@ class DocumentScreenState extends State<DocumentScreen> {
                                 SizedBox(
                                   width: 250,
                                   child: AsyncButton(
+                                    key: const Key('processingButtonKey'),
                                     onTap: () async {
                                       if (selectedFiles.isNotEmpty) {
                                         if (didDocumentProcessing) {
@@ -132,6 +133,7 @@ class DocumentScreenState extends State<DocumentScreen> {
                                 ),
                                 !didDocumentProcessing
                                     ? ElevatedButton(
+                                        key: const Key('addDocumentButtonKey'),
                                         onPressed: () {
                                           addButtonAction(context);
                                         },

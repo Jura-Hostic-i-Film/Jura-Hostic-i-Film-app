@@ -9,7 +9,9 @@ import '../history/DocumentStatusDisplayable.dart';
 class ArchivePendingDisplayable extends StatelessWidget {
   final Archive archive;
   final Function callback;
-  const ArchivePendingDisplayable({required this.archive, required this.callback, super.key});
+
+  const ArchivePendingDisplayable(
+      {required this.archive, required this.callback, super.key});
 
   @override
   Widget build(BuildContext context) {
@@ -59,30 +61,31 @@ class ArchivePendingDisplayable extends StatelessWidget {
                       mainAxisAlignment: MainAxisAlignment.end,
                       crossAxisAlignment: CrossAxisAlignment.center,
                       children: [
-                        ArchiveIcon(archive: archive, callback: () => callback()),
+                        ArchiveIcon(
+                          key: const Key('archiveButtonKey'),
+                          archive: archive,
+                          callback: () => callback(),
+                        ),
                         const SizedBox(width: 6),
                         OverviewIcon(document: archive.document),
                         const SizedBox(width: 6),
                         DownloadOriginalIcon(document: archive.document),
                       ],
                     ),
-                  ]
-              ),
+                  ]),
               Row(
                 mainAxisAlignment: MainAxisAlignment.start,
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
                   Container(
                       padding: const EdgeInsets.symmetric(vertical: 5),
-                      child:
-                      DocumentStatusDisplayable(documentStatus: archive.document.documentStatus)
-                  ),
-                  const SizedBox(width:6),
+                      child: DocumentStatusDisplayable(
+                          documentStatus: archive.document.documentStatus)),
+                  const SizedBox(width: 6),
                   Container(
                       padding: const EdgeInsets.symmetric(vertical: 5),
-                      child:
-                      DocumentTypeDisplayable(documentType: archive.document.documentType)
-                  ),
+                      child: DocumentTypeDisplayable(
+                          documentType: archive.document.documentType)),
                 ],
               ),
             ],
@@ -90,4 +93,5 @@ class ArchivePendingDisplayable extends StatelessWidget {
         ),
       ],
     );
-  }}
+  }
+}

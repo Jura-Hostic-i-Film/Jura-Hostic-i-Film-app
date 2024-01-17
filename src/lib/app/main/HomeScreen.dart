@@ -93,6 +93,7 @@ class HomeScreenState extends State<HomeScreen> {
         foregroundColor: Colors.black,
         leading: Builder(
           builder: (context) => GestureDetector(
+            key: const Key('navigationIconKey'),
             child: SizedBox(
               width: 50,
               height: 50,
@@ -137,6 +138,7 @@ class HomeScreenState extends State<HomeScreen> {
       ),
       body: tabList[tabIndex].screen,
       floatingActionButton: FloatingActionButton.extended(
+        key: const Key('scanButtonKey'),
         onPressed: () {goToDocuments();},
         foregroundColor: Colors.white,
         focusColor: Colors.lightGreen,
