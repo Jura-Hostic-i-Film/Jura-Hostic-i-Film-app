@@ -60,27 +60,30 @@ class HistoryScreenState extends State<HistoryScreen> {
                         children: [
                           Expanded(
                             child: SingleChildScrollView(
-                              child: Column(
-                                  children: children
-                                      .asMap()
-                                      .map((i, document) => MapEntry(
-                                    i,
-                                    Container(
-                                      decoration: BoxDecoration(
-                                          border: Border(
-                                            bottom: BorderSide(
-                                              color: i !=
-                                                  children.length - 1
-                                                  ? Colors.black
-                                                  : Colors.transparent,
-                                            ),
-                                          )),
-                                      child: DocumentDisplayable(
-                                          document: document),
-                                    ),
-                                  ))
-                                      .values
-                                      .toList()),
+                              child: Padding(
+                                padding: const EdgeInsets.only(bottom: 60),
+                                child: Column(
+                                    children: children
+                                        .asMap()
+                                        .map((i, document) => MapEntry(
+                                      i,
+                                      Container(
+                                        decoration: BoxDecoration(
+                                            border: Border(
+                                              bottom: BorderSide(
+                                                color: i !=
+                                                    children.length - 1
+                                                    ? Colors.black
+                                                    : Colors.transparent,
+                                              ),
+                                            )),
+                                        child: DocumentDisplayable(
+                                            document: document),
+                                      ),
+                                    ))
+                                        .values
+                                        .toList()),
+                              ),
                             ),
                           ),
                         ],

@@ -69,21 +69,24 @@ class ArchiveScreenState extends State<ArchiveScreen> {
                         future: apiServiceProvider.getUserArchives(ArchiveStatus.pending),
                         builder: (BuildContext context, AsyncSnapshot<List<Archive>> snapshot) {
                           return snapshot.hasData ? SingleChildScrollView(
-                            child: Column(
-                              children: snapshot.requireData
-                                  .asMap().map((i, archive) => MapEntry(
-                                i,
-                                Container(
-                                  decoration: BoxDecoration(
-                                      border: Border(
-                                        bottom: BorderSide(
-                                          color: i != snapshot.requireData.length - 1 ? Colors.black : Colors.transparent,
-                                        ),
-                                      )
+                            child: Padding(
+                              padding: const EdgeInsets.only(bottom: 60),
+                              child: Column(
+                                children: snapshot.requireData
+                                    .asMap().map((i, archive) => MapEntry(
+                                  i,
+                                  Container(
+                                    decoration: BoxDecoration(
+                                        border: Border(
+                                          bottom: BorderSide(
+                                            color: i != snapshot.requireData.length - 1 ? Colors.black : Colors.transparent,
+                                          ),
+                                        )
+                                    ),
+                                    child: ArchivePendingDisplayable(archive: archive, callback: () => setState(() {})),
                                   ),
-                                  child: ArchivePendingDisplayable(archive: archive, callback: () => setState(() {})),
-                                ),
-                              )).values.toList(),
+                                )).values.toList(),
+                              ),
                             ),
                           ) : const LoadingModal();
                         }
@@ -92,21 +95,24 @@ class ArchiveScreenState extends State<ArchiveScreen> {
                         future: apiServiceProvider.getUserArchives(ArchiveStatus.done),
                         builder: (BuildContext context, AsyncSnapshot<List<Archive>> snapshot) {
                           return snapshot.hasData ? SingleChildScrollView(
-                            child: Column(
-                              children: snapshot.requireData
-                                  .asMap().map((i, archive) => MapEntry(
-                                i,
-                                Container(
-                                  decoration: BoxDecoration(
-                                      border: Border(
-                                        bottom: BorderSide(
-                                          color: i != snapshot.requireData.length - 1 ? Colors.black : Colors.transparent,
-                                        ),
-                                      )
+                            child: Padding(
+                              padding: const EdgeInsets.only(bottom: 60),
+                              child: Column(
+                                children: snapshot.requireData
+                                    .asMap().map((i, archive) => MapEntry(
+                                  i,
+                                  Container(
+                                    decoration: BoxDecoration(
+                                        border: Border(
+                                          bottom: BorderSide(
+                                            color: i != snapshot.requireData.length - 1 ? Colors.black : Colors.transparent,
+                                          ),
+                                        )
+                                    ),
+                                    child: ArchivedDisplayable(archive: archive),
                                   ),
-                                  child: ArchivedDisplayable(archive: archive),
-                                ),
-                              )).values.toList(),
+                                )).values.toList(),
+                              ),
                             ),
                           ) : const LoadingModal();
                         }

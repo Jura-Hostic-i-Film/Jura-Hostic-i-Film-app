@@ -68,21 +68,24 @@ class SignatureScreenState extends State<SignatureScreen> {
                         future: apiServiceProvider.getUserSignatures(SignatureStatus.pending),
                         builder: (BuildContext context, AsyncSnapshot<List<Signature>> snapshot) {
                           return snapshot.hasData ? SingleChildScrollView(
-                            child: Column(
-                              children: snapshot.requireData
-                                  .asMap().map((i, signature) => MapEntry(
-                                i,
-                                Container(
-                                  decoration: BoxDecoration(
-                                      border: Border(
-                                        bottom: BorderSide(
-                                          color: i != snapshot.requireData.length - 1 ? Colors.black : Colors.transparent,
-                                        ),
-                                      )
+                            child: Padding(
+                              padding: const EdgeInsets.only(bottom: 60),
+                              child: Column(
+                                children: snapshot.requireData
+                                    .asMap().map((i, signature) => MapEntry(
+                                  i,
+                                  Container(
+                                    decoration: BoxDecoration(
+                                        border: Border(
+                                          bottom: BorderSide(
+                                            color: i != snapshot.requireData.length - 1 ? Colors.black : Colors.transparent,
+                                          ),
+                                        )
+                                    ),
+                                    child: SignaturePendingDisplayable(signature: signature, callback: () => setState(() {})),
                                   ),
-                                  child: SignaturePendingDisplayable(signature: signature, callback: () => setState(() {})),
-                                ),
-                              )).values.toList(),
+                                )).values.toList(),
+                              ),
                             ),
                           ) : const LoadingModal();
                         }
@@ -91,21 +94,24 @@ class SignatureScreenState extends State<SignatureScreen> {
                         future: apiServiceProvider.getUserSignatures(SignatureStatus.done),
                         builder: (BuildContext context, AsyncSnapshot<List<Signature>> snapshot) {
                           return snapshot.hasData ? SingleChildScrollView(
-                            child: Column(
-                              children: snapshot.requireData
-                                  .asMap().map((i, signature) => MapEntry(
-                                i,
-                                Container(
-                                  decoration: BoxDecoration(
-                                      border: Border(
-                                        bottom: BorderSide(
-                                          color: i != snapshot.requireData.length - 1 ? Colors.black : Colors.transparent,
-                                        ),
-                                      )
+                            child: Padding(
+                              padding: const EdgeInsets.only(bottom: 60),
+                              child: Column(
+                                children: snapshot.requireData
+                                    .asMap().map((i, signature) => MapEntry(
+                                  i,
+                                  Container(
+                                    decoration: BoxDecoration(
+                                        border: Border(
+                                          bottom: BorderSide(
+                                            color: i != snapshot.requireData.length - 1 ? Colors.black : Colors.transparent,
+                                          ),
+                                        )
+                                    ),
+                                    child: SignatureDisplayable(signature: signature),
                                   ),
-                                  child: SignatureDisplayable(signature: signature),
-                                ),
-                              )).values.toList(),
+                                )).values.toList(),
+                              ),
                             ),
                           ) : const LoadingModal();
                         }
