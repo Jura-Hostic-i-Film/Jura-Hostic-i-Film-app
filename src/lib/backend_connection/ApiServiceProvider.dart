@@ -13,6 +13,7 @@ import '../DTOs/AuditDTO.dart';
 import '../DTOs/LoginDTO.dart';
 import '../DTOs/RegisterDTO.dart';
 import '../constants.dart';
+import '../models/Role.dart';
 import '../models/User.dart';
 import '../models/audits/Audit.dart';
 import '../models/documents/Document.dart';
@@ -44,9 +45,34 @@ class ApiServiceProvider extends ChangeNotifier {
   }
 
   Future<void> updateNotifications() async {
-    notifications["/home/signature"] = await getUserSignaturePendingCount();
-    notifications["/home/archive"] = await getUserArchivePendingCount();
-    notifications["/home/revision"] = await getUserAuditPendingCount();
+    if (currentUser == null) {
+      notifications["/home/signature"] = 0;
+      notifications["/home/revision"] = 0;
+      notifications["/home/archive"] = 0;
+      notifyListeners();
+      return;
+    }
+
+    if (currentUser!.roles.contains(Role.director)) {
+      notifications["/home/signature"] = await getUserSignaturePendingCount();
+    } else {
+      notifications["/home/signature"] = 0;
+    }
+
+    if (currentUser!.roles.contains(Role.auditor)) {
+      notifications["/home/revision"] = await getUserAuditPendingCount();
+    } else {
+      notifications["/home/revision"] = 0;
+    }
+
+    if (currentUser!.roles.contains(Role.accountant_receipt)
+        || currentUser!.roles.contains(Role.accountant_offer)
+        || currentUser!.roles.contains(Role.accountant_internal)) {
+      notifications["/home/archive"] = await getUserArchivePendingCount();
+    } else {
+      notifications["/home/archive"] = 0;
+    }
+
     notifyListeners();
     return;
   }
