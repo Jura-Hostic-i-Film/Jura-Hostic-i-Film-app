@@ -20,6 +20,11 @@ class SideBarNavigator extends Drawer {
     return SizedBox(
       width: drawerWidth,
       child: Drawer(
+        shape: RoundedRectangleBorder(
+          borderRadius: BorderRadius.circular(0),
+        ),
+        backgroundColor: Colors.white,
+        surfaceTintColor: Colors.white,
         child: Column(
           children: [
             Container(
