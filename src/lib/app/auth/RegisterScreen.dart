@@ -265,7 +265,7 @@ class RegisterScreenState extends State<RegisterScreen> {
                           Container(
                             padding: const EdgeInsets.only(top: 8.0),
                             constraints: const BoxConstraints(
-                              maxHeight: 120,
+                              maxHeight: 80,
                             ),
                             child: SingleChildScrollView(
                               scrollDirection: Axis.vertical,

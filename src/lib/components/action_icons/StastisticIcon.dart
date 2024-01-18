@@ -26,12 +26,14 @@ class StatisticIcon extends StatelessWidget {
                 builder: (BuildContext context,
                     AsyncSnapshot<Map<String, dynamic>> snapshot) {
                   return SimpleDialog(
+                    backgroundColor: Colors.white,
+                    surfaceTintColor: Colors.white,
                     titlePadding: EdgeInsets.zero,
                     contentPadding: const EdgeInsets.all(12),
                     children: [
                       SizedBox(
                         width: 120,
-                        height: 200,
+                        height: 240,
                         child: Column(
                           mainAxisAlignment: MainAxisAlignment.center,
                           crossAxisAlignment: CrossAxisAlignment.stretch,
@@ -44,25 +46,25 @@ class StatisticIcon extends StatelessWidget {
                                       fontWeight: FontWeight.bold,
                                     ),
                                   ),
-                                  SizedBox(
-                                    height: 130,
+                                  Expanded(
+                                    flex: 1,
                                     child: Column(
                                       mainAxisAlignment:
-                                          MainAxisAlignment.center,
+                                      MainAxisAlignment.start,
                                       crossAxisAlignment:
-                                          CrossAxisAlignment.start,
+                                      CrossAxisAlignment.start,
                                       children: snapshot.requireData
                                           .map(
                                             (key, value) => MapEntry(
-                                              key,
-                                              Text(
-                                                "${Statistic.fromString(key).displayName()}: ${value.toString()}",
-                                                style: const TextStyle(
-                                                  fontSize: 20,
-                                                ),
-                                              ),
+                                          key,
+                                          Text(
+                                            "${Statistic.fromString(key).displayName()}: ${value.toString()}",
+                                            style: const TextStyle(
+                                              fontSize: 20,
                                             ),
-                                          )
+                                          ),
+                                        ),
+                                      )
                                           .values
                                           .toList(),
                                     ),

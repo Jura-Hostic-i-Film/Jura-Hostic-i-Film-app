@@ -18,12 +18,14 @@ class LoadingDialog {
             future: future,
             builder: (BuildContext context, AsyncSnapshot<(G, V)> snapshot) {
               return SimpleDialog(
+              backgroundColor: Colors.white,
+              surfaceTintColor: Colors.white,
                 titlePadding: EdgeInsets.zero,
                 contentPadding: const EdgeInsets.all(12),
                 children: [
                   SizedBox(
                     width: 120,
-                    height: 80,
+                    height: 160,
                     child: Column(
                       mainAxisAlignment: MainAxisAlignment.center,
                       crossAxisAlignment: CrossAxisAlignment.stretch,
