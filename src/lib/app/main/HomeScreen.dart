@@ -137,7 +137,7 @@ class HomeScreenState extends State<HomeScreen> {
         title: Text(tabList[tabIndex].name),
       ),
       body: tabList[tabIndex].screen,
-      floatingActionButton: FloatingActionButton.extended(
+      floatingActionButton: apiServiceProvider.isUserEmployee() ? FloatingActionButton.extended(
         key: const Key('scanButtonKey'),
         onPressed: () {goToDocuments();},
         foregroundColor: Colors.white,
@@ -145,7 +145,7 @@ class HomeScreenState extends State<HomeScreen> {
         backgroundColor: Colors.black,
         label: const Text("Skeniraj"),
         icon: const Icon(Icons.add),
-      ),
+      ) : null,
     );
   }
 }
