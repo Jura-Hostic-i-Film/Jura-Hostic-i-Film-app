@@ -209,8 +209,10 @@ class DocumentScreenState extends State<DocumentScreen> {
     });
 
     for (var documentObject in selectedFiles) {
-      await apiServiceProvider.approveDocument(
-          documentObject.processedDocument!.id, documentObject.approved);
+      if (documentObject.processedDocument != null) {
+        await apiServiceProvider.approveDocument(
+            documentObject.processedDocument!.id, documentObject.approved);
+      }
     }
 
     setState(() {
