@@ -373,6 +373,11 @@ class ApiServiceProvider extends ChangeNotifier {
     return {};
   }
 
+  bool isUserEmployee() {
+    if (currentUser == null) return false;
+    return !(currentUser!.roles.length == 1 && currentUser!.roles.contains(Role.admin));
+  }
+
   Future<ImageProvider?> apiDocumentsTest() async {
     final byteData = await rootBundle.load('assets/test_img.jpeg');
 

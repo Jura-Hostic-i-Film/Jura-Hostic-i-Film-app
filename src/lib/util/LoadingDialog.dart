@@ -30,6 +30,9 @@ class LoadingDialog {
                       children: snapshot.hasData
                           ? [
                               Text(
+                                key: Key(snapshot.requireData.$1 != null
+                                    ? 'successMessageKey'
+                                    : 'failMessageKey'),
                                 snapshot.requireData.$1 != null
                                     ? successMessage
                                     : failMessage,
@@ -44,6 +47,7 @@ class LoadingDialog {
                                 mainAxisAlignment: MainAxisAlignment.end,
                                 children: [
                                   GestureDetector(
+                                    key: const Key('closeDialogButtonKey'),
                                     onTap: () {
                                       Navigator.pop(context);
                                       if (snapshot.requireData.$1 != null) {

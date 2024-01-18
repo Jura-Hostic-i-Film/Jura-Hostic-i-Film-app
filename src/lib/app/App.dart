@@ -3,7 +3,7 @@ import 'package:jura_hostic_i_film_app/app/auth/RegisterScreen.dart';
 import 'package:jura_hostic_i_film_app/app/docs/DocumentOverviewScreen.dart';
 import 'package:jura_hostic_i_film_app/app/docs/DocumentPDFPreviewScreen.dart';
 import 'package:jura_hostic_i_film_app/app/docs/DocumentReviewScreen.dart';
-import 'package:jura_hostic_i_film_app/app/main/MainScreen.dart';
+import 'package:jura_hostic_i_film_app/app/main/HomeScreen.dart';
 import 'package:provider/provider.dart';
 import '../backend_connection/ApiServiceProvider.dart';
 import '../components/loading/LoadingModal.dart';

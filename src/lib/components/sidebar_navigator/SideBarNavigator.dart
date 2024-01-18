@@ -70,6 +70,7 @@ class SideBarNavigator extends Drawer {
                     (i, sideTab) => MapEntry(i,
                   Material(
                     child: InkWell(
+                      key: Key(sideTab.key),
                       highlightColor: Colors.transparent,
                       splashColor: Colors.black.withOpacity(0.5),
                       onTap: () => {

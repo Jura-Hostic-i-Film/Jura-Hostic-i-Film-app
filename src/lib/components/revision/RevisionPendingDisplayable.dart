@@ -9,7 +9,9 @@ import '../history/DocumentStatusDisplayable.dart';
 class RevisionPendingDisplayable extends StatelessWidget {
   final Audit audit;
   final Function callback;
-  const RevisionPendingDisplayable({required this.audit, required this.callback, super.key});
+
+  const RevisionPendingDisplayable(
+      {required this.audit, required this.callback, super.key});
 
   @override
   Widget build(BuildContext context) {
@@ -59,15 +61,17 @@ class RevisionPendingDisplayable extends StatelessWidget {
                       mainAxisAlignment: MainAxisAlignment.end,
                       crossAxisAlignment: CrossAxisAlignment.center,
                       children: [
-                        ReviseIcon(document: audit.document, callback: () => callback()),
+                        ReviseIcon(
+                            key: const Key('reviseButtonKey'),
+                            document: audit.document,
+                            callback: () => callback()),
                         const SizedBox(width: 6),
                         OverviewIcon(document: audit.document),
                         const SizedBox(width: 6),
                         DownloadOriginalIcon(document: audit.document),
                       ],
                     ),
-                  ]
-              ),
+                  ]),
               Row(
                 mainAxisAlignment: MainAxisAlignment.start,
                 crossAxisAlignment: CrossAxisAlignment.start,
@@ -76,15 +80,13 @@ class RevisionPendingDisplayable extends StatelessWidget {
                 children: [
                   Container(
                       padding: const EdgeInsets.symmetric(vertical: 5),
-                      child:
-                      DocumentStatusDisplayable(documentStatus: audit.document.documentStatus)
-                  ),
-                  const SizedBox(width:6),
+                      child: DocumentStatusDisplayable(
+                          documentStatus: audit.document.documentStatus)),
+                  const SizedBox(width: 6),
                   Container(
                       padding: const EdgeInsets.symmetric(vertical: 5),
-                      child:
-                      DocumentTypeDisplayable(documentType: audit.document.documentType)
-                  ),
+                      child: DocumentTypeDisplayable(
+                          documentType: audit.document.documentType)),
                 ],
               )
             ],
@@ -92,4 +94,5 @@ class RevisionPendingDisplayable extends StatelessWidget {
         ),
       ],
     );
-  }}
+  }
+}

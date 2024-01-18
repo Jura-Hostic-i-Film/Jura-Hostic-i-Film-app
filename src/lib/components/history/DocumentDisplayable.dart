@@ -58,7 +58,9 @@ class DocumentDisplayable extends StatelessWidget {
                       mainAxisAlignment: MainAxisAlignment.end,
                       crossAxisAlignment: CrossAxisAlignment.center,
                       children: [
-                        OverviewIcon(document: document),
+                        OverviewIcon(
+                            key: const Key('documentOverviewButtonKey'),
+                            document: document),
                         const SizedBox(width: 6),
                         DownloadOriginalIcon(document: document),
                       ],

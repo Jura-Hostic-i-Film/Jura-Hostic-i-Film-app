@@ -89,6 +89,7 @@ class DocumentScreenState extends State<DocumentScreen> {
                                 SizedBox(
                                   width: 250,
                                   child: AsyncButton(
+                                    key: const Key('processingButtonKey'),
                                     onTap: () async {
                                       if (selectedFiles.isNotEmpty) {
                                         if (didDocumentProcessing) {
@@ -132,6 +133,7 @@ class DocumentScreenState extends State<DocumentScreen> {
                                 ),
                                 !didDocumentProcessing
                                     ? ElevatedButton(
+                                        key: const Key('addDocumentButtonKey'),
                                         onPressed: () {
                                           addButtonAction(context);
                                         },
@@ -209,8 +211,12 @@ class DocumentScreenState extends State<DocumentScreen> {
     });
 
     for (var documentObject in selectedFiles) {
-      await apiServiceProvider.approveDocument(
-          documentObject.processedDocument!.id, documentObject.approved);
+      if (documentObject.processedDocument != null) {
+        await apiServiceProvider.approveDocument(
+            documentObject.processedDocument!.id,
+            documentObject.approved,
+        );
+      }
     }
 
     setState(() {
