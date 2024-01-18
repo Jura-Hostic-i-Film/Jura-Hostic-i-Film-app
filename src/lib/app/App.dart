@@ -46,6 +46,15 @@ class App extends StatelessWidget {
               title: Constants.appName,
               theme: ThemeData(
                 primarySwatch: Colors.grey,
+                highlightColor: Colors.black,
+                focusColor: Colors.black,
+                splashColor: Colors.black,
+                hoverColor: Colors.black,
+                indicatorColor: Colors.black,
+                textSelectionTheme: const TextSelectionThemeData(cursorColor: Colors.black),
+                inputDecorationTheme: const InputDecorationTheme(
+                  focusedBorder: UnderlineInputBorder(borderSide: BorderSide(color: Colors.black, width: 2)),
+                )
               ),
               routes: {
                 '/docs/overview': (context) => const DocumentOverviewScreen(),

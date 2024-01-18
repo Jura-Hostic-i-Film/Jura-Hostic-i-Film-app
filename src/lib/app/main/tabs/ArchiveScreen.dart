@@ -30,8 +30,11 @@ class ArchiveScreenState extends State<ArchiveScreen> {
             surfaceTintColor: Colors.black,
             backgroundColor: Colors.white,
             foregroundColor: Colors.black,
-            bottom: const TabBar(
-              tabs: [
+            bottom: TabBar(
+              indicatorColor: Colors.black,
+              labelColor: Colors.black,
+              overlayColor: MaterialStatePropertyAll(Colors.black.withOpacity(0.2)),
+              tabs: const [
                 Tab(
                   child: Row(
                     mainAxisAlignment: MainAxisAlignment.center,

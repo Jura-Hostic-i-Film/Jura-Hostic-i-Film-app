@@ -87,6 +87,7 @@ class HomeScreenState extends State<HomeScreen> {
           currentUser: apiServiceProvider.currentUser,
           drawerWidth: 240),
       appBar: AppBar(
+        surfaceTintColor: Colors.white,
         elevation: 0,
         shadowColor: Colors.transparent,
         backgroundColor: Colors.white,
