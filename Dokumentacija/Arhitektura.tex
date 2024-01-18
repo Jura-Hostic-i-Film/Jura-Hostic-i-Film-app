@@ -46,7 +46,7 @@
 			
 				
 				\textbf{Documents} 
-				{  Sadrži informacije o dokumentima, uključujući vrstu dokumenta, sliku dokumenta, sažetak, status, vlasnika, oznaku o ispravnom skeniranju i vremensku oznaku skeniranja. Ovaj entitet u vezi je \textit{One-to-Many} s entitetom \textbf{users} preko atributa \textit{ownerID}, u vezi je \textit{One-to-Many} s entitetom \textbf{signatures} preko atributa \textit{documentID}, u vezi je \textit{One-to-Many} s entitetom \textbf{audits} preko atributa \textit{documentID}, u vezi je \textit{One-to-Many} s entitetom \textbf{archive} preko atributa \textit{documentID}, u vezi je \textit{One-to-One} s entitetom \textbf{image} preko atributa \textit{imageID}, u vezi je \textit{Many-to-One} s entitetom \textbf{users} preko atributa \textit{ownerID}.}
+				{  Sadrži informacije o dokumentima, uključujući vrstu dokumenta, sliku dokumenta, sažetak, status, vlasnika i vremensku oznaku skeniranja. Ovaj entitet u vezi je \textit{One-to-Many} s entitetom \textbf{users} preko atributa \textit{owner\_id}, u vezi je \textit{One-to-Many} s entitetom \textbf{signatures} preko atributa \textit{id}, u vezi je \textit{One-to-Many} s entitetom \textbf{audits} preko atributa \textit{id}, u vezi je \textit{One-to-Many} s entitetom \textbf{archive} preko atributa \textit{id}, u vezi je \textit{One-to-One} s entitetom \textbf{image} preko atributa \textit{image\_id}, u vezi je \textit{Many-to-One} s entitetom \textbf{users} preko atributa \textit{owner\_id}.}
 				
 				
 				\begin{longtblr}[
@@ -58,18 +58,17 @@
 						rowhead = 1,
 					} 
 					\hline \SetCell[c=3]{c}{\textbf{documents}}	 \\ \hline[3pt]
-					\SetCell{LightGreen}documentID & INT & identifikacijski broj dokumenta  	\\ \hline
-					documentType	& ENUM & tip skeniranog dokumenta: račun, ponuda ili interni	\\ \hline 
-					\SetCell{LightBlue}imageID & INT & identifikacijski broj slike dokumenta  \\ \hline 
+					\SetCell{LightGreen}id & INT & identifikacijski broj dokumenta  	\\ \hline
+					document\_type	& ENUM & tip skeniranog dokumenta: račun, ponuda ili interni	\\ \hline 
+					\SetCell{LightBlue}image\_id & INT & identifikacijski broj slike dokumenta  \\ \hline 
 					summary & TEXT	& tekst koji sadrži skenirani dokument 		\\ \hline 
-					status	& ENUM & trenutni status dokumenta: odobren, odbijen, potpisan, reviziran, potpisan i arhiviran ili arhiviran 	\\ \hline 
-					correctlyScanned & BOOL & je li dokument označen kao ispravno skeniran ili nije \\ \hline
-					\SetCell{LightBlue}ownerID & INT & identifikacijski broj korisnika koji je skenirao dokument \\ \hline
-					scanTimestamp & DATETIME & oznaka datuma i vremena skeniranja dokumenta \\ \hline
+					document\_status	& ENUM & trenutni status dokumenta: skeniran, odobren, odbijen, potpisan, reviziran, potpisan i arhiviran ili arhiviran 	\\ \hline 
+					\SetCell{LightBlue}owner\_id & INT & identifikacijski broj korisnika koji je skenirao dokument \\ \hline
+					scan\_timestamp & DATETIME & oznaka datuma i vremena skeniranja dokumenta \\ \hline
 				\end{longtblr}
 				
 				\textbf{Users} 
-				{  Sprema informacije o korisnicima, uključujući korisničko ime i lozinku, ime i prezime korisnika te email. Ovaj entitet u vezi je \textit{One-to-Many} s entitetom \textbf{documents} preko atributa \textit{userID}, u vezi je \textit{One-to-Many} s entitetom \textbf{signatures} preko atributa \textit{userID}, u vezi je \textit{One-to-Many} s entitetom \textbf{audits} preko atributa \textit{userID}, u vezi je \textit{One-to-Many} s entitetom \textbf{archive} preko atributa \textit{userID}, u vezi je \textit{One-to-Many} s entitetom \textbf{user\textunderscore role} preko atributa \textit{userID}.}
+				{  Sprema informacije o korisnicima, uključujući korisničko ime i lozinku, ime i prezime korisnika te email. Ovaj entitet u vezi je \textit{One-to-Many} s entitetom \textbf{documents} preko atributa \textit{id}, u vezi je \textit{One-to-Many} s entitetom \textbf{signatures} preko atributa \textit{id}, u vezi je \textit{One-to-Many} s entitetom \textbf{audits} preko atributa \textit{id}, u vezi je \textit{One-to-Many} s entitetom \textbf{archive} preko atributa \textit{id}, u vezi je \textit{One-to-Many} s entitetom \textbf{user\textunderscore role} preko atributa \textit{id}.}
 				
 				\begin{longtblr}[
 					label=none,
@@ -80,17 +79,17 @@
 						rowhead = 1,
 					} 
 					\hline \SetCell[c=3]{c}{\textbf{users}}	 \\ \hline[3pt]
-					\SetCell{LightGreen}userID & INT & identifikacijski broj korisnika  	\\ \hline
+					\SetCell{LightGreen}id & INT & identifikacijski broj korisnika  	\\ \hline
 					email & VARCHAR & email korisnika \\ \hline
-					firstName & VARCHAR & ime korisnika \\ \hline
-					lastName & VARCHAR & prezime korisnika \\ \hline
+					first\_name & VARCHAR & ime korisnika \\ \hline
+					last\_name & VARCHAR & prezime korisnika \\ \hline
 					username	& VARCHAR & korisničko ime za prijavu korisnika	\\ \hline 
 					password & VARCHAR & šifa za prijavu korisnika  \\ \hline 
 				\end{longtblr}
 				
 				
 				\textbf{Signatures}
-				{  Služi za praćenje potpisa na dokumentima, s informacijama o korisniku koji je potpisao, statusu potpisa i vremenskoj oznaci potpisa. Ovaj entitet u vezi je \textit{Many-to-One} s entitetom \textbf{users} preko atributa \textit{signedBy}, u vezi je \textit{One-to-One} s entitetom \textbf{documents} preko atributa \textit{documentID}.}
+				{  Služi za praćenje potpisa na dokumentima, s informacijama o korisniku koji je potpisao, statusu potpisa i vremenskoj oznaci potpisa. Ovaj entitet u vezi je \textit{Many-to-One} s entitetom \textbf{users} preko atributa \textit{sign\_by}, u vezi je \textit{One-to-One} s entitetom \textbf{documents} preko atributa \textit{document\_id}.}
 				
 				\begin{longtblr}[
 					label=none,
@@ -101,15 +100,15 @@
 						rowhead = 1,
 					} 
 					\hline \SetCell[c=3]{c}{\textbf{signatures}}	 \\ \hline[3pt]
-					\SetCell{LightGreen}signatureID & INT & identifikacijski broj potpisanog dokumenta  	\\ \hline
-					\SetCell{LightBlue}documentID	& INT & identifikacijski broj dokumenta	\\ \hline 
-					\SetCell{LightBlue}signedBy & INT & identifikacijski broj korisnika koji je potpisao ili treba potpisati dokument  \\ \hline 
+					\SetCell{LightGreen}signature\_id & INT & identifikacijski broj potpisanog dokumenta  	\\ \hline
+					\SetCell{LightBlue}document\_id	& INT & identifikacijski broj dokumenta	\\ \hline 
+					\SetCell{LightBlue}sign\_by & INT & identifikacijski broj korisnika koji je potpisao ili treba potpisati dokument  \\ \hline 
 					status & ENUM & status dokumenta za potpisivanje: potpisan ili čeka na potpisivanje \\ \hline
-					signedAt & DATETIME & oznaka datuma i vremena potpisivanja dokumenta \\ \hline
+					signed\_at & DATETIME & oznaka datuma i vremena potpisivanja dokumenta \\ \hline
 				\end{longtblr}
 				
 				\textbf{Audits}
-				{  Sadrži podatke o revizijama dokumenata, uključujući korisnika koji je obavio reviziju, status revizije i vremensku oznaku. Ovaj entitet u vezi je \textit{Many-to-One} s entitetom \textbf{users} preko atributa \textit{auditedBy}, u vezi je \textit{One-to-One} s entitetom \textbf{documents} preko atributa \textit{documentID}.}
+				{  Sadrži podatke o revizijama dokumenata, uključujući korisnika koji je obavio reviziju, status revizije i vremensku oznaku. Ovaj entitet u vezi je \textit{Many-to-One} s entitetom \textbf{users} preko atributa \textit{audited\_by}, u vezi je \textit{One-to-One} s entitetom \textbf{documents} preko atributa \textit{document\_id}.}
 				
 				\begin{longtblr}[
 					label=none,
@@ -120,15 +119,15 @@
 						rowhead = 1,
 					} 
 					\hline \SetCell[c=3]{c}{\textbf{audits}}	 \\ \hline[3pt]
-					\SetCell{LightGreen}auditID & INT & identifikacijski broj reviziranog dokumenta  	\\ \hline
-					\SetCell{LightBlue}documentID	& INT & identifikacijski broj dokumenta	\\ \hline 
-					\SetCell{LightBlue}auditedBy & INT & identifikacijski broj korisnika koji je revizirao ili treba revizirati dokument  \\ \hline 
+					\SetCell{LightGreen}audit\_id & INT & identifikacijski broj reviziranog dokumenta  	\\ \hline
+					\SetCell{LightBlue}document\_id	& INT & identifikacijski broj dokumenta	\\ \hline 
+					\SetCell{LightBlue}audited\_by & INT & identifikacijski broj korisnika koji je revizirao ili treba revizirati dokument  \\ \hline 
 					status & ENUM & status dokumenta za reviziju: reviziran ili čeka na reviziranje \\ \hline
-					auditedAt & DATETIME & oznaka datuma i vremena reviziranja dokumenta \\ \hline
+					audited\_at & DATETIME & oznaka datuma i vremena reviziranja dokumenta \\ \hline
 				\end{longtblr}
 				
 				\textbf{Archive}
-				{  Koristi se za praćenje arhiviranja dokumenata, s informacijama o korisniku koji je arhivirao dokument, statusu arhiviranja, vremenskoj oznaci i broju arhive. Ovaj entitet u vezi je \textit{One-to-One} s entitetom \textbf{documents} preko atributa \textit{documentID}, u vezi je \textit{Many-to-One} s entitetom \textbf{users} preko atributa \textit{archiveBy}.}
+				{  Koristi se za praćenje arhiviranja dokumenata, s informacijama o korisniku koji je arhivirao dokument, statusu arhiviranja, vremenskoj oznaci i broju arhive. Ovaj entitet u vezi je \textit{One-to-One} s entitetom \textbf{documents} preko atributa \textit{document\_id}, u vezi je \textit{Many-to-One} s entitetom \textbf{users} preko atributa \textit{archive\_by}.}
 				
 				\begin{longtblr}[
 					label=none,
@@ -139,15 +138,15 @@
 						rowhead = 1,
 					} 
 					\hline \SetCell[c=3]{c}{\textbf{archive}}	 \\ \hline[3pt]
-					\SetCell{LightGreen}archiveNumber & INT & identifikacijski broj arhiviranog dokumenta  	\\ \hline
-					\SetCell{LightBlue}documentID	& INT & identifikacijski broj dokumenta	\\ \hline 
-					\SetCell{LightBlue}archiveBy & INT & identifikacijski broj korisnika koji je arhivirao ili treba arhivirati dokument  \\ \hline 
+					\SetCell{LightGreen}archive\_number & INT & identifikacijski broj arhiviranog dokumenta  	\\ \hline
+					\SetCell{LightBlue}document\_id	& INT & identifikacijski broj dokumenta	\\ \hline 
+					\SetCell{LightBlue}archive\_by & INT & identifikacijski broj korisnika koji je arhivirao ili treba arhivirati dokument  \\ \hline 
 					status & ENUM & status dokumenta za arhiviranje: arhiviran ili čeka na arhiviranje \\ \hline
-					archivedAt & DATETIME & oznaka datuma i vremena arhiviranja dokumenta \\ \hline
+					archived\_at & DATETIME & oznaka datuma i vremena arhiviranja dokumenta \\ \hline
 				\end{longtblr}
 				
 				\textbf{Image}
-				{  Sprema slike dokumenata. Ovaj entitet u vezi je \textit{One-to-One} s entitetom \textbf{documents} preko atributa \textit{imageID}.}
+				{  Sprema slike dokumenata. Ovaj entitet u vezi je \textit{One-to-One} s entitetom \textbf{documents} preko atributa \textit{id}.}
 				
 				\begin{longtblr}[
 					label=none,
@@ -158,12 +157,12 @@
 						rowhead = 1,
 					} 
 					\hline \SetCell[c=3]{c}{\textbf{image}}	 \\ \hline[3pt]
-					\SetCell{LightGreen}imageID & INT & identifikacijski broj slike dokumenta  	\\ \hline
-					image & BLOB & spremljena slika dokumenta \\ \hline
+					\SetCell{LightGreen}id & INT & identifikacijski broj slike dokumenta  	\\ \hline
+					image & VARCHAR & putanja do spremljene slike \\ \hline
 				\end{longtblr}
 				
 				\textbf{Roles}
-				{  Definira različite uloge korisnika u sistemu. Ovaj entitet u vezi je \textit{One-to-Many} s entitetom \textbf{user\textunderscore role} preko atributa \textit{roleID}.}
+				{  Definira različite uloge korisnika u sistemu. Ovaj entitet u vezi je \textit{One-to-Many} s entitetom \textbf{user\textunderscore role} preko atributa \textit{role\_id}.}
 				
 				
 				\begin{longtblr}[
@@ -175,12 +174,12 @@
 						rowhead = 1,
 					} 
 					\hline \SetCell[c=3]{c}{\textbf{roles}}	 \\ \hline[3pt]
-					\SetCell{LightGreen}roleID & INT & identifikacijski broj kategorije korisnika  	\\ \hline
-					roleName & VARCHAR & ime kategorije korisnika \\ \hline
+					\SetCell{LightGreen}role\_id & INT & identifikacijski broj kategorije korisnika  	\\ \hline
+					role\_name & VARCHAR & ime uloge korisnika \\ \hline
 				\end{longtblr}
 				
 				\textbf{User\textunderscore role}
-				{  Tablica koja povezuje korisnike s njihovim ulogama. Ovaj entitet u vezi je \textit{Many-to-One} s entitetom \textbf{roles} preko atributa \textit{roleID}, u vezi je \textit{Many-to-One} s entitetom \textbf{users} preko atributa \textit{userID}.}
+				{  Tablica koja povezuje korisnike s njihovim ulogama. Ovaj entitet u vezi je \textit{Many-to-One} s entitetom \textbf{roles} preko atributa \textit{role\_id}, u vezi je \textit{Many-to-One} s entitetom \textbf{users} preko atributa \textit{user\_id}.}
 				
 				\begin{longtblr}[
 					label=none,
@@ -191,8 +190,8 @@
 						rowhead = 1,
 					} 
 					\hline \SetCell[c=3]{c}{\textbf{user\textunderscore role}}	 \\ \hline[3pt]
-					\SetCell{LightGreen}userID & INT & identifikacijski broj korisnika  	\\ \hline
-					\SetCell{LightGreen}roleID & INT & identifikacijski broj kategorije korisnika \\ \hline
+					\SetCell{LightGreen}user\_id & INT & identifikacijski broj korisnika  	\\ \hline
+					\SetCell{LightGreen}role\_id & INT & identifikacijski broj kategorije korisnika \\ \hline
 				\end{longtblr}
 				
 				
