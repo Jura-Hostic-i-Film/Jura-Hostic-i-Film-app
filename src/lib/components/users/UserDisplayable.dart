@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:jura_hostic_i_film_app/components/action_icons/StastisticIcon.dart';
 import 'package:jura_hostic_i_film_app/models/User.dart';
 
 import 'RoleDisplayable.dart';
@@ -23,56 +24,59 @@ class UserDisplayable extends StatelessWidget {
                 mainAxisAlignment: MainAxisAlignment.spaceBetween,
                 crossAxisAlignment: CrossAxisAlignment.center,
                 children: [
-                  Column(
-                    mainAxisAlignment: MainAxisAlignment.start,
-                    crossAxisAlignment: CrossAxisAlignment.start,
-                    children: [
-                      Wrap(
-                        crossAxisAlignment: WrapCrossAlignment.center,
-                        children: [
-                          Text(
-                            user.username,
+                  Expanded(
+                    flex: 3,
+                    child: Column(
+                      mainAxisAlignment: MainAxisAlignment.start,
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      children: [
+                        Wrap(
+                          crossAxisAlignment: WrapCrossAlignment.center,
+                          children: [
+                            Text(
+                              user.username,
+                              style: const TextStyle(
+                                fontWeight: FontWeight.bold,
+                                fontSize: 20,
+                              ),
+                            ),
+                            const Text(
+                              ' · ',
+                              style: TextStyle(
+                                fontSize: 24,
+                              ),
+                            ),
+                            Text(
+                              '${user.firstName} ${user.lastName}',
+                              style: const TextStyle(
+                                fontSize: 20,
+                              ),
+                            ),
+                          ],
+                        ),
+                        Padding(
+                          padding: const EdgeInsets.symmetric(vertical: 2),
+                          child: Text(
+                            user.email,
                             style: const TextStyle(
-                              fontWeight: FontWeight.bold,
-                              fontSize: 20,
+                              fontSize: 14,
+                              fontStyle: FontStyle.italic,
                             ),
-                          ),
-                          const Text(
-                            ' · ',
-                            style: TextStyle(
-                              fontSize: 24,
-                            ),
-                          ),
-                          Text(
-                            '${user.firstName} ${user.lastName}',
-                            style: const TextStyle(
-                              fontSize: 20,
-                            ),
-                          ),
-                        ],
-                      ),
-                      Padding(
-                        padding: const EdgeInsets.symmetric(vertical: 2),
-                        child: Text(
-                          user.email,
-                          style: const TextStyle(
-                            fontSize: 14,
-                            fontStyle: FontStyle.italic,
                           ),
                         ),
-                      ),
-                    ],
-                  ),
-                  Container(
-                    width: 40,
-                    height: 40,
-                    decoration: BoxDecoration(
-                      borderRadius: BorderRadius.circular(8),
-                      border: Border.all(color: Colors.black, width: 2),
+                      ],
                     ),
-                    child: const Icon(
-                      Icons.edit,
-                      size: 28,
+                  ),
+                  Expanded(
+                    flex: 1,
+                    child: Row(
+                      mainAxisAlignment: MainAxisAlignment.end,
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      children: [
+                        StatisticIcon(
+                            key: const Key('openStatisticsButtonKey'),
+                            user: user),
+                      ],
                     ),
                   ),
                 ],

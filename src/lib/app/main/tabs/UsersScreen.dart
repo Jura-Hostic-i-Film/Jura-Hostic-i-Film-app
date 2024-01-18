@@ -33,23 +33,25 @@ class UsersScreenState extends State<UsersScreen> {
                       children: [
                         Expanded(
                           child: SingleChildScrollView(
-                            child: Column(
-                                children: snapshot.requireData
-                                    .where((user) => user.id != apiServiceProvider.currentUser?.id)
-                                    .toList()
-                                    .asMap().map((i, user) => MapEntry(
-                                  i,
-                                  Container(
-                                    decoration: BoxDecoration(
-                                        border: Border(
-                                          bottom: BorderSide(
-                                            color: i != snapshot.requireData.length - 2 ? Colors.black : Colors.transparent,
-                                          ),
-                                        )
+                            child: Padding(
+                              padding: const EdgeInsets.only(bottom: 60),
+                              child: Column(
+                                  children: snapshot.requireData
+                                      .toList()
+                                      .asMap().map((i, user) => MapEntry(
+                                    i,
+                                    Container(
+                                      decoration: BoxDecoration(
+                                          border: Border(
+                                            bottom: BorderSide(
+                                              color: i != snapshot.requireData.length - 1 ? Colors.black : Colors.transparent,
+                                            ),
+                                          )
+                                      ),
+                                      child: UserDisplayable(user: user),
                                     ),
-                                    child: UserDisplayable(user: user),
-                                  ),
-                                )).values.toList()
+                                  )).values.toList()
+                              ),
                             ),
                           ),
                         ),
@@ -87,7 +89,7 @@ class UsersScreenState extends State<UsersScreen> {
                           AddButton(
                             displayedText: 'Novi korisnik',
                             onTap: () => Navigator.pushNamed(context, '/users/register'),
-                            fontSize: 14,
+                            fontSize: 12,
                           ),
                           GestureDetector(
                             child: const SizedBox(

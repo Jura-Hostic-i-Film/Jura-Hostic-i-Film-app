@@ -42,7 +42,7 @@ app.*.map.json
 /android/app/debug
 /android/app/profile
 /android/app/release
-.env
+src/.env
 build.exe
 lib/constants.dart
 
@@ -61,3 +61,4 @@ lib/constants.dart
 *.toc
 PROGI_ProjektnaDokumentacija.pdf
 
+/src/build/
