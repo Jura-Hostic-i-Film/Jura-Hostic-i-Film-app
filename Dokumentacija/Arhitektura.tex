@@ -264,3 +264,10 @@
 			%\textbf{\textit{dio 2. revizije}}\\
 		
 			 %\textit{Potrebno je priložiti dijagram komponenti s pripadajućim opisom. Dijagram komponenti treba prikazivati strukturu cijele aplikacije.}
+			 
+			 {Dijagram komponenti prikazan na slici 4.5 opisuje organizaciju komponenti, internih struktura i komunikaciju različitih dijelova aplikacije. Sustav možemo podijeliti na 2 cjeline: \textbf{Flutter mobilnu aplikaciju} i \textbf{FastAPI backend}. Korisničko sučelje se nalazi unutar \textbf{Flutter mobilne aplikacije}, te sve korisničke interakcije su unutar te mobilne aplikacije. Aplikacija se sastoji od hijerarhije \textit{Flutter widgeta}, koji su zapravo manje cjeline koje grade korisničko sučelje. Interakcijom s korisničkim sučeljem, widget s pomoću \textit{ApiServiceProvidera} koristi \textit{ApiService} te taj servis dohvaća JSON podatke s backend dijela aplikacije. FastAPI backend je REST API i on s pomoću \textit{routera} preusmjerava requestove pripadajućem servisu koji ih dalje preusmjerava pripadajućim \textit{CRUD} klasama. \textit{CRUD} klase zatim preko \textit{Modela} s pomoću \textit{SQLAlchemy}-a dohvaćaju podatke iz baze podataka ili slike s pohrane na oblaku. Ti podaci su pri komunikaciji u obliku \textit{model} objekata ili \textit{schema} pri obrađivanju zahtjeva i odgovoru na njih. Ovisno o JSON podacima koji su se dobili s backenda, frontend prilagođava svoje sučelje.}
+			 \begin{figure}[H]
+			 	\includegraphics[width=\textwidth]{slike/dijagramKomponenti.png}
+			 	\caption{Dijagram komponenti}
+			 	\label{fig:dijagramKomponenti}
+			 \end{figure}
