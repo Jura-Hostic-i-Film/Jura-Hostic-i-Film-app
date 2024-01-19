@@ -111,7 +111,7 @@ class LocalDocumentHandler {
               fontWeight: FontWeight.bold,
             ),
           ),
-        )] + lines.sublist(document.documentType == DocumentType.receipt ? 3 : 2, lines.length).map((line) => Padding(
+        )] + lines.sublist(document.documentType == DocumentType.receipt ? 3 : 2, lines.length - 1).map((line) => Padding(
           padding: const EdgeInsets.symmetric(vertical: 2),
           child: Text(
             line,
