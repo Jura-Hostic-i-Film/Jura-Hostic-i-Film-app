@@ -210,12 +210,156 @@
 		
 		\section{Upute za puštanje u pogon}
 		
-			\textbf{\textit{dio 2. revizije}}\\
+			{U narednim potpoglavljima objašnjeno je kako pokrenuti sve dijelove aplikacije lokalno ili postavljanjem na besplatne servise.}
 		
-			 \textit{U ovom poglavlju potrebno je dati upute za puštanje u pogon (engl. deployment) ostvarene aplikacije. Na primjer, za web aplikacije, opisati postupak kojim se od izvornog kôda dolazi do potpuno postavljene baze podataka i poslužitelja koji odgovara na upite korisnika. Za mobilnu aplikaciju, postupak kojim se aplikacija izgradi, te postavi na neku od trgovina. Za stolnu (engl. desktop) aplikaciju, postupak kojim se aplikacija instalira na računalo. Ukoliko mobilne i stolne aplikacije komuniciraju s poslužiteljem i/ili bazom podataka, opisati i postupak njihovog postavljanja. Pri izradi uputa preporučuje se \textbf{naglasiti korake instalacije uporabom natuknica} te koristiti što je više moguće \textbf{slike ekrana} (engl. screenshots) kako bi upute bile jasne i jednostavne za slijediti.}
+			\subsection{Puštanje poslužitelja u pogon}
+			
+			{U narednim potpoglavljima objašnjene se opcije i postupak postavljanja poslužitelja.}
+			
+			\subsubsection{Dodavanje varijabli okruženja (opcionalno)}
+			
+			{Varijable okruženja se prilažu unutar .env datoteke. Potrebno je stvoriti datoteku s imenom '.env' unutar glavnog direktorija projekta i unutar njega se stavljaju vrijednosti koje se žele postavljati s pomoću varijabli okruženja, ovo su varijable koje je moguće postavljati.}
+			
+			\begin{itemize}
+				\item{database\_url}
+				\item{secret\_key}
+				\item{access\_token\_expire\_hours}
+				\item{DefaultEndpointsProtocol}
+				\item{AccountName}
+				\item{AccountKey}
+				\item{EndpointSuffix}
+				\item{image\_path}
+				\item{vision\_key}
+				\item{vision\_endpoint}
+			\end{itemize}
+			
+			\subsubsection{Konfiguracija vanjske baze podataka (opcionalno)}
+			
+			{Za potrebe backend dijela aplikacije, potrebno je imati bazu podataka. Osim ako se kroz varijable okruženja ne postavi drugačije, aplikacija sama stvara svoju SQLite bazu podataka u svom direktoriju. Ako se želi koristiti vanjska baza podataka, potrebno je konfigurirati baza podataka.}
+			
+			{PostgreSQL bazu podataka je moguće konfigurirati na više lokacija, jedna od kojih je Azure cloud\footnote{\url{https://learn.microsoft.com/en-us/azure/postgresql/single-server/quickstart-create-server-database-portal}}. Nakon postavljanja, potrebno je napraviti link za konekciju ovog oblika: 'postgresql://{username}:{password}@{host}:{port}/postgres'. Primjer tog linka bi bio: 'postgresql://username:L216Yq6ber6Rma9@digitalizacija-api-database.postgres.database.azure.com:5432/postgres'. Nakon kreiranja linka potrebno ga je staviti u varijablu okruženja s ključem 'database\_url'.}
 			
 			
-			 \textit{Dovršenu aplikaciju potrebno je pokrenuti na javno dostupnom poslužitelju. Studentima se preporuča korištenje neke od sljedećih besplatnih usluga: \href{https://aws.amazon.com/}{Amazon AWS}, \href{https://azure.microsoft.com/en-us/}{Microsoft Azure} ili \href{https://www.heroku.com/}{Heroku}. Mobilne aplikacije trebaju biti objavljene na F-Droid, Google Play ili Amazon App trgovini.}
+			\subsubsection{Konfiguracija vanjskog spremnika slika (opcionalno)}
 			
+			{Bez zasebne konfiguracije, slike se spremaju u direktorij aplikacije unutar images pod direktorija koji je automatski kreiran. Taj direktorij se može promijeniti dodavanje 'image\_path' varijablom okruženja čime se određuje relativna putanja gdje će se spremati slike. Također je moguća konfiguracija Azure blob storage\footnote{\url{https://learn.microsoft.com/en-us/azure/storage/blobs/storage-quickstart-blobs-portal}}.}
+			
+			{Nakon konfiguracije potrebno je pronaći Connection string koji se nalazi unutar 'Access keys', kao što se vidi na slici. Potrebno je stisnuti show te kopirati taj string.}
+			
+			\begin{figure}[H]
+				\includegraphics[width=\textwidth]{slike/accessKey.png}
+				\caption{Primjer pronalaska ključa}
+				\label{fig:accessKey}
+			\end{figure}
+			
+			{Taj string je potrebno postaviti unutar varijabli okruženje rastavljen na ove vrijednosti: 'DefaultEndpointsProtocol', 'AccountName', 'AccountKey' te 'EndpointSuffix'. Nakon toga, ime specifičnog kontejnera gdje će se spremati slike se postavi s 'image\_path' varijablom okruženja ili će biti images ako se ne postavi.}
+			
+			\subsubsection{Konfiguracija vanjskog prepoznavanja slova (opcionalno)}
+			
+			{Bez dodatne konfiguracije, aplikacija ima ugrađeno prepoznavanje teksta na slici ali nije preporučeno korištenje ugrađenog prepoznavanja na svim uređajima. Prepoznavanje na uređajima je spor i vrlo resursno intenzivan proces. Za najbolje rezultate prepoznavanja, potrebno je imati nVIDIA grafičku karticu 2GB video memorije ili barem 3GB slobodnog RAM-a u slučaju da ne postoji nVIDIA grafička kartica. Nije preporučeno pokretanje lokalnog prepoznavanja slova ako nije dostupna grafička kartica jer će proces biti iznimno dug. Zato je preporučeno postaviti computer vision servis na Azure cloudu\footnote{\url{https://portal.azure.com/\#create/Microsoft.CognitiveServicesComputerVision}}.}
+			
+			{Nakon kreiranja resursa, potrebno je pronaći endpoint i ključ za vision api. Oni se nalaze na overview stranici Computer Vision dashboarda na Azure cloudu. Na slici se vidi gdje se oni nalaze.}
+			
+			\begin{figure}[H]
+				\includegraphics[width=\textwidth]{slike/accessKey.png}
+				\caption{Primjer pronalaska ključa za vision api}
+				\label{fig:visionApiKey}
+			\end{figure}
+			
+			{Potrebno je kopirat te dvije vrijednosti i staviti ih u varijable okruženja pod ključevima 'vision\_key' i 'vision\_endpoint'. Kada se to postavi, konfigurirano je prepoznavanje teksta na oblaku.}
+			
+			\subsubsection{Pokretanje backend aplikacije}
+			
+			{Kako bi se pokrenula aplikacija potrebno je pratiti ove korake:}
+			
+			\begin{enumerate}
+				\item{Potrebno je instalirati python 3.11\footnote{\url{https://www.python.org/downloads/}}}
+				\item{Potrebno je klonirati repozitorij lokalno: 'git clone https://github.com/Jura-Hostic-i-Film/Jura-Hostic-i-Film-api.git'}
+				\item{Potrebno je instalirati potrebne pakete unutar direktorija aplikacije: 'pip install -r requirements.txt'}
+				\item{(Opcionalno) dodavanje varijabli okruženja}
+				\item{Pokretanje servera naredbom: 'uvicorn app.main:app --reload '}
+				\item{Unutar terminala je prikazan link kojim se pristupa API-u, dodavanje '/docs' na kraj linka se pristupa dokumentaciji}
+			\end{enumerate}
+			
+			\subsection{Puštanje mobilne aplikacije u pogon}
+			
+			{U naredna dva potpoglavlja dane su opcije pokretanja i izgradnje Flutter mobilne aplikacije te mogućnost objave.}
+			
+			\subsubsection{Instalacija potrebnih alata za pokretanje i lokalna izgradnja}
+			
+			{U nastavku je dan niz naredbi za lokalno preuzimanje i pokretanje aplikacije.}
+			\begin{enumerate}
+			\item{Namjestiti Flutter razvojni okvir i razvojno okruženje po želji koristeći službene upute\footnote{\url{https://docs.flutter.dev/get-started/editor}}}
+			\item{Klonirati repozitorij s izvornim kodom lokalno s pomoću Git naredbi}
+			\item{Unutar src direktorija pokrenuti sljedeće naredbe}
+			\begin{verbatim}
+flutter pub get
+flutter build apk --dart-define=APP_NAME=Digitalizacija 
+--dart-define=BASE_URL=jura-hostic-i-film-api.onrender.com --release
+			\end{verbatim}
+			\end{enumerate}
+			
+			{Dobiveni apk paket ili onaj preuzet s repozitorija može se instalirati na emulatoru Android uređaja ili osobnom mobilnom uređaju s Android operacijskim sustavom.}
+			
+			\subsubsection{Objava aplikacije na F-Droid platformi}
+			
+			{F-Droid je platforma za objavljivanje besplatnih mobilnih aplikacija s javno dostupnim izvornim kodom. Omogućava postavljanje vlastitih aplikacija predajom podataka za izgradnju iz javnog Git repozitorija i dijeljenja s pomoću metapodataka.}
+			
+			{U nastavku je dan niz uputa koje valja slijediti ako se aplikacija želi objaviti putem F-Droid platforme.}
+			\begin{enumerate}
+				\item{Izraditi GitLab\footnote{\url{https://about.gitlab.com/}} račun}
+				\item{Izvršiti git fork nad fdroiddata\footnote{\url{https://gitlab.com/fdroid/fdroiddata}} repozitorijem}
+				\item{Daljnje korake izvršiti u sklopu Linux okvira, za Windows operacijski sustav preporuča se upotreba WSL 2\footnote{\url{https://learn.microsoft.com/en-us/windows/wsl/install}} alata}
+				\item{Preuzeti stvoreni repozitorij}
+				\begin{verbatim}
+git clone --depth=1 https://gitlab.com/IME_RACUNA/fdroiddata ~/fdroiddata
+cd ~/fdroiddata
+git checkout -b com.example
+cp templates/build-flutter.yml metadata/com.example.jura_hostic_i_film_app.yml
+				\end{verbatim}
+				\item{Urediti com.example.jura\_hostic\_i\_film\_app.yml metadata datoteku po želji, preporuča se sljedeća konfiguracija}
+				\begin{figure}[H]
+					\includegraphics[width=\textwidth]{slike/metadata.png}
+					\caption{Prikaz postavki u metadata datoteci}
+					\label{fig:metadataPostavke}
+				\end{figure}
+				\item{Preuzeti zadnju inačicu kontejnera sa serverskim alatima, na Windows operacijskom sustavu dodatno treba instalirati Docker\footnote{\url{https://docs.docker.com/desktop/install/windows-install/}} alat i omogućiti uporabu unutar WSL 2 okruženja}
+				\begin{verbatim}
+git clone --depth=1 https://gitlab.com/fdroid/fdroidserver \
+~/fdroidserver
+sudo sh -c 'apt-get update &&apt-get install -y docker.io'
+sudo docker run --rm -itu root --entrypoint /bin/bash \
+-v ~/fdroiddata:/build:z \
+-v ~/fdroidserver:/home/vagrant/fdroidserver:Z \
+registry.gitlab.com/fdroid/fdroidserver:buildserver
+				\end{verbatim}
+				\item{Unutar kontejnera pokrenuti sljedeći niz naredbi}
+				\begin{verbatim}
+				. /etc/profile
+export PATH="$fdroidserver:$PATH" PYTHONPATH="$fdroidserver"
+export JAVA_HOME=$(java -XshowSettings:properties -version 2>&1 > \
+/dev/null | grep 'java.home' | awk -F'=' '{print $2}' | tr -d ' ')
+cd /build
+fdroid readmeta
+fdroid rewritemeta com.example.jura_hostic_i_film_app
+fdroid checkupdates --allow-dirty com.example.jura_hostic_i_film_app
+fdroid lint com.example.jura_hostic_i_film_app
+fdroid build com.example.jura_hostic_i_film_app
+				\end{verbatim}
+				\item{Nakon uspješne izgradnje paketa izvršiti sljedeći niz naredbi}
+				\begin{verbatim}
+exit
+cd ~/fdroiddata
+git add metadata/com.example.jura_hostic_i_film_app.yml
+git commit -m "New App: com.example.jura_hostic_i_film_app"
+git push origin com.example
+				\end{verbatim}
+				\item{Na kraju otvoriti zahtjev za spajanje vlastite grane na fdroiddata repozitorij}
+				\item{F-Droid tim može imati dodatnih pitanja u slučaju krivo provedenog postupa, stoga je bitno ostati na raspolaganju}
+			\end{enumerate}
+			
+			{Prilikom izrade zahtjeva za objavu važno je pratiti konvencije kojih se pridržava F-Droid platforma, koje se zajedno sa svim dodatnim informacijama mogu naći na stranicama platforme. \footnote{\url{https://f-droid.org/docs/Submitting\_to\_F-Droid\_Quick\_Start\_Guide/}}}
+			
+			{U slučaju ispravne predaje zahtjev za objavu se obrađuje, F-Droid tim vrši verifikaciju te se aplikacija objavljuje u najkraćem mogućem vremenu.}
 			
 			\eject 
