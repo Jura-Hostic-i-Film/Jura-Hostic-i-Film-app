@@ -206,12 +206,69 @@
 		
 		\section{Upute za puštanje u pogon}
 		
-			\textbf{\textit{dio 2. revizije}}\\
+			{U narednim potpoglavljima objašnjeno je kako pokrenuti sve dijelove aplikacije lokalno ili postavljanjem na besplatne servise.}
 		
-			 \textit{U ovom poglavlju potrebno je dati upute za puštanje u pogon (engl. deployment) ostvarene aplikacije. Na primjer, za web aplikacije, opisati postupak kojim se od izvornog kôda dolazi do potpuno postavljene baze podataka i poslužitelja koji odgovara na upite korisnika. Za mobilnu aplikaciju, postupak kojim se aplikacija izgradi, te postavi na neku od trgovina. Za stolnu (engl. desktop) aplikaciju, postupak kojim se aplikacija instalira na računalo. Ukoliko mobilne i stolne aplikacije komuniciraju s poslužiteljem i/ili bazom podataka, opisati i postupak njihovog postavljanja. Pri izradi uputa preporučuje se \textbf{naglasiti korake instalacije uporabom natuknica} te koristiti što je više moguće \textbf{slike ekrana} (engl. screenshots) kako bi upute bile jasne i jednostavne za slijediti.}
+			\subsection{Puštanje poslužitelja u pogon}
+			\subsection{Puštanje mobilne aplikacije u pogon}
+			\subsubsection{Instalacija potrebnih alata za pokretanje}
+			\subsubsection{Izgradnja paketa za instalaciju}
+			\subsubsection{Objava aplikacije na F-Droid platformi}
 			
+			{F-Droid je platforma za objavljivanje besplatnih mobilnih aplikacija s javno dostupnim izvornim kodom. Omogućava postavljanje vlastitih aplikacija predajom podataka za izgradnju iz javnog git repozitorija i dijeljenja pomoću metadapodataka.}
 			
-			 \textit{Dovršenu aplikaciju potrebno je pokrenuti na javno dostupnom poslužitelju. Studentima se preporuča korištenje neke od sljedećih besplatnih usluga: \href{https://aws.amazon.com/}{Amazon AWS}, \href{https://azure.microsoft.com/en-us/}{Microsoft Azure} ili \href{https://www.heroku.com/}{Heroku}. Mobilne aplikacije trebaju biti objavljene na F-Droid, Google Play ili Amazon App trgovini.}
+			{U nastavku je dan niz uputa koje valja slijediti ako se aplikacija želi objaviti putem F-Droid platforme.}
+			\begin{enumerate}
+				\item{Izraditi GitLab račun}
+				\item{Izvršiti git fork nad fdroiddata repozitorijem}
+				\item{Daljnje korake izvršiti u sklopu Linux okvira, za Windows operacijski sustav preporuča se upotreba WSL 2 alata}
+				\item{Preuzeti stvoreni repozitorij}
+				\begin{verbatim}
+git clone --depth=1 https://gitlab.com/IME_RACUNA/fdroiddata ~/fdroiddata
+cd ~/fdroiddata
+git checkout -b com.example
+cp templates/build-flutter.yml metadata/com.example.jura_hostic_i_film_app.yml
+				\end{verbatim}
+				\item{Urediti com.example.jura\_hostic\_i\_film\_app.yml metadata datoteku po želji, preporuča se sljedeća konfiguracija}
+				\begin{figure}[H]
+					\includegraphics[width=\textwidth]{slike/metadata.png}
+					\caption{Prikaz postavki u metadata datoteci}
+					\label{fig:metadataPostavke}
+				\end{figure}
+				\item{Preuzeti zadnju inačicu kontejnera sa serverskim alatima, na Windows operacijskom sustavu dodatno treba instalirati Docker alat i omogućiti uporabu unutar WSL 2 okruženja}
+				\begin{verbatim}
+git clone --depth=1 https://gitlab.com/fdroid/fdroidserver ~/fdroidserver
+sudo sh -c 'apt-get update &&apt-get install -y docker.io'
+sudo docker run --rm -itu root --entrypoint /bin/bash \
+-v ~/fdroiddata:/build:z \
+-v ~/fdroidserver:/home/vagrant/fdroidserver:Z \
+registry.gitlab.com/fdroid/fdroidserver:buildserver
+				\end{verbatim}
+				\item{Unutar kontejnera pokrenuti sljedeći niz naredbi}
+				\begin{verbatim}
+				. /etc/profile
+export PATH="$fdroidserver:$PATH" PYTHONPATH="$fdroidserver"
+export JAVA_HOME=$(java -XshowSettings:properties -version 2>&1 > /dev/null | grep 'java.home' | awk -F'=' '{print $2}' | tr -d ' ')
+cd /build
+fdroid readmeta
+fdroid rewritemeta com.example.jura_hostic_i_film_app
+fdroid checkupdates --allow-dirty com.example.jura_hostic_i_film_app
+fdroid lint com.example.jura_hostic_i_film_app
+fdroid build com.example.jura_hostic_i_film_app
+				\end{verbatim}
+				\item{Nakon uspješne izgradnje paketa izvršiti sljedeći niz naredbi}
+				\begin{verbatim}
+exit
+cd ~/fdroiddata
+git add metadata/com.example.jura_hostic_i_film_app.yml
+git commit -m "New App: com.example.jura_hostic_i_film_app"
+git push origin com.example
+				\end{verbatim}
+				\item{Na kraju otvoriti zahtjev za spajanje vlastite grane na fdroiddata repozitorij}
+				\item{F-Droid tim može imati dodatnih pitanja u slučaju krivo provedenog postupa, stoga je bitno ostati na raspologanju}
+			\end{enumerate}
 			
+			{Prilikom izrade zahtjeva za objavu važno je pratiti konvencije kojih se pridržava F-Droid platforma, koje se zajedno sa svim dodatnim informacijama mogu naći na stranicama platforme. \footnote{\url{https://f-droid.org/docs/Submitting\_to\_F-Droid\_Quick\_Start\_Guide/}}}
+			
+			{U slučaju ispravne predaje zahtjev za objavu se obrađuje, F-Droid tim vrši verifikaciju te se aplikacija objavljuje u najkraćem mogućem vremenu.}
 			
 			\eject 
