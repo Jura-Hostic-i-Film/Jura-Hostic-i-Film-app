@@ -19,9 +19,7 @@
 	
 		\section{Ispitivanje programskog rješenja}
 			
-			\textbf{\textit{dio 2. revizije}}\\
-			
-			 \textit{U ovom poglavlju je potrebno opisati provedbu ispitivanja implementiranih funkcionalnosti na razini komponenti i na razini cijelog sustava s prikazom odabranih ispitnih slučajeva. Studenti trebaju ispitati temeljnu funkcionalnost i rubne uvjete.}
+			{U naredna dva potpoglavlja opisuje se testiranje komponenti i testiranje sustava. Testiranje komponenti vrši se na poslužiteljskoj strani, a testiranje sustava iz okvira mobilne aplikacije.}
 	
 			
 			\subsection{Ispitivanje komponenti}
@@ -184,15 +182,128 @@
 			
 			\subsection{Ispitivanje sustava}
 			
-			 \textit{Potrebno je provesti i opisati ispitivanje sustava koristeći radni okvir Selenium\footnote{\url{https://www.seleniumhq.org/}}. Razraditi \textbf{minimalno 4 ispitna slučaja} u kojima će se ispitati redovni slučajevi, rubni uvjeti te poziv funkcionalnosti koja nije implementirana/izaziva pogrešku kako bi se vidjelo na koji način sustav reagira kada nešto nije u potpunosti ostvareno. Ispitni slučaj se treba sastojati od ulaza (npr. korisničko ime i lozinka), očekivanog izlaza ili rezultata, koraka ispitivanja i dobivenog izlaza ili rezultata.\\ }
+			 {Razvojni okvir Flutter pruža niz službenih, integriranih alata za izvršavanje više vrsta testova. Ovisno o razini ili dijelu sustava koji se testira dostupni testovi unutar Flutter paketa su Unit, Widget i Integration testovi. Unutar Flutter okvira Integration testovi služe za testiranje čitavog ili pojedinih dijelova sustav, odnosno preuzimaju ulogu integracijskih i sustavnih testova ovisno o implementaciji, a pišu se unutar samog projekta s pomoću jezika Dart, što olakšava održavanje. Integrirani paketi također pružaju mogućnost automatizacije testova, simulacije i praćenja korisničkih unosa, praćenje tijeka izvođenja i mrežnog prometa na simuliranim i stvarnim uređajima te lakog pregleda uspješnosti i ispisa provedenih testova. Iz navedenih razloga za testiranje aplikacije korišteni su integrirani alati dostupni unutar paketa flutter\_test i integration\_test. Druga mogućnost bila bi uporaba Appium alata koji se temelji na Selenium strukturi. Dostupni su preko javno održavanih paketa za prilagodbu, no integrirani alati pokazuju se boljim rješenjem za dani slučaj.}
 			 
-			 \textit{Izradu ispitnih slučajeva pomoću radnog okvira Selenium moguće je provesti pomoću jednog od sljedeća dva alata:}
+			 {U nastavku su opisani izvedeni testovi sustava. Tijelo svakog testa se sastoji od grupa, a tijelo svake grupe od podtestova. Sve grupe i podtestovi se vrše slijedno, sukladno hijerarhiji definiranoj u implementaciji te predstavljaju korake i potkorake u testiranju. Cilj sljedećih testova je utvrditi ispunjava li potpuno integrirani sustav zadaće u konkretnim slučajevima i prilagođava li se mogućim rubnim slučajevima. Također se želi sagledati mogu li se svi testovi izvršiti slijedno čime se utvrđuje stabilnost sustava. Za svaki testni slučaj opisani su ulazni podaci i početno stanje, koraci testa, očekivani i stvarni rezultat te ocjena rezultata i tijeka izvođenja. Testovi se izvode u trenutku kad postoji konkretna količina podataka za testiranje kao i sve vrste potrebnih korisnika.}
+			 
+			 \subsubsection{Test uspješne i neuspješne prijave te odjave}
+			 
 			 \begin{itemize}
-			 	\item \textit{dodatak za preglednik \textbf{Selenium IDE} - snimanje korisnikovih akcija radi automatskog ponavljanja ispita	}
-			 	\item \textit{\textbf{Selenium WebDriver} - podrška za pisanje ispita u jezicima Java, C\#, PHP koristeći posebno programsko sučelje.}
+			 	
+			 \item{\textbf{Ulazni podaci:}}
+			 \begin{itemize}
+			 	\item{username1: admin}
+			 	\item{password1: admin}
+			 	\item{username2: admin}
+			 	\item{password2: neadmin}
 			 \end{itemize}
-		 	\textit{Detalji o korištenju alata Selenium bit će prikazani na posebnom predavanju tijekom semestra.}
+			 
+			 \item{\textbf{Početno stanje:} Aplikacija u početnom stanju bez prijavljenog korisnika.}
+			 
+			 \item{\textbf{Koraci testa:} Koraci koji se provode u testu jesu; upisivanje prvih ulaznih podataka u formular za prijavu i pritisak na gumb za prijavu, navigacija na home screen, otvaranje sučelja za navigaciju i pritisak na gumb za odjavu, upisivanje drugih ulaznih podatak u formular za prijavu i pritisak na gumb za prijavu.}
+			 
+			 \item{\textbf{Očekivani rezultat:} Očekuje se navigacija na home screen nakon upisa valjanih podataka za prijavu, pravilno otvaranje sučelja za navigaciju, povratak na login screen te ostanak na istom nakon upisa nevaljanih podataka.}
+			 
+			 \item{\textbf{Stvarni rezultat:} Provedeni koraci se poklapaju s očekivanim, test prolazi.}
+			 
+			 \item{\textbf{Ocjena:} Testirane funkcionalnosti su zadovoljavajuće, rade ispravno, no može se primijetiti nedostatak povratnih informacija pri neuspješnom prijavljivanju zbog neimplementiranih funkcionalnosti.}
+			 
+			\end{itemize}
 			
+			\subsubsection{Test pregleda korisnika}
+			
+			\begin{itemize}
+				
+				\item{\textbf{Ulazni podaci:}}
+				\begin{itemize}
+					\item{username: owner}
+					\item{password: owner}
+				\end{itemize}
+				
+				\item{\textbf{Početno stanje:} Nastavak nakon prethodnog testa, bez prijavljenog korisnika (reset sa zastavicom.}
+				
+				\item{\textbf{Koraci testa:} Koraci koji se provode u testu jesu; upisivanje ulaznih podataka u formular za prijavu i pritisak na gumb za prijavu, navigacija na home screen, otvaranje sučelja za navigaciju i navigacija na users screen (Korisnici), ako se pronađe korisnik pritisak na gumb za statistiku, nakon otvaranja pritisak na gumb za zatvaranje dijaloga.}
+				
+				\item{\textbf{Očekivani rezultat:} Očekuje se navigacija na home screen nakon upisa valjanih podataka za prijavu, pravilno otvaranje sučelja za navigaciju, navigacija na users screen, ako se pronađe korisnik uspješno otvaranje dijaloga za pregled statistike te uspješno zatvaranje dijaloga i ostanaka na users screen.}
+				
+				\item{\textbf{Stvarni rezultat:} Provedeni koraci se poklapaju s očekivanim, test prolazi.}
+				
+				\item{\textbf{Ocjena:} Testirane funkcionalnosti su zadovoljavajuće, rade ispravno.}
+				
+			\end{itemize}
+			
+			\subsubsection{Test pregleda dokumenata}
+			
+			\begin{itemize}
+				
+				\item{\textbf{Ulazni podaci:}}
+				\begin{itemize}
+					\item{username: owner}
+					\item{password: owner}
+				\end{itemize}
+				
+				\item{\textbf{Početno stanje:} Nastavak nakon prethodnog testa, bez prijavljenog korisnika (reset sa zastavicom).}
+				
+				\item{\textbf{Koraci testa:} Koraci koji se provode u testu jesu; upisivanje ulaznih podataka u formular za prijavu i pritisak na gumb za prijavu, navigacija na home screen, otvaranje sučelja za navigaciju i navigacija na documents screen (Povijest), ako se pronađe dokument pritisak na gumb za pregled PDF dokumenta i navigacija na sučelje za pregled, simulacija izlaska iz sučelja.}
+				
+				\item{\textbf{Očekivani rezultat:} Očekuje se navigacija na home screen nakon upisa valjanih podataka za prijavu, pravilno otvaranje sučelja za navigaciju, navigacija na documents screen (Povijest), ako se pronađe dokument uspješno otvaranje sučelja za pregled PDF dokumenta te uspješan povratak na pregled, u suprotnom ostanak na documents screen.}
+				
+				\item{\textbf{Stvarni rezultat:} Provedeni koraci se poklapaju s očekivanim, test prolazi.}
+				
+				\item{\textbf{Ocjena:} Testirane funkcionalnosti su zadovoljavajuće, rade ispravno.}
+				
+			\end{itemize}
+			
+			\subsubsection{Test revizije dokumenata}
+			
+			\begin{itemize}
+				
+				\item{\textbf{Ulazni podaci:}}
+				\begin{itemize}
+					\item{username: revizor1}
+					\item{password: revizor1}
+				\end{itemize}
+				
+				\item{\textbf{Početno stanje:} Nastavak nakon prethodnog testa, bez prijavljenog korisnika (reset sa zastavicom).}
+				
+				\item{\textbf{Koraci testa:} Koraci koji se provode u testu jesu; upisivanje ulaznih podataka u formular za prijavu i pritisak na gumb za prijavu, navigacija na home screen, otvaranje sučelja za navigaciju i navigacija na revision screen (Revizije), ako se pronađe dokument pritisak na gumb za revidiranje i navigacija na sučelje za revidiranje, pritisak na gumb za revidiranje, otvaranje dijaloga za uspješnu reviziju, pritisak na gumb za zatvaranje dijaloga i povratak na revision screen, događa se reset, ponavljaju se koraci za navigaciju na revision screen, pritisak na tab za revidirane dokumente (Revidirani).}
+				
+				\item{\textbf{Očekivani rezultat:} Očekuje se navigacija na home screen nakon upisa valjanih podataka za prijavu, pravilno otvaranje sučelja za navigaciju, navigacija na revision screen (Revizije), ako se pronađe dokument uspješno otvaranje sučelja za revidiranje, uspješno revidiranje i otvaranje povezanog dijaloga, zatvaranje dijaloga i izlazak na revision screen, nakon reseta uspješan povratak na revision screen i uspješno otvaranje taba za pregled revidiranih dokumenata.}
+				
+				\item{\textbf{Stvarni rezultat:} Provedeni koraci se poklapaju s očekivanim, test prolazi.}
+				
+				\item{\textbf{Ocjena:} Testirane funkcionalnosti su zadovoljavajuće, rade ispravno.}
+				
+			\end{itemize}
+			
+			\subsubsection{Test arhiviranja dokumenata}
+			
+			\begin{itemize}
+				
+				\item{\textbf{Ulazni podaci:}}
+				\begin{itemize}
+					\item{username: racunovoda1}
+					\item{password: racunovoda1}
+				\end{itemize}
+				
+				\item{\textbf{Početno stanje:} Nastavak nakon prethodnog testa, bez prijavljenog korisnika (reset sa zastavicom).}
+				
+				\item{\textbf{Koraci testa:} Koraci koji se provode u testu jesu; upisivanje ulaznih podataka u formular za prijavu i pritisak na gumb za prijavu, navigacija na home screen, otvaranje sučelja za navigaciju i navigacija na archive screen (Arhiva), ako se pronađe dokument pritisak na gumb za arhiviranje i navigacija na sučelje za arhiviranje, pritisak na gumb za arhiviranje, otvaranje dijaloga za uspješno arhiviranje, pritisak na gumb za zatvaranje dijaloga i povratak na archive screen, događa se reset, ponavljaju se koraci za navigaciju na archive screen, pritisak na tab za arhivirane dokumente (Arhivirani).}
+				
+				\item{\textbf{Očekivani rezultat:} Očekuje se navigacija na home screen nakon upisa valjanih podataka za prijavu, pravilno otvaranje sučelja za navigaciju, navigacija na archive screen (Arhiva), ako se pronađe dokument uspješno otvaranje sučelja za arhiviranje, uspješno arhiviranje i otvaranje povezanog dijaloga, zatvaranje dijaloga i izlazak na archive screen, nakon reseta uspješan povratak na archive screen i uspješno otvaranje taba za pregled arhiviranih dokumenata.}
+				
+				\item{\textbf{Stvarni rezultat:} Provedeni koraci se poklapaju s očekivanim, test prolazi.}
+				
+				\item{\textbf{Ocjena:} Testirane funkcionalnosti su zadovoljavajuće, rade ispravno.}
+				
+			\end{itemize}
+			
+			\subsubsection{Zaključak i osvrt na testiranje sustava}
+			
+			{Svi testovi uspješno su slijedno provedeni čime se može zaključiti kako su proučene funkcionalnosti skladne i ispravne. Nisu pronađene greške u sučelje koje onemogućuju izvođenje očekivanih nizova akcija. Nisu pronađene greške u pozadinskom baratanju stanja koje bi onemogućilo pravilno izmjenjivanja sesija, što se može zaključiti iz ispravne promjene aktivnih korisnika između testova. Dohvaćanje podataka i komunikacija s poslužiteljem u danim slučajevima također se mogu procijeniti kao ispravni zbog izostanka grešaka.}
+				
+			{Zamjerke se odnose na moguća poboljšanja sučelja za prijavu gdje ne postoje nikakve povratne informacije u slučaju neispravnih podataka za prijavu. Također se može napomenuti kako trenutna količina testova nije dovoljna za detaljno testiranje sustava te se ne provede testovi za neke ključne funkcionalnosti poput stvaranja korisnika, skeniranja i digitalizacije dokumenata te prosljeđivanja. Glavni razlog ne provođenja veće količine testova je vrijeme, a može se spomenuti i problematika testiranja funkcionalnosti koje se oslanjaju na upotrebljene pakete za čiju provjera bi valjalo detaljnije proučiti implementaciju samih paketa.}
+			 
 			\eject 
 		
 		
