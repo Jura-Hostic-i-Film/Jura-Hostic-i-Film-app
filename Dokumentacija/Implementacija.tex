@@ -209,6 +209,74 @@
 			{U narednim potpoglavljima objašnjeno je kako pokrenuti sve dijelove aplikacije lokalno ili postavljanjem na besplatne servise.}
 		
 			\subsection{Puštanje poslužitelja u pogon}
+			
+			{U narednim potpoglavljima objašnjene se opcije i postupak postavljanja poslužitelja.}
+			
+			\subsubsection{Dodavanje varijabli okruženja (opcionalno)}
+			
+			{Varijable okruženja se prilažu unutar .env datoteke. Potrebno je stvoriti datoteku s imenom '.env' unutar glavnog direktorija projekta i unutar njega se stavljaju vrijednosti koje se žele postavljati s pomoću varijabli okruženja, ovo su varijable koje je moguće postavljati.}
+			
+			\begin{itemize}
+				\item{database\_url}
+				\item{secret\_key}
+				\item{access\_token\_expire\_hours}
+				\item{DefaultEndpointsProtocol}
+				\item{AccountName}
+				\item{AccountKey}
+				\item{EndpointSuffix}
+				\item{image\_path}
+				\item{vision\_key}
+				\item{vision\_endpoint}
+			\end{itemize}
+			
+			\subsubsection{Konfiguracija vanjske baze podataka (opcionalno)}
+			
+			{Za potrebe backend dijela aplikacije, potrebno je imati bazu podataka. Osim ako se kroz varijable okruženja ne postavi drugačije, aplikacija sama stvara svoju SQLite bazu podataka u svom direktoriju. Ako se želi koristiti vanjska baza podataka, potrebno je konfigurirati baza podataka.}
+			
+			{PostgreSQL bazu podataka je moguće konfigurirati na više lokacija, jedna od kojih je Azure cloud\footnote{\url{https://learn.microsoft.com/en-us/azure/postgresql/single-server/quickstart-create-server-database-portal}}. Nakon postavljanja, potrebno je napraviti link za konekciju ovog oblika: 'postgresql://{username}:{password}@{host}:{port}/postgres'. Primjer tog linka bi bio: 'postgresql://username:L216Yq6ber6Rma9@digitalizacija-api-database.postgres.database.azure.com:5432/postgres'. Nakon kreiranja linka potrebno ga je staviti u varijablu okruženja s ključem 'database\_url'.}
+			
+			
+			\subsubsection{Konfiguracija vanjskog spremnika slika (opcionalno)}
+			
+			{Bez zasebne konfiguracije, slike se spremaju u direktorij aplikacije unutar images pod direktorija koji je automatski kreiran. Taj direktorij se može promijeniti dodavanje 'image\_path' varijablom okruženja čime se određuje relativna putanja gdje će se spremati slike. Također je moguća konfiguracija Azure blob storage\footnote{\url{https://learn.microsoft.com/en-us/azure/storage/blobs/storage-quickstart-blobs-portal}}.}
+			
+			{Nakon konfiguracije potrebno je pronaći Connection string koji se nalazi unutar 'Access keys', kao što se vidi na slici. Potrebno je stisnuti show te kopirati taj string.}
+			
+			\begin{figure}[H]
+				\includegraphics[width=\textwidth]{slike/accessKey.png}
+				\caption{Primjer pronalaska ključa}
+				\label{fig:accessKey}
+			\end{figure}
+			
+			{Taj string je potrebno postaviti unutar varijabli okruženje rastavljen na ove vrijednosti: 'DefaultEndpointsProtocol', 'AccountName', 'AccountKey' te 'EndpointSuffix'. Nakon toga, ime specifičnog kontejnera gdje će se spremati slike se postavi s 'image\_path' varijablom okruženja ili će biti images ako se ne postavi.}
+			
+			\subsubsection{Konfiguracija vanjskog prepoznavanja slova (opcionalno)}
+			
+			{Bez dodatne konfiguracije, aplikacija ima ugrađeno prepoznavanje teksta na slici ali nije preporučeno korištenje ugrađenog prepoznavanja na svim uređajima. Prepoznavanje na uređajima je spor i vrlo resursno intenzivan proces. Za najbolje rezultate prepoznavanja, potrebno je imati nVIDIA grafičku karticu 2GB video memorije ili barem 3GB slobodnog RAM-a u slučaju da ne postoji nVIDIA grafička kartica. Nije preporučeno pokretanje lokalnog prepoznavanja slova ako nije dostupna grafička kartica jer će proces biti iznimno dug. Zato je preporučeno postaviti computer vision servis na Azure cloudu\footnote{\url{https://portal.azure.com/\#create/Microsoft.CognitiveServicesComputerVision}}.}
+			
+			{Nakon kreiranja resursa, potrebno je pronaći endpoint i ključ za vision api. Oni se nalaze na overview stranici Computer Vision dashboarda na Azure cloudu. Na slici se vidi gdje se oni nalaze.}
+			
+			\begin{figure}[H]
+				\includegraphics[width=\textwidth]{slike/accessKey.png}
+				\caption{Primjer pronalaska ključa za vision api}
+				\label{fig:visionApiKey}
+			\end{figure}
+			
+			{Potrebno je kopirat te dvije vrijednosti i staviti ih u varijable okruženja pod ključevima 'vision\_key' i 'vision\_endpoint'. Kada se to postavi, konfigurirano je prepoznavanje teksta na oblaku.}
+			
+			\subsubsection{Pokretanje backend aplikacije}
+			
+			{Kako bi se pokrenula aplikacija potrebno je pratiti ove korake:}
+			
+			\begin{enumerate}
+				\item{Potrebno je instalirati python 3.11\footnote{\url{https://www.python.org/downloads/}}}
+				\item{Potrebno je klonirati repozitorij lokalno: 'git clone https://github.com/Jura-Hostic-i-Film/Jura-Hostic-i-Film-api.git'}
+				\item{Potrebno je instalirati potrebne pakete unutar direktorija aplikacije: 'pip install -r requirements.txt'}
+				\item{(Opcionalno) dodavanje varijabli okruženja}
+				\item{Pokretanje servera naredbom: 'uvicorn app.main:app --reload '}
+				\item{Unutar terminala je prikazan link kojim se pristupa API-u, dodavanje '/docs' na kraj linka se pristupa dokumentaciji}
+			\end{enumerate}
+			
 			\subsection{Puštanje mobilne aplikacije u pogon}
 			
 			{U naredna dva potpoglavlja dane su opcije pokretanja i izgradnje Flutter mobilne aplikacije te mogućnost objave.}
@@ -226,6 +294,8 @@ flutter build apk --dart-define=APP_NAME=Digitalizacija
 --dart-define=BASE_URL=jura-hostic-i-film-api.onrender.com --release
 			\end{verbatim}
 			\end{enumerate}
+			
+			{Dobiveni apk paket ili onaj preuzet s repozitorija može se instalirati na emulatoru Android uređaja ili osobnom mobilnom uređaju s Android operacijskim sustavom.}
 			
 			\subsubsection{Objava aplikacije na F-Droid platformi}
 			
