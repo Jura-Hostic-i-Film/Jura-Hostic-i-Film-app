@@ -2,7 +2,6 @@ import 'dart:io';
 import 'package:flutter/material.dart';
 import 'package:jura_hostic_i_film_app/components/history/DocumentTypeDisplayable.dart';
 import '../../DTOs/DocumentDTO.dart';
-import '../../app/docs/DocumentReviewScreen.dart';
 
 class AddedDocumentDisplayable extends StatefulWidget {
   final DocumentDTO document;

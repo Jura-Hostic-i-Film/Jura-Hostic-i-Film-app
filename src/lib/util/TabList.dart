@@ -1,7 +1,7 @@
 import 'package:jura_hostic_i_film_app/app/main/tabs/FullHistoryScreen.dart';
 
-import '../app/main/Tabs/HistoryScreen.dart';
-import '../app/main/Tabs/UsersScreen.dart';
+import '../app/main/tabs/HistoryScreen.dart';
+import '../app/main/tabs/UsersScreen.dart';
 import '../app/main/tabs/ArchiveScreen.dart';
 import '../app/main/tabs/DebugScreen.dart';
 import '../app/main/tabs/RevisionScreen.dart';
