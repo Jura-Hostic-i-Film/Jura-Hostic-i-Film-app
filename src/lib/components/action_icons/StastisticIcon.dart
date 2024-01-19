@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
 import 'package:jura_hostic_i_film_app/models/Statistic.dart';
-import 'package:jura_hostic_i_film_app/util/helpers/expandedList.dart';
 import 'package:provider/provider.dart';
 import '../../backend_connection/ApiServiceProvider.dart';
 import '../../models/User.dart';

@@ -3,9 +3,7 @@ import 'package:jura_hostic_i_film_app/backend_connection/ApiServiceProvider.dar
 import 'package:jura_hostic_i_film_app/components/history/DocumentTypeDisplayable.dart';
 import 'package:provider/provider.dart';
 import '../../components/action_icons/CreatePDFIcon.dart';
-import '../../components/buttons/AsyncButton.dart';
 import '../../components/users/ParticipantDisplayable.dart';
-import '../../models/Role.dart';
 import '../../models/documents/Document.dart';
 
 class DocumentOverviewScreen extends StatefulWidget {
