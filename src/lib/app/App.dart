@@ -13,6 +13,7 @@ import 'docs/ArchiveCreationScreen.dart';
 import 'docs/DocumentScreen.dart';
 import 'docs/RevisionCreationScreen.dart';
 import 'docs/SignatureCreationScreen.dart';
+
 class App extends StatelessWidget {
   final String? token;
 
@@ -51,7 +52,11 @@ class App extends StatelessWidget {
                 splashColor: Colors.black,
                 hoverColor: Colors.black,
                 indicatorColor: Colors.black,
-                textSelectionTheme: const TextSelectionThemeData(cursorColor: Colors.black),
+                textSelectionTheme: TextSelectionThemeData(
+                  cursorColor: Colors.black,
+                  selectionHandleColor: Colors.black,
+                  selectionColor: Colors.black.withOpacity(0.3),
+                ),
                 inputDecorationTheme: const InputDecorationTheme(
                   focusedBorder: UnderlineInputBorder(borderSide: BorderSide(color: Colors.black, width: 2)),
                 )
